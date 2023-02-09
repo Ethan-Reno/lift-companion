@@ -1,20 +1,21 @@
-import React, { type FC, type ReactNode } from 'react'; 
+import { type ReactNode } from 'react';
+import { DropdownMenu } from '..';
 import { useSession } from 'next-auth/react';
+// import Footer from './footer'
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout: FC<LayoutProps> = ({ children }) => {
-  const { data: session } = useSession()
+const Layout = ({ children }: LayoutProps) => {
+  const { data: session } = useSession();
   return (
-    <main className="flex flex-col min-h-screen min-w-screen">
-      { session && 'Hello world' }
-      <div id="ContentContainer" className="flex flex-col p-10 bg-zinc-900 grow">
-        {children}
-      </div>
-    </main>
-  );
+    <>
+      {session && <DropdownMenu />}
+      <main>{children}</main>
+      {/* <Footer /> */}
+    </>
+  )
 }
 
 export default Layout;

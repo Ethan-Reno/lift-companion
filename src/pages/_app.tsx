@@ -1,11 +1,10 @@
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-
+import { ThemeProvider } from 'next-themes'
 import { api } from "../utils/api";
-
+import { Layout } from "../components";
 import "../styles/globals.css";
-import Layout from "../components/layout/Layout";
 
 const App: AppType<{ session: Session | null }> = ({
   Component,
@@ -13,9 +12,11 @@ const App: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ThemeProvider attribute="class">
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
     </SessionProvider>
   );
 };
