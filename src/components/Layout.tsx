@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { DropdownMenu } from '..';
+import { DropdownMenu } from '.';
 import { useSession } from 'next-auth/react';
 // import Footer from './footer'
 
@@ -7,7 +7,7 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children }: LayoutProps) => {
   const { data: session } = useSession();
   return (
     <>
@@ -17,5 +17,3 @@ const Layout = ({ children }: LayoutProps) => {
     </>
   )
 }
-
-export default Layout;
