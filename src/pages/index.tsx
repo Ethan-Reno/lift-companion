@@ -1,6 +1,6 @@
+import React, { type FC } from "react";
 import { type NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
-import React, { type FC } from "react";
 import { Button } from "../components";
 
 const Landing: FC = () => {
@@ -11,13 +11,10 @@ const Landing: FC = () => {
           <h1 className="flex text-3xl font-bold">Lift Companion</h1>
           <span className="absolute text-6xl text-orange-500 -top-6 -right-4">.</span>
         </div>
-        <p className="text-md w-72">An app to track lifting sessions. Use it for any lift you want to improve over time.</p>
+        <p className="text-md w-72 text-center">An app to track lifting sessions and provide insight on the saved data.</p>
         <div className="flex gap-4">
           <Button
-            onKeyDown={() => {
-              signIn("discord").catch(console.log);
-            }}
-            onPointerDown={() => {
+            onClick={() => {
               signIn("discord").catch(console.log);
             }}
           >

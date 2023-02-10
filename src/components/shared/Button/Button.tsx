@@ -1,13 +1,12 @@
-import { clsx } from "clsx";
 import React from "react";
+import { clsx } from "clsx";
 
 type Props = Partial<Pick<React.ComponentProps<"button">,
   "children" |
   "disabled" |
-  "type" |
-  "onKeyDown" |
-  "onPointerDown"
+  "type"
 >> & {
+  onClick?: () => void;
   isTransparent?: boolean;
 };
 
@@ -18,8 +17,8 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
       <button
         ref={ref}
         type={props.type || 'button'}
-        onKeyDown={props.onKeyDown}
-        onPointerDown={props.onPointerDown}
+        onKeyDown={props.onClick}
+        onPointerDown={props.onClick}
         className={clsx(
           "inline-flex select-none items-center justify-center rounded-md px-4 py-2 text-sm font-medium",
           {
