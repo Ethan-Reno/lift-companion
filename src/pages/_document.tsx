@@ -1,8 +1,9 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import { roboto } from "../utils/font";
 
 export default function Document() {
   return (
-    <Html lang="en-US">
+    <Html lang="en-US" className={`${roboto.variable} font-sans`}>
       <Head>
         <meta
           name="author"

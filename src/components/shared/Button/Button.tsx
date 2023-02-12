@@ -4,7 +4,9 @@ import { clsx } from "clsx";
 type Props = Partial<Pick<React.ComponentProps<"button">,
   "children" |
   "disabled" |
-  "type"
+  "type" |
+  "onKeyDown" |
+  "onPointerDown"
 >> & {
   onClick?: () => void;
   isTransparent?: boolean;
@@ -12,13 +14,13 @@ type Props = Partial<Pick<React.ComponentProps<"button">,
 
 const Button = React.forwardRef<HTMLButtonElement, Props>(
   ({ children, ...props }, ref) => {
-    console.log(props);
     return (
       <button
         ref={ref}
         type={props.type || 'button'}
-        onKeyDown={props.onClick}
-        onPointerDown={props.onClick}
+        onKeyDown={props.onKeyDown}
+        onPointerDown={props.onPointerDown}
+        onClick={props.onClick}
         className={clsx(
           "inline-flex select-none items-center justify-center rounded-md px-4 py-2 text-sm font-medium",
           {

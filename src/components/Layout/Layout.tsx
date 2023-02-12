@@ -1,24 +1,8 @@
 import { type ReactNode } from 'react';
-import localFont from '@next/font/local';
 import { NavMenu } from '..';
 import Head from 'next/head';
+import { roboto } from '../../utils/font';
 // import Footer from './footer'
-
-const roboto = localFont({
-  src: [
-    {
-      path: '../../../public/fonts/roboto-regular.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../../../public/fonts/roboto-bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-roboto',
-})
 
 interface LayoutProps {
   children: ReactNode;
