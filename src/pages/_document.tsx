@@ -3,7 +3,7 @@ import { roboto } from "../utils/font";
 
 export default function Document() {
   return (
-    <Html lang="en-US" className={`${roboto.variable} font-sans`}>
+    <Html lang="en">
       <Head>
         <meta
           name="author"
@@ -15,7 +15,7 @@ export default function Document() {
         />
         <link rel="icon" href="/barbell.png" />
       </Head>
-      <body>
+      <body className={`${roboto.variable} font-sans`}>
         <Main />
         <NextScript />
       </body>

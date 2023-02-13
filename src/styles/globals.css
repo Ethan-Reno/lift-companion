@@ -9,14 +9,14 @@
 
 html {
   @apply bg-white;
-  @apply text-neutral-800;
+  @apply text-zinc-800;
   scrollbar-color: #00000080 transparent;
   scrollbar-width: auto;
 }
 
 html[class*="dark"] {
-  @apply bg-neutral-900;
-  @apply text-neutral-200;
+  @apply bg-zinc-900;
+  @apply text-zinc-200;
   scrollbar-color: #ffffffb3 transparent;
   scrollbar-width: auto;
 }

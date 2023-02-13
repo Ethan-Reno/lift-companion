@@ -31,7 +31,7 @@ const DropdownMenu = ({ triggerButton, menuOptions }: DropdownMenuProps) => {
             className={clsx(
               "radix-side-top:animate-slide-up radix-side-bottom:animate-slide-down",
               "w-fit rounded-lg px-2 py-2 shadow-md",
-              "bg-white dark:bg-neutral-800"
+              "bg-white dark:bg-zinc-800"
             )}
           >
             {menuOptions.map(({ label, icon, hasSeparator, action }, i) => (
@@ -40,17 +40,17 @@ const DropdownMenu = ({ triggerButton, menuOptions }: DropdownMenuProps) => {
                   key={`${label}-${i}`}
                   className={clsx(
                     "flex cursor-default select-none items-center rounded-md px-3 py-3 text-m outline-none",
-                    "text-neutral-400 focus:bg-neutral-50 dark:text-neutral-500 dark:focus:bg-neutral-900"
+                    "text-zinc-400 focus:bg-zinc-50 dark:text-zinc-500 dark:focus:bg-zinc-900"
                   )}
                   onClick={action}
                 >
                   {icon}
-                  <span className="flex-grow text-neutral-700 dark:text-neutral-300">
+                  <span className="flex-grow text-zinc-700 dark:text-zinc-300">
                     {label}
                   </span>
                 </DropdownMenuPrimitive.Item>
                 {hasSeparator &&
-                  <DropdownMenuPrimitive.Separator className="my-1 h-px bg-neutral-200 dark:bg-neutral-700" />
+                  <DropdownMenuPrimitive.Separator className="my-1 h-px bg-zinc-200 dark:bg-zinc-700" />
                 }
               </React.Fragment>
             ))}

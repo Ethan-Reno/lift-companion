@@ -1,5 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Prisma schema file: https://pris.ly/d/prisma-schema
 
 generator client {
     provider = "prisma-client-js"
@@ -7,17 +6,7 @@ generator client {
 
 datasource db {
     provider = "postgresql"
-    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
-}
-
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
@@ -65,9 +54,30 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Guestbook {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    name      String
-    message   String   @db.VarChar(100)
+// DO these need to be enums? Or just allow full user control
+// enum PrimaryUnit {
+//     POUND
+//     KILOGRAM
+//     SECOND
+//     MINUTE
+//     HOUR
+//     DIFFICULTY
+// }
+
+// enum SecondaryUnit {
+//     REPETITIONS
+//     INTERVALS
+//     SECONDS
+//     MINUTES
+//     HOURS
+//     LAPS
+// }
+
+model Exercise {
+    id            String   @id @default(cuid())
+    name          String   @db.VarChar(100)
+    primaryUnit   String   @db.VarChar(100)
+    secondaryUnit String   @db.VarChar(100)
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
 }

@@ -24,15 +24,15 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
         className={clsx(
           "inline-flex select-none items-center justify-center rounded-md px-4 py-2 text-sm font-medium",
           {
-            "bg-white text-neutral-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-900" : !props.isTransparent,
-            "bg-transparent text-neutral-700 dark:text-neutral-100": props.isTransparent
+            "bg-white text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-900" : !props.isTransparent,
+            "bg-transparent text-zinc-700 dark:text-zinc-100": props.isTransparent
           },
           "focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75",
           // Register all radix states
           "group",
-          "radix-state-open:bg-neutral-200 dark:radix-state-open:bg-neutral-900",
-          "radix-state-on:bg-neutral-200 dark:radix-state-on:bg-neutral-900",
-          "radix-state-instant-open:bg-neutral-200 radix-state-delayed-open:bg-neutral-200"
+          "radix-state-open:bg-zinc-200 dark:radix-state-open:bg-zinc-900",
+          "radix-state-on:bg-zinc-200 dark:radix-state-on:bg-zinc-900",
+          "radix-state-instant-open:bg-zinc-200 radix-state-delayed-open:bg-zinc-200"
         )}
       >
         {children}
