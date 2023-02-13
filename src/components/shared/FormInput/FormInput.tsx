@@ -1,5 +1,6 @@
 import React from "react";
 import { type UseFormRegister  } from "react-hook-form";
+import { clsx } from 'clsx';
 
 export interface FormInputProps {
   label: string;
@@ -17,10 +18,10 @@ export const FormInput = ({register, field, label, error, type, defaultValue, ch
       <label className="ml-2 text-xs zinc-300">{label}</label>
       {(register && field) && (
         <input
-          className={
-            `p-4 border-2 rounded-lg shadow-md shadow-black border-zinc-600 bg-zinc-900 text-zinc-200 focus:outline-zinc-100
-            ${error && 'border-red-400'}`
-          }
+          className={clsx(
+            "p-4 border-2 rounded-lg shadow-md shadow-black border-zinc-600 bg-zinc-900 text-zinc-200 focus:outline-zinc-100",
+            {"border-red-400": error},
+          )}
           defaultValue={defaultValue}
           type={type || 'text'}
           {...register(field)}

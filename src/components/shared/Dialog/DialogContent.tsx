@@ -8,6 +8,7 @@ import Button from '../Button/Button';
 // import { type CreateExerciseInputs, createExerciseSchema } from '../../../server/api/routers/exercise';
 import { FormInput } from '../FormInput/FormInput';
 import { z, type TypeOf } from 'zod';
+import { api } from "../../../utils/api";
 
 
 interface DialogOptions {
@@ -18,7 +19,6 @@ interface DialogOptions {
     copy: string;
     action?: () => void;
   };
-  closeAction?: () => void;
 }
 
 export const createExerciseSchema = z.object({
@@ -38,7 +38,7 @@ export const createExerciseSchema = z.object({
 
 export type CreateExerciseInputs = TypeOf<typeof createExerciseSchema>;
 
-export const deriveDialogOptions = (type: DIALOG_TYPES): DialogOptions => {
+export const deriveDialogContent = (type: DIALOG_TYPES, closeDialog: () => void): DialogOptions => {
   switch (type) {
     case DIALOG_TYPES.NEW_WORKOUT:
       return {
@@ -58,12 +58,12 @@ export const deriveDialogOptions = (type: DIALOG_TYPES): DialogOptions => {
           copy: 'Start',
           action: () => console.log('submitted'),
         },
-        closeAction: () => console.log('default closed'),
       }
   }
 }
 
 const CreateExerciseForm = () => {
+  const createExercise = api.exercise.create.useMutation();
   const {
     register,
     handleSubmit,
@@ -82,14 +82,11 @@ const CreateExerciseForm = () => {
       <FormInput register={register} field='primaryUnit' label='Primary Unit' error={errors.primaryUnit?.message} />
       <FormInput register={register} field='secondaryUnit' label='Secondary Unit' error={errors.secondaryUnit?.message} />
       <div className="mt-4 flex justify-end">
-        <Close asChild>
-          <Button
-            type='submit'
-            onClick={() => console.log(errors)}
-          >
-            Create
+        <Button
+          type='submit'
+        >
+          Create
           </Button>
-        </Close>
       </div>
     </form>
   )

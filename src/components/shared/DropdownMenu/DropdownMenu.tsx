@@ -18,7 +18,7 @@ interface DropdownMenuProps {
 
 const DropdownMenu = ({ triggerButton, menuOptions }: DropdownMenuProps) => {
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left ">
       <DropdownMenuPrimitive.Root>
         <DropdownMenuPrimitive.Trigger asChild>
           {triggerButton || <Button>Click</Button>}

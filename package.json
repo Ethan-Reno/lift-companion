@@ -7,12 +7,14 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.10",
     "@hookform/resolvers": "^2.9.11",
     "@next-auth/prisma-adapter": "^1.0.5",
+    "@next/bundle-analyzer": "^13.1.6",
     "@next/font": "^13.1.6",
     "@prisma/client": "^4.9.0",
     "@radix-ui/react-avatar": "^1.0.1",

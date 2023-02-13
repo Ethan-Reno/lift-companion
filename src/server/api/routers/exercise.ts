@@ -36,7 +36,7 @@ export const exerciseRouter = createTRPCRouter({
       console.log(error);
     }
   }),
-  createExercise: protectedProcedure
+  create: protectedProcedure
     .input(createExerciseSchema)
     .mutation(async ({ ctx, input }) => {
       try {

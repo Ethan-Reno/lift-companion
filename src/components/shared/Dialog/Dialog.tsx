@@ -4,7 +4,7 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 import { clsx } from "clsx";
 import React, { Fragment, useState } from "react";
 import Button from "../Button/Button";
-import { deriveDialogOptions } from "./DialogOptions";
+import { deriveDialogContent } from "./DialogContent";
 
 export enum DIALOG_TYPES {
   NEW_WORKOUT = 'newWorkout',
@@ -27,8 +27,7 @@ const Dialog = ({ triggerButton, type }: DialogProps) => {
     description,
     content,
     submitAction,
-    closeAction,
-  } = deriveDialogOptions(type);
+  } = deriveDialogContent(type, () => setIsOpen(false));
 
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
