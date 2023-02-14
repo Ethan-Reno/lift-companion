@@ -21,7 +21,7 @@ const DropdownMenu = ({ triggerButton, menuOptions }: DropdownMenuProps) => {
     <div className="relative inline-block text-left ">
       <DropdownMenuPrimitive.Root>
         <DropdownMenuPrimitive.Trigger asChild>
-          {triggerButton || <Button>Click</Button>}
+          {triggerButton || <Button variant='text' size='default'>Click</Button>}
         </DropdownMenuPrimitive.Trigger>
 
         <DropdownMenuPrimitive.Portal>

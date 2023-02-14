@@ -8,7 +8,7 @@
 }
 
 html {
-  @apply bg-white;
+  @apply bg-zinc-200;
   @apply text-zinc-800;
   scrollbar-color: #00000080 transparent;
   scrollbar-width: auto;

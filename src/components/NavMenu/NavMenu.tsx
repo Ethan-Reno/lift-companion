@@ -44,7 +44,8 @@ const NavMenu = () => {
 
   const triggerButton = (
     <Button
-      isTransparent={true}
+      variant='transparent'
+      size="default"
     >
       <Avatar
         variant={Avatar.variant.Circle}

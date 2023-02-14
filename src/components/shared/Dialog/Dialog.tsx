@@ -7,7 +7,7 @@ import Button from "../Button/Button";
 import { deriveDialogContent } from "./DialogContent";
 
 export enum DIALOG_TYPES {
-  NEW_WORKOUT = 'newWorkout',
+  CREATE_EXERCISE = 'createExercise',
   TEST_ENUM = 'testEnum',
 }
 
@@ -26,13 +26,12 @@ const Dialog = ({ triggerButton, type }: DialogProps) => {
     title,
     description,
     content,
-    submitAction,
-  } = deriveDialogContent(type, () => setIsOpen(false));
+  } = deriveDialogContent(type, setIsOpen);
 
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
       <DialogPrimitive.Trigger asChild>
-        {triggerButton || <Button>Click</Button>}
+        {triggerButton || <Button variant='text' size='default'>Click</Button>}
       </DialogPrimitive.Trigger>
       <DialogPrimitive.Portal forceMount>
         <Transition.Root show={isOpen}>
@@ -86,7 +85,7 @@ const Dialog = ({ triggerButton, type }: DialogProps) => {
                   "focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
                 )}
               >
-                <Cross1Icon className="h-4 w-4 text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-400" />
+                <Cross1Icon className="h-4 w-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-500" />
               </DialogPrimitive.Close>
             </DialogPrimitive.Content>
           </Transition.Child>
