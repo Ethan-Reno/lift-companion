@@ -1,10 +1,10 @@
 import React, { type FC } from "react";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
-import { Button } from "../components";
 import { signIn } from 'next-auth/react';
 import { PlusIcon } from '@radix-ui/react-icons';
 import Dialog, { DIALOG_TYPES } from '../components/shared/Dialog/Dialog';
+import { Button } from "../components/ui/Button";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -21,12 +21,9 @@ const Home: NextPage = () => {
 
 Dashboard: FC = () => {
   const triggerButton = (
-    <Button
-      variant='secondary'
-      size='default'
-    >
+    <Button>
       <PlusIcon className="h-6 w-6 pr-2" />
-      <span>New Exercise</span>
+      New Exercise
     </Button>
   );
 
@@ -49,8 +46,6 @@ Landing: FC = () => {
         </div>
         <p className="text-md w-72 text-center">An app to track lifting sessions and provide insight on the saved data.</p>
         <Button
-          variant='secondary'
-          size='default'
           onClick={() => {
             signIn("discord").catch(console.log);
           }}

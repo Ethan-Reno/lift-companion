@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
-import { NavMenu } from '..';
+import { NavMenu } from '.';
 import Head from 'next/head';
-import { roboto } from '../../utils/font';
+import { roboto } from '../utils/font';
 // import Footer from './footer'
 
 interface LayoutProps {

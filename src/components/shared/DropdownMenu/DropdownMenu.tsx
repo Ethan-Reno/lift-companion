@@ -1,7 +1,7 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { clsx } from "clsx";
 import React, { type ReactNode } from "react";
-import Button from "../Button/Button";
+import { Button } from "../../ui/Button";
 
 interface DropdownMenuItem {
   label: string;
@@ -21,7 +21,7 @@ const DropdownMenu = ({ triggerButton, menuOptions }: DropdownMenuProps) => {
     <div className="relative inline-block text-left ">
       <DropdownMenuPrimitive.Root>
         <DropdownMenuPrimitive.Trigger asChild>
-          {triggerButton || <Button variant='text' size='default'>Click</Button>}
+          {triggerButton || <Button variant='link'>Click</Button>}
         </DropdownMenuPrimitive.Trigger>
 
         <DropdownMenuPrimitive.Portal>

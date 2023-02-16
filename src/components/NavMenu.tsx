@@ -1,5 +1,5 @@
 import React from 'react';
-import DropdownMenu from '../shared/DropdownMenu/DropdownMenu';
+import DropdownMenu from './shared/DropdownMenu/DropdownMenu';
 import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import {
@@ -9,10 +9,10 @@ import {
   ExitIcon,
   ChevronDownIcon,
 } from "@radix-ui/react-icons";
-import Button from '../shared/Button/Button';
-import Avatar from '../shared/Avatar/Avatar';
+import { Button } from './ui/Button';
+import Avatar from './shared/Avatar/Avatar';
 import Image from 'next/image';
-import logo from '../../../public/barbell.png';
+import logo from '../../public/barbell.png';
 import { useSession } from 'next-auth/react';
 
 const NavMenu = () => {
@@ -43,10 +43,7 @@ const NavMenu = () => {
   ];
 
   const triggerButton = (
-    <Button
-      variant='transparent'
-      size="default"
-    >
+    <Button variant="ghost">
       <Avatar
         variant={Avatar.variant.Circle}
         name={session?.user.name as string}

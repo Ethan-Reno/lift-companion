@@ -4,8 +4,9 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, type TypeOf } from 'zod';
 import { api } from '../../utils/api';
-import Button from '../shared/Button/Button';
+import { Button } from '../ui/Button';
 import { FormInput } from '../shared/FormInput/FormInput';
+import { Loader2 } from "lucide-react"
 
 
 export const createExerciseSchema = z.object({
@@ -37,7 +38,6 @@ export const CreateExerciseForm = ({ setIsDialogOpen }: CreateExerciseFormProps)
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors }
   } = useForm<CreateExerciseInputs>(
     {
@@ -55,11 +55,16 @@ export const CreateExerciseForm = ({ setIsDialogOpen }: CreateExerciseFormProps)
       <div className="mt-4 flex justify-end">
         <Button
           type='submit'
-          isLoading={createExercise.isLoading}
-          variant='primary'
-          size="default"
+          disabled={createExercise.isLoading}
         >
-          Create
+          {createExercise.isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Processing
+            </>
+          ) : (
+            <>Create</>
+          )}
         </Button>
       </div>
     </form>

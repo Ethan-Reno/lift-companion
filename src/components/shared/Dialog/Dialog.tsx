@@ -3,7 +3,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { clsx } from "clsx";
 import React, { Fragment, useState } from "react";
-import Button from "../Button/Button";
+import { Button } from "../../ui/Button";
 import { deriveDialogContent } from "./DialogContent";
 
 export enum DIALOG_TYPES {
@@ -31,7 +31,7 @@ const Dialog = ({ triggerButton, type }: DialogProps) => {
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
       <DialogPrimitive.Trigger asChild>
-        {triggerButton || <Button variant='text' size='default'>Click</Button>}
+        {triggerButton || <Button variant='link'>Click</Button>}
       </DialogPrimitive.Trigger>
       <DialogPrimitive.Portal forceMount>
         <Transition.Root show={isOpen}>
