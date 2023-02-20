@@ -10,7 +10,7 @@ import {
   ChevronDownIcon,
 } from "@radix-ui/react-icons";
 import { Button } from './ui/Button';
-import Avatar from './shared/Avatar/Avatar';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/Avatar';
 import Image from 'next/image';
 import logo from '../../public/barbell.png';
 import { useSession } from 'next-auth/react';
@@ -44,11 +44,10 @@ const NavMenu = () => {
 
   const triggerButton = (
     <Button variant="ghost">
-      <Avatar
-        variant={Avatar.variant.Circle}
-        name={session?.user.name as string}
-        image={session?.user.image as string}
-      />
+      <Avatar>
+        <AvatarImage src={session?.user.image as string} />
+        <AvatarFallback>{session?.user.name?.charAt(0)}</AvatarFallback>
+      </Avatar>
       <ChevronDownIcon className="h-9 w-9 pl-2" />
     </Button>
   )
