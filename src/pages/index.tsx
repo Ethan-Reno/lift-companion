@@ -2,9 +2,7 @@ import React, { type FC } from "react";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
-import { PlusIcon } from '@radix-ui/react-icons';
-import Dialog, { DIALOG_TYPES } from '../components/shared/Dialog/Dialog';
-import { Button } from "../components/ui/Button";
+import { Button, Dialog } from 'lift-companion-ui';
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -22,7 +20,6 @@ const Home: NextPage = () => {
 Dashboard: FC = () => {
   const triggerButton = (
     <Button>
-      <PlusIcon className="h-6 w-6 pr-2" />
       New Exercise
     </Button>
   );
@@ -30,7 +27,7 @@ Dashboard: FC = () => {
   return (
     <>
       <div id="DashboardContainer" className="flex flex-col items-center grow">
-        <Dialog triggerButton={triggerButton} type={DIALOG_TYPES.CREATE_EXERCISE} />
+        <Dialog trigger={triggerButton} accessibleTitle='Create new exercise' content={<>Placeholder</>} />
       </div>
     </>
   );

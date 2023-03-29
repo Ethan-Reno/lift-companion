@@ -6,6 +6,7 @@ import { api } from "../utils/api";
 import { Layout } from "../components";
 import { Analytics } from '@vercel/analytics/react';
 import "../styles/globals.css";
+import 'lift-companion-ui/dist/index.css';
 
 const App: AppType<{ session: Session | null }> = ({
   Component,
