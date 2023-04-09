@@ -1,6 +1,7 @@
 import React from "react";
 import { type UseFormRegister  } from "react-hook-form";
 import { clsx } from 'clsx';
+import { Input, Label } from "lift-companion-ui";
 
 export interface FormInputProps {
   label: string;
@@ -14,16 +15,16 @@ export interface FormInputProps {
 
 export const FormInput = ({register, field, label, error, type, defaultValue, children}: FormInputProps) => {
   return (
-    <div className='relative flex flex-col'>
-      <label className="ml-2 text-xs zinc-300">{label}</label>
+    <div className='relative flex flex-col gap-2'>
+      <Label htmlForm={type}>{label}</Label>
       {(register && field) && (
-        <input
+        <Input
           className={clsx(
-            "p-4 border-2 rounded-lg shadow-md shadow-black border-zinc-600 bg-zinc-900 text-zinc-200 focus:outline-zinc-100",
             {"border-red-400": error},
           )}
           defaultValue={defaultValue}
           type={type || 'text'}
+          id={type}
           {...register(field)}
         />
       )}

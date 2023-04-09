@@ -1,10 +1,10 @@
-import React, { type FC, useState, useEffect } from "react";
+import React, { type FC, useEffect } from "react";
 import { useTheme } from 'next-themes';
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
-import { Button, Dialog } from 'lift-companion-ui';
-import { CreateExerciseForm } from "../components/Forms/CreateExerciseForm";
+import { Button } from 'lift-companion-ui';
+import { CreateExerciseModal } from "../components/Modals/CreateExerciseModal";
 
 const Home: NextPage = () => {
   const { theme } = useTheme();
@@ -29,30 +29,10 @@ const Home: NextPage = () => {
 },
 
 Dashboard: FC = () => {
-  const triggerButton = (
-    <Button>
-      New Exercise
-    </Button>
-  );
-
-  const content = (
-    <div className="p-10">
-      <h1>Test</h1>
-    </div>
-  );
-  const [ isOpen, setIsOpen ] = useState(false);
-
   return (
     <>
       <div id="DashboardContainer" className="flex flex-col items-center grow">
-        <Dialog
-          trigger={triggerButton}
-          content={content}
-          accessibleTitle="Create new exercise"
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-        />
-        {/* <Dialog trigger={triggerButton} accessibleTitle='Create new exercise' content={<CreateExerciseForm />} /> */}
+        {<CreateExerciseModal />}
       </div>
     </>
   );

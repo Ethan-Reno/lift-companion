@@ -1,5 +1,4 @@
-import React, { type Dispatch, type SetStateAction } from 'react';
-import clsx from "clsx";
+import React, { useState } from 'react';
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, type TypeOf } from 'zod';
@@ -7,6 +6,7 @@ import { api } from '../../utils/api';
 import { Button } from 'lift-companion-ui'
 import { FormInput } from '../shared/FormInput/FormInput';
 import { Loader2 } from "lucide-react"
+import { Dialog } from 'lift-companion-ui';
 
 
 export const createExerciseSchema = z.object({
@@ -26,14 +26,12 @@ export const createExerciseSchema = z.object({
 
 export type CreateExerciseInputs = TypeOf<typeof createExerciseSchema>;
 
-// interface CreateExerciseFormProps {
-//   setIsDialogOpen: Dispatch<SetStateAction<boolean>>;
-// }
+export const CreateExerciseModal = () => {
+  const [ isOpen, setIsOpen ] = useState(false);
 
-export const CreateExerciseForm = () => {
   const createExercise = api.exercise.create.useMutation({
     onMutate: () => console.log('mutating'),
-    onSettled: () => {setIsDialogOpen(false)},
+    onSettled: () => {setIsOpen(false)},
   });
   const {
     register,
@@ -47,7 +45,7 @@ export const CreateExerciseForm = () => {
   const onSubmit: SubmitHandler<CreateExerciseInputs> = data => 
     createExercise.mutate(data);
 
-  return (
+  const form = (
     <form className="flex flex-col gap-10" onSubmit={handleSubmit(onSubmit)}>
       <FormInput register={register} field='name' label='Name' error={errors.name?.message} />
       <FormInput register={register} field='primaryUnit' label='Primary Unit' error={errors.primaryUnit?.message} />
@@ -68,5 +66,15 @@ export const CreateExerciseForm = () => {
         </Button>
       </div>
     </form>
+  );
+
+  return (
+    <Dialog
+      trigger={<Button>Create Exercise</Button>}
+      content={form}
+      accessibleTitle='Create new exercise'
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+    />
   )
 };
