@@ -11,7 +11,6 @@
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.10",
     "@hookform/resolvers": "^2.9.11",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@next/bundle-analyzer": "^13.1.6",
@@ -24,9 +23,8 @@
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
     "@vercel/analytics": "^0.1.8",
-    "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
-    "lift-companion-ui": "^0.1.42",
+    "lift-companion-ui": "^0.2.15",
     "lucide-react": "^0.114.0",
     "next": "13.1.6",
     "next-auth": "^4.19.0",
@@ -34,8 +32,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.1",
+    "sharp": "^0.32.0",
     "superjson": "1.9.1",
-    "tailwind-merge": "^1.9.1",
     "tailwindcss-animate": "^1.0.5",
     "zod": "^3.20.2"
   },

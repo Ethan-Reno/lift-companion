@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   DropdownMenu,
-  type DropdownMenuItemGroup,
   Button,
   Avatar,
 } from 'lift-companion-ui';
+import { type DropdownMenuItemGroup } from 'lift-companion-ui/dist/components/DropdownMenu/types';
 import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import {
@@ -46,7 +46,7 @@ const NavMenu = () => {
   ];
 
   const triggerButton = (
-    <Button variant="outline">
+    <Button variant="ghost">
       <>
         <Avatar 
           src={session?.user.image as string}
@@ -74,6 +74,9 @@ const NavMenu = () => {
         <DropdownMenu
           groupedMenuItems={menuOptions}
           trigger={triggerButton}
+          contentProps={{
+            align: 'end'
+          }}
         />
       }
     </div>

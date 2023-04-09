@@ -1,10 +1,21 @@
-import React, { type FC } from "react";
+import React, { type FC, useState, useEffect } from "react";
+import { useTheme } from 'next-themes';
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
 import { Button, Dialog } from 'lift-companion-ui';
+import { CreateExerciseForm } from "../components/Forms/CreateExerciseForm";
 
 const Home: NextPage = () => {
+  const { theme } = useTheme();
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.setAttribute('data-mode', 'dark')
+    } else {
+      document.body.setAttribute('data-mode', '')
+    }
+  }, [theme])
+
   const { data: session, status } = useSession();
   if (status === "loading") {
     return <main className="flex flex-col min-h-screen min-w-screen p-10 grow">Loading...</main>;
@@ -24,10 +35,24 @@ Dashboard: FC = () => {
     </Button>
   );
 
+  const content = (
+    <div className="p-10">
+      <h1>Test</h1>
+    </div>
+  );
+  const [ isOpen, setIsOpen ] = useState(false);
+
   return (
     <>
       <div id="DashboardContainer" className="flex flex-col items-center grow">
-        <Dialog trigger={triggerButton} accessibleTitle='Create new exercise' content={<>Placeholder</>} />
+        <Dialog
+          trigger={triggerButton}
+          content={content}
+          accessibleTitle="Create new exercise"
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
+        {/* <Dialog trigger={triggerButton} accessibleTitle='Create new exercise' content={<CreateExerciseForm />} /> */}
       </div>
     </>
   );

@@ -15,7 +15,9 @@ export default function Document() {
         />
         <link rel="icon" href="/barbell.png" />
       </Head>
-      <body className={`${roboto.variable} font-sans`}>
+      <body
+        className={`${roboto.variable} font-sans`}
+      >
         <Main />
         <NextScript />
       </body>

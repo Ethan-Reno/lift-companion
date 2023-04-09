@@ -1,0 +1,4 @@
+node_modules
+tailwind.config.cjs
+prettier.config.cjs
+postcss.config.cjs
