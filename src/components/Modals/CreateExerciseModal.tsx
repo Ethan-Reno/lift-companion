@@ -8,7 +8,6 @@ import { FormInput } from '../shared/FormInput/FormInput';
 import { Loader2 } from "lucide-react"
 import { Dialog } from 'lift-companion-ui';
 
-
 export const createExerciseSchema = z.object({
   name: z.string({
     required_error: "Name is required",
@@ -33,6 +32,7 @@ export const CreateExerciseModal = () => {
     onMutate: () => console.log('mutating'),
     onSettled: () => {setIsOpen(false)},
   });
+
   const {
     register,
     handleSubmit,
@@ -42,37 +42,40 @@ export const CreateExerciseModal = () => {
       resolver: zodResolver(createExerciseSchema),
     }
   );
+
   const onSubmit: SubmitHandler<CreateExerciseInputs> = data => 
     createExercise.mutate(data);
 
   const form = (
-    <form className="flex flex-col gap-10" onSubmit={handleSubmit(onSubmit)}>
-      <FormInput register={register} field='name' label='Name' error={errors.name?.message} />
-      <FormInput register={register} field='primaryUnit' label='Primary Unit' error={errors.primaryUnit?.message} />
-      <FormInput register={register} field='secondaryUnit' label='Secondary Unit' error={errors.secondaryUnit?.message} />
-      <div className="mt-4 flex justify-end">
-        <Button
-          type='submit'
-          disabled={createExercise.isLoading}
-        >
-          {createExercise.isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Processing
-            </>
-          ) : (
-            <>Create</>
-          )}
-        </Button>
-      </div>
-    </form>
+    <div className="">
+      <form className="flex flex-col gap-10 pt-6" onSubmit={handleSubmit(onSubmit)}>
+        <FormInput register={register} field='name' label='Name' error={errors.name?.message} />
+        <FormInput register={register} field='primaryUnit' label='Primary Unit' error={errors.primaryUnit?.message} />
+        <FormInput register={register} field='secondaryUnit' label='Secondary Unit' error={errors.secondaryUnit?.message} />
+        <div className="mt-4 flex justify-end">
+          <Button
+            type='submit'
+            disabled={createExercise.isLoading}
+          >
+            {createExercise.isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processing
+              </>
+            ) : (
+              <>Create</>
+            )}
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 
   return (
     <Dialog
       trigger={<Button>Create Exercise</Button>}
       content={form}
-      accessibleTitle='Create new exercise'
+      title='Create new exercise'
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     />

@@ -32,7 +32,7 @@ Dashboard: FC = () => {
   return (
     <>
       <div id="DashboardContainer" className="flex flex-col items-center grow">
-        {<CreateExerciseModal />}
+        <CreateExerciseModal />
       </div>
     </>
   );

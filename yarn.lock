@@ -1831,10 +1831,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-lift-companion-ui@^0.2.15:
-  version "0.2.15"
-  resolved "https://registry.yarnpkg.com/lift-companion-ui/-/lift-companion-ui-0.2.15.tgz#12d9c9e7db52d4b39ec8413857251698545f5617"
-  integrity sha512-PKp4vN4eAG0bAsoUlg+VG6rqbHpesddnE9jiQXgXnRPVk/Ej2W7L/a/KlQZzyfrm0DiggNVCWRd8gcgAX1cu9w==
+lift-companion-ui@^0.2.25:
+  version "0.2.25"
+  resolved "https://registry.yarnpkg.com/lift-companion-ui/-/lift-companion-ui-0.2.25.tgz#4dfeecf978713f3db019d6adeb1ce3c904c379d0"
+  integrity sha512-RaMYbltIJjuMLJqdgxGzNfFDio5hLhb/tkGXq4uqIe02pvE/JWxeqB4dX8xsW6pVX4F8lGhzSwVBd/z2zPjtcA==
 
 lilconfig@^2.0.5, lilconfig@^2.0.6:
   version "2.1.0"

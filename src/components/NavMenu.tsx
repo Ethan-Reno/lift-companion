@@ -27,25 +27,38 @@ const NavMenu = () => {
       type: 'default',
       items: [
         {
-          children: "Start Workout",
+          children: (
+            <div className="flex gap-1 items-center">
+              <LightningBoltIcon />
+              Start Workout
+            </div>
+          ),
           onSelect: () => console.log('start workout'),
           hasSeparator: true,
         },
         {
-          children: "Change Theme",
+          children: (
+            <div className="flex gap-1 items-center">
+              {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
+              Change Theme
+            </div>
+          ),
           onSelect: () => setTheme(theme === 'dark' ? 'light' : 'dark'),
-          hasSeparator: false,
         },
         {
-          children: "Logout",
+          children: (
+            <div className="flex gap-1 items-center">
+              <ExitIcon />
+              Disabled Option
+            </div>
+          ),
           onSelect: () => signOut(),
-          hasSeparator: false,
         },
       ]
     }
   ];
 
-  const triggerButton = (
+  const dropdownTrigger = (
     <Button variant="ghost">
       <>
         <Avatar 
@@ -73,7 +86,7 @@ const NavMenu = () => {
       {session &&
         <DropdownMenu
           groupedMenuItems={menuOptions}
-          trigger={triggerButton}
+          trigger={dropdownTrigger}
           contentProps={{
             align: 'end'
           }}
