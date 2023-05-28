@@ -5,8 +5,6 @@ import {
   Avatar,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuItem,
   AvatarFallback,
   AvatarImage,
@@ -41,31 +39,31 @@ const NavMenu = () => {
       </div>
       {session &&
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button>
-              <>
-                <Avatar>
-                  <AvatarImage src={session?.user.image as string} alt='alt'/>
-                  <AvatarFallback>{session?.user.name?.charAt(0) as string}</AvatarFallback>
-                </Avatar>
-                <ChevronDownIcon className="h-9 w-9 pl-2" />
-              </>
+          <DropdownMenuTrigger
+            asChild
+          >
+            <Button
+              variant="ghost"
+            >
+              <Avatar>
+                <AvatarImage src={session?.user.image as string} alt='alt'/>
+                <AvatarFallback>{session?.user.name?.charAt(0) as string}</AvatarFallback>
+              </Avatar>
+              <ChevronDownIcon className="h-9 w-9 pl-2" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Menu</DropdownMenuLabel>
-            <DropdownMenuSeparator />
             <DropdownMenuItem
               onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
               {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
-              <span>Theme</span>
+              <span className="pl-2">Theme</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onSelect={() => signOut()}
             >
               <ExitIcon />
-              <span>Logout</span>
+              <span className="pl-2">Logout</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

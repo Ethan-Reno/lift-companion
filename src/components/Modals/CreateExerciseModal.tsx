@@ -25,11 +25,10 @@ import { z } from 'zod';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 
-const createExerciseSchema = z.object({
+export const createExerciseSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
-  //meausrement enum is required
-  measurements: z.enum(['WeightRep', 'DistanceRep', 'TimeRep']),
+  measurement: z.enum(['WeightRep', 'DistanceRep', 'TimeRep']),
   primaryUnit: z.enum(['POUND', 'KILOGRAM', 'METER', 'MILE', 'KILOMETER', 'YARD', 'SECOND', 'MINUTE', 'HOUR']),
 });
 
@@ -47,7 +46,7 @@ export const CreateExerciseModal = () => {
       defaultValues: {
         name: "",
         description: "",
-        measurements: "WeightRep",
+        measurement: "WeightRep",
         primaryUnit: "POUND",
       },
     });
@@ -66,7 +65,7 @@ export const CreateExerciseModal = () => {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Name" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -79,7 +78,7 @@ export const CreateExerciseModal = () => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="Description" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,7 +86,7 @@ export const CreateExerciseModal = () => {
           />
           <FormField
             control={form.control}
-            name="measurements"
+            name="measurement"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Measurement</FormLabel>
@@ -137,9 +136,9 @@ export const CreateExerciseModal = () => {
             )}
           />
           <Button
+            variant='primary'
             type='submit'
             disabled={createExercise.isLoading}
-            className='justify-end'
           >
             {createExercise.isLoading ? (
               <>
