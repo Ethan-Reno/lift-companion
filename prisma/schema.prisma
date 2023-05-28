@@ -73,11 +73,30 @@ model VerificationToken {
 //     LAPS
 // }
 
+enum Measurement {
+    WeightRep
+    TimeRep
+    DistanceRep
+}
+
+enum Unit {
+    POUND
+    KILOGRAM
+    SECOND
+    MINUTE
+    HOUR
+    METER
+    KILOMETER
+    MILE
+    YARD
+}
+
 model Exercise {
-    id            String   @id @default(cuid())
-    name          String   @db.VarChar(100)
-    primaryUnit   String   @db.VarChar(100)
-    secondaryUnit String   @db.VarChar(100)
-    createdAt     DateTime @default(now())
-    updatedAt     DateTime @updatedAt
+    id           String        @id @default(cuid())
+    name         String        @db.VarChar(100)
+    description  String        @db.VarChar(100)
+    measurement  Measurement   @default(WeightRep)
+    primaryUnit  Unit          @default(POUND)    
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
 }

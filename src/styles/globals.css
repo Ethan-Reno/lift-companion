@@ -15,7 +15,7 @@ html {
 }
 
 html[class*="dark"] {
-  @apply bg-zinc-900;
+  @apply bg-zinc-800;
   @apply text-zinc-200;
   scrollbar-color: #ffffffb3 transparent;
   scrollbar-width: auto;

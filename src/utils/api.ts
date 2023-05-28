@@ -1,9 +1,7 @@
 /**
- * This is the client-side entrypoint for your tRPC API.
+ * This is the client-side entrypoint for the tRPC API.
  * It is used to create the `api` object which contains the Next.js
- * App-wrapper, as well as your type-safe React Query hooks.
- *
- * We also create a few inference helpers for input and output types
+ * App-wrapper, as well as type-safe React Query hooks.
  */
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
@@ -18,7 +16,7 @@ const getBaseUrl = () => {
   return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
 };
 
-/** A set of type-safe react-query hooks for your tRPC API. */
+/** A set of type-safe react-query hooks for the tRPC API. */
 export const api = createTRPCNext<AppRouter>({
   config() {
     return {
