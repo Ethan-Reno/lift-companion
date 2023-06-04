@@ -28,8 +28,8 @@ import { Loader2 } from "lucide-react"
 export const createExerciseSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.enum(['WeightRep', 'DistanceRep', 'TimeRep']),
-  primaryUnit: z.enum(['POUND', 'KILOGRAM', 'METER', 'MILE', 'KILOMETER', 'YARD', 'SECOND', 'MINUTE', 'HOUR']),
+  measurement: z.enum(['Weight', 'Distance', 'Time']),
+  unit: z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer', 'Second', 'Minute', 'Hour']),
 });
 
 export const CreateExerciseModal = () => {
@@ -46,8 +46,8 @@ export const CreateExerciseModal = () => {
       defaultValues: {
         name: "",
         description: "",
-        measurement: "WeightRep",
-        primaryUnit: "POUND",
+        measurement: "Weight",
+        unit: "Pound",
       },
     });
     
@@ -76,7 +76,7 @@ export const CreateExerciseModal = () => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -90,18 +90,21 @@ export const CreateExerciseModal = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Measurement</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue="WeightRep">
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Pick a measurement" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="WeightRep">Weight x Reps</SelectItem>
-                    <SelectItem value="DistanceRep">Distance x Reps</SelectItem>
-                    <SelectItem value="TimeRep">Time x Reps</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className='flex items-center gap-2'>
+                  <Select onValueChange={field.onChange} defaultValue="Weight">
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pick a measurement" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Weight">Weight</SelectItem>
+                      <SelectItem value="Distance">Distance</SelectItem>
+                      <SelectItem value="Time">Time</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <span className="whitespace-nowrap">x Reps</span>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -109,28 +112,27 @@ export const CreateExerciseModal = () => {
           {/* TODO: Refactor to display only units for selected measurement */}
           <FormField
             control={form.control}
-            name="primaryUnit"
+            name="unit"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Primary Unit</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue="POUND">
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Pick a unit" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="POUND">Pound</SelectItem>
-                    <SelectItem value="KILOGRAM">Kilogram</SelectItem>
-                    <SelectItem value="METER">Meter</SelectItem>
-                    <SelectItem value="MILE">Mile</SelectItem>
-                    <SelectItem value="KILOMETER">Kilometer</SelectItem>
-                    <SelectItem value="YARD">Yard</SelectItem>
-                    <SelectItem value="SECOND">Second</SelectItem>
-                    <SelectItem value="MINUTE">Minute</SelectItem>
-                    <SelectItem value="HOUR">Hour</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormLabel>Unit</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue="Pound">
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pick a unit" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Pound">Pound</SelectItem>
+                      <SelectItem value="Kilogram">Kilogram</SelectItem>
+                      <SelectItem value="Meter">Meter</SelectItem>
+                      <SelectItem value="Mile">Mile</SelectItem>
+                      <SelectItem value="Kilometer">Kilometer</SelectItem>
+                      <SelectItem value="Second">Second</SelectItem>
+                      <SelectItem value="Minute">Minute</SelectItem>
+                      <SelectItem value="Hour">Hour</SelectItem>
+                    </SelectContent>
+                  </Select>
                 <FormMessage />
               </FormItem>
             )}

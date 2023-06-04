@@ -4,9 +4,8 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 export const createExerciseSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
-  //meausrement enum is required
-  measurement: z.enum(['WeightRep', 'DistanceRep', 'TimeRep']),
-  primaryUnit: z.enum(['POUND', 'KILOGRAM', 'METER', 'MILE', 'KILOMETER', 'YARD', 'SECOND', 'MINUTE', 'HOUR']),
+  measurement: z.enum(['Weight', 'Distance', 'Time']),
+  unit: z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer', 'Second', 'Minute', 'Hour']),
 });
 
 export type CreateExerciseInputs = TypeOf<typeof createExerciseSchema>;
@@ -19,6 +18,7 @@ export const exerciseRouter = createTRPCRouter({
           name: true,
           description: true,
           measurement: true,
+          unit: true,
         },
         orderBy: {
           createdAt: "desc",
@@ -37,6 +37,7 @@ export const exerciseRouter = createTRPCRouter({
             name: input.name,
             description: input.description,
             measurement: input.measurement,
+            unit: input.unit,
           },
         });
       } catch (error) {
