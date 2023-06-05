@@ -21,16 +21,10 @@ import {
 } from 'lift-companion-ui'; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { type z } from 'zod';
+import { createExerciseSchema } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
-
-export const createExerciseSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.enum(['Weight', 'Distance', 'Time']),
-  unit: z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer', 'Second', 'Minute', 'Hour']),
-});
 
 export const CreateExerciseModal = () => {
   const [ isOpen, setIsOpen ] = useState(false);

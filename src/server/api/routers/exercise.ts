@@ -15,13 +15,15 @@ export const exerciseRouter = createTRPCRouter({
     try {
       return await ctx.prisma.exercise.findMany({
         select: {
+          id: true,
           name: true,
           description: true,
           measurement: true,
           unit: true,
+          status: true,
         },
         orderBy: {
-          createdAt: "desc",
+          updatedAt: "desc",
         },
       });
     } catch (error) {

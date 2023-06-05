@@ -721,6 +721,18 @@
     "@tanstack/query-core" "4.27.0"
     use-sync-external-store "^1.2.0"
 
+"@tanstack/react-table@^8.9.1":
+  version "8.9.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.9.1.tgz#bfe1d286f549b9743d99bfbeb531f2582f9d698b"
+  integrity sha512-yHs2m6lk5J5RNcu2dNtsDGux66wNXZjEgzxos6MRCX8gL+nqxeW3ZglqP6eANN0bGElPnjvqiUHGQvdACOr3Cw==
+  dependencies:
+    "@tanstack/table-core" "8.9.1"
+
+"@tanstack/table-core@8.9.1":
+  version "8.9.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.9.1.tgz#869410ca1748c45d4e19ccfd4db7e36452611674"
+  integrity sha512-2+R83n8vMZND0q3W1lSiF7co9nFbeWbjAErFf27xwbeA9E0wtUu5ZDfgj+TZ6JzdAEQAgfxkk/QNFAKiS8E4MA==
+
 "@trpc/client@^10.9.0":
   version "10.19.1"
   resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.19.1.tgz#3e8aff4abaff38c39ca275052768c957ff217ea3"
@@ -2341,10 +2353,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-lift-companion-ui@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/lift-companion-ui/-/lift-companion-ui-0.3.0.tgz#24f2bc97d71293535b4938ee39932049ccdfbdd2"
-  integrity sha512-omysMQyI0N1lVudecMseflLnap1N6R9a/N23QkX5xU7Tw7ctuayPZM9pd0DjzKsEFkNXHtADCB0fZNAmajLhTg==
+lift-companion-ui@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/lift-companion-ui/-/lift-companion-ui-0.3.3.tgz#880963cf879ecf05474ac89427153280fac61a85"
+  integrity sha512-KMQFgcZDZSDIc926iV3RV3SQ6X3oabUFsXFuyYGjSJ2G+K50FjA9HKgf90g46eR4mTeo7ytA4r/F2rmDHPrT5w==
   dependencies:
     "@radix-ui/react-accessible-icon" "^1.0.1"
     "@radix-ui/react-avatar" "^1.0.2"
@@ -2365,6 +2377,7 @@ lift-companion-ui@^0.3.0:
     date-fns "^2.30.0"
     react-day-picker "^8.7.1"
     react-hook-form "^7.43.9"
+    tailwind-merge "^1.13.0"
 
 lilconfig@^2.0.5, lilconfig@^2.0.6:
   version "2.1.0"
@@ -3303,6 +3316,11 @@ synckit@^0.8.5:
   dependencies:
     "@pkgr/utils" "^2.3.1"
     tslib "^2.5.0"
+
+tailwind-merge@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.13.0.tgz#1978396b6bbd808878763303b26647adfb3c78c4"
+  integrity sha512-mUTmDbcU+IhOvJ0c42eLQ/nRkvolTqfpVaVQRSxfJAv9TabS6Y2zW/1wKpKLdKzyL3Gh8j6NTLl6MWNmvOM6kA==
 
 tailwindcss-animate@^1.0.5:
   version "1.0.5"

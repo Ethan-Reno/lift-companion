@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
 import { Button } from 'lift-companion-ui';
 import { CreateExerciseModal } from "../components/Modals/CreateExerciseModal";
+import Link from "next/link";
+import { buttonVariants } from "lift-companion-ui/dist/components/Button/Button";
 
 const Home: NextPage = () => {
   const { theme } = useTheme();
@@ -26,19 +28,20 @@ const Home: NextPage = () => {
       {session ? <Dashboard /> : <Landing />}
     </>
   );
-},
+};
 
-Dashboard: FC = () => {
+const Dashboard: FC = () => {
   return (
-    <>
-      <div id="DashboardContainer" className="flex flex-col items-center grow">
-        <CreateExerciseModal />
-      </div>
-    </>
+    <div className="flex justify-center gap-2">
+      <CreateExerciseModal />
+      <Link href="/exercises" className={buttonVariants({ variant: "outline" })}>
+        View Exercises
+      </Link>
+    </div>
   );
-},
+};
 
-Landing: FC = () => {
+const Landing: FC = () => {
   return (
     <>
       <div id="LandingContainer" className="flex flex-col items-center gap-8 py-28 grow">
@@ -56,7 +59,7 @@ Landing: FC = () => {
         </Button>
       </div>
     </>
-  )
+  );
 };
 
 export default Home;
