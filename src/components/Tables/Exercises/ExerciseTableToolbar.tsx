@@ -1,10 +1,8 @@
-"use client"
-
 import { type Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
 import { Button, Input } from "lift-companion-ui";
 import { ExerciseTableViewOptions } from "./ExerciseTableViewOptions";
-import { ExerciseTableFacetedFilter } from "./ExerciseTableFacetedFilter";
+// import { ExerciseTableFilter } from "./ExerciseTableFilter";
 
 interface ExerciseTableToolbarProps<TData> {
   table: Table<TData>

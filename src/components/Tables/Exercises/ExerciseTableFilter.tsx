@@ -18,7 +18,7 @@ export function ExerciseTableFilter<TData, TValue>({
   title,
   options,
 }: ExerciseTableFilter<TData, TValue>) {
-  const facets = column?.getFacetedUniqueValues();
+  // const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(column?.getFilterValue() as string[]);
 
   return (
