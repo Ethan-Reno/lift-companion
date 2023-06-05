@@ -1,9 +1,9 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { type Exercise } from "../../../schemas/ExerciseSchema";
+import { type ExerciseSchema } from "../../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
 
-export const exerciseColumns: ColumnDef<Exercise>[] = [
+export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -34,9 +34,7 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
   },
   {
     accessorKey: "measurement",
-    header: ({ column }) => (
-      <ExerciseTableColumnHeader column={column} title="Measurement" />
-    ),
+    header: "Measurement",
     cell: ({ row }) => {
       return (
         <div className="flex items-center">
@@ -50,9 +48,7 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
   },
   {
     accessorKey: "unit",
-    header: ({ column }) => (
-      <ExerciseTableColumnHeader column={column} title="Unit" />
-    ),
+    header: "Unit",
     cell: ({ row }) => {
       return (
         <div className="flex items-center">

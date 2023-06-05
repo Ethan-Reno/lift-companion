@@ -1,18 +1,22 @@
 import { z } from 'zod';
 
+export const MeasurementEnum = z.enum(['Weight', 'Distance', 'Time']);
+export const UnitEnum = z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer', 'Second', 'Minute', 'Hour']);
+export const StatusEnum = z.enum(['Active', 'Inactive', 'Deleted', 'Archived']);
+
 export const exerciseSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.enum(['Weight', 'Distance', 'Time']),
-  unit: z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer', 'Second', 'Minute', 'Hour']),
-  status: z.enum(['Active', 'Inactive', 'Deleted', 'Archived']),
+  name: z.string(),
+  description: z.string(),
+  measurement: MeasurementEnum,
+  unit: UnitEnum,
+  status: StatusEnum,
 });
-export type Exercise = z.infer<typeof exerciseSchema>;
+export type ExerciseSchema = z.infer<typeof exerciseSchema>;
 
 export const createExerciseSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.enum(['Weight', 'Distance', 'Time']),
-  unit: z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer', 'Second', 'Minute', 'Hour']),
+  measurement: MeasurementEnum,
+  unit: UnitEnum,
 });
-export type CreateExercise = z.infer<typeof createExerciseSchema>;
+export type CreateExerciseSchema = z.infer<typeof createExerciseSchema>;
