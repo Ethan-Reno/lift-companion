@@ -4,13 +4,13 @@ import { type LucideIcon, PlusCircle } from "lucide-react";
 import { Badge, Button, DropdownMenu, Popover, PopoverContent, PopoverTrigger } from "lift-companion-ui";
 
 interface ExerciseTableFilter<TData, TValue> {
-  column?: Column<TData, TValue>
-  title?: string
+  column?: Column<TData, TValue>;
+  title?: string;
   options: {
     label: string
     value: string
     icon?: LucideIcon
-  }[]
+  }[];
 }
 
 export function ExerciseTableFilter<TData, TValue>({

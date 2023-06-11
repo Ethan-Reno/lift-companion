@@ -1,5 +1,4 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import { roboto } from "../utils/font";
 
 export default function Document() {
   return (
@@ -15,7 +14,7 @@ export default function Document() {
         />
         <link rel="icon" href="/barbell.png" />
       </Head>
-      <body className="min-h-screen">
+      <body>
         <Main />
         <NextScript />
       </body>

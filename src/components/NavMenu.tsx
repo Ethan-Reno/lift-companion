@@ -42,15 +42,13 @@ const NavMenu = () => {
           <DropdownMenuTrigger
             asChild
           >
-            <Button
-              variant="ghost"
-            >
+            <div className="flex">
               <Avatar>
                 <AvatarImage src={session?.user.image as string} alt='alt'/>
                 <AvatarFallback>{session?.user.name?.charAt(0) as string}</AvatarFallback>
               </Avatar>
               <ChevronDownIcon className="h-9 w-9 pl-2" />
-            </Button>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem

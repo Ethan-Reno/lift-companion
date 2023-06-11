@@ -5,7 +5,7 @@ import { ExerciseTableViewOptions } from "./ExerciseTableViewOptions";
 // import { ExerciseTableFilter } from "./ExerciseTableFilter";
 
 interface ExerciseTableToolbarProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function ExerciseTableToolbar<TData>({
@@ -13,7 +13,7 @@ export function ExerciseTableToolbar<TData>({
 }: ExerciseTableToolbarProps<TData>) {
   const isFiltered =
     table.getPreFilteredRowModel().rows.length >
-    table.getFilteredRowModel().rows.length
+    table.getFilteredRowModel().rows.length;
 
   return (
     <div className="flex items-center justify-between">

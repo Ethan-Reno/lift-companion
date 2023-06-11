@@ -22,7 +22,7 @@ const Exercises: NextPage = () => {
         >
           Back
         </Link>
-        <span className="text-2xl">Exercises</span>
+        <span className="text-2xl">Exercise Manager</span>
       </div>
       {isLoading && <div>Fetching exercises...</div>}
       {exercises && <ExerciseTable data={exercises} columns={exerciseColumns} />}
