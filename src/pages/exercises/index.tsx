@@ -6,6 +6,7 @@ import { exerciseColumns } from "../../components/Tables/Exercises/ExerciseTable
 import Link from "next/link";
 import { buttonVariants } from "lift-companion-ui";
 import { clsx } from "clsx";
+import { ArrowBigLeft } from "lucide-react";
 
 const Exercises: NextPage = () => {
   const { data: exercises, isLoading } = api.exercise.getAll.useQuery();
@@ -17,10 +18,10 @@ const Exercises: NextPage = () => {
           href="/"
           className={clsx(
             "",
-            buttonVariants({ variant: "outline" })
+            buttonVariants({ variant: "outline", size: "sm" })
           )}
         >
-          Back
+          <ArrowBigLeft className="h-4 w-4"/>
         </Link>
         <span className="text-2xl">Exercise Manager</span>
       </div>

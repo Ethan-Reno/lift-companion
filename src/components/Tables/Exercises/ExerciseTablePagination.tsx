@@ -7,11 +7,6 @@ import {
 } from "lucide-react";
 import {
   Button,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "lift-companion-ui";
 
 interface ExerciseTablePaginationProps<TData> {
@@ -21,9 +16,10 @@ interface ExerciseTablePaginationProps<TData> {
 export function ExerciseTablePagination<TData>({
   table,
 }: ExerciseTablePaginationProps<TData>) {
+  const pageCount = table.getPageCount();
   return (
-    <div className="flex items-center justify-between px-2">
-      <div className="flex items-center justify-center space-x-6 lg:space-x-8">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center justify-center space-x-6 sm:space-x-8">
         {/* Rows per page select */}
         {/* <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
@@ -45,14 +41,10 @@ export function ExerciseTablePagination<TData>({
             </SelectContent>
           </Select>
         </div> */}
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
-        </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="hidden h-8 w-8 p-0 sm:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
@@ -79,7 +71,7 @@ export function ExerciseTablePagination<TData>({
           </Button>
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="hidden h-8 w-8 p-0 sm:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
@@ -87,6 +79,9 @@ export function ExerciseTablePagination<TData>({
             <ChevronsRight className="h-4 w-4" />
           </Button>
         </div>
+          <div className="flex items-center justify-center text-sm font-medium">
+            Page {table.getState().pagination.pageIndex + 1} of{" "}{pageCount}
+          </div>
       </div>
     </div>
   );

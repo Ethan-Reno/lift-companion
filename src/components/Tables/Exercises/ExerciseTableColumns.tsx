@@ -2,6 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { type ExerciseSchema } from "../../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
+import { Badge } from "lift-companion-ui";
 
 export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
   {
@@ -25,9 +26,10 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
       <ExerciseTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
+      const status = row.getValue("status");
       return (
         <div className="flex w-[100px] items-center">
-          <span>{row.getValue("status")}</span>
+          <Badge variant={status === 'Inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
         </div>
       );
     },
