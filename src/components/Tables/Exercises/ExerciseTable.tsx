@@ -65,9 +65,9 @@ export function ExerciseTable<TData, TValue>({
   })
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <ExerciseTableToolbar table={table} />
-      <div className="rounded-md border">
+      <div className="">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

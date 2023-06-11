@@ -26,8 +26,8 @@ const NavMenu = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="flex p-2 justify-between">
-      <div className="flex items-center py-2 mx-2 gap-3 align-middle">
+    <div className="flex p-6 justify-between items-center">
+      <div className="flex items-center mr-4 gap-3 align-middle">
         <Image 
           src={logo}
           alt="logo"

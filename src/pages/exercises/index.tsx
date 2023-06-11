@@ -11,23 +11,21 @@ const Exercises: NextPage = () => {
   const { data: exercises, isLoading } = api.exercise.getAll.useQuery();
 
   return (
-    <div id="ExerciseContainer" className="flex w-screen justify-center">
-      <div className="flex flex-col gap-16">
-        <div className="flex gap-6 items-center">
-          <Link
-            href="/"
-            className={clsx(
-              "",
-              buttonVariants({ variant: "outline" })
-            )}
-          >
-            Back
-          </Link>
-          <span className="text-2xl">Exercises</span>
-        </div>
-        {isLoading && <div>Fetching exercises...</div>}
-        {exercises && <ExerciseTable data={exercises} columns={exerciseColumns} />}
+    <div className="flex flex-col gap-16">
+      <div className="flex gap-6 items-center">
+        <Link
+          href="/"
+          className={clsx(
+            "",
+            buttonVariants({ variant: "outline" })
+          )}
+        >
+          Back
+        </Link>
+        <span className="text-2xl">Exercises</span>
       </div>
+      {isLoading && <div>Fetching exercises...</div>}
+      {exercises && <ExerciseTable data={exercises} columns={exerciseColumns} />}
     </div>
   );
 };
