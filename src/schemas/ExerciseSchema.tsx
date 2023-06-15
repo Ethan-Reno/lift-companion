@@ -5,6 +5,7 @@ export const UnitEnum = z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer
 export const StatusEnum = z.enum(['Active', 'Inactive', 'Deleted', 'Archived']);
 
 export const exerciseSchema = z.object({
+  id: z.string(),
   name: z.string(),
   description: z.string(),
   measurement: MeasurementEnum,

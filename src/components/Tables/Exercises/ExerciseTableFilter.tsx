@@ -20,6 +20,7 @@ export function ExerciseTableFilter<TData, TValue>({
 }: ExerciseTableFilter<TData, TValue>) {
   // const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(column?.getFilterValue() as string[]);
+  console.log(selectedValues);
 
   return (
     <Popover>

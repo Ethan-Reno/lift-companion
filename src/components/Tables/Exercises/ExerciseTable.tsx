@@ -37,6 +37,7 @@ export function ExerciseTable<TData, TValue>({
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
+      id: false,
       name: true,
       status: true,
       measurement: false,

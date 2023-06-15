@@ -39,7 +39,7 @@ export function ExerciseTableViewOptions<TData>({
               typeof column.accessorFn !== "undefined" && column.getCanHide()
           )
           .map((column) => {
-            if (column.id !== 'name') {
+            if (column.id !== 'name' && column.id !== 'id') {
               return (
                 <DropdownMenuCheckboxItem
                   key={column.id}

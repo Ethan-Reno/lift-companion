@@ -5,6 +5,13 @@ import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
 import { Badge } from "lift-companion-ui";
 
 export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
+  // Not sure if this is the best solution:
+  // Including an empty and hidden column to have access to the exercise id
+  {
+    accessorKey: "id",
+    header: () => null,
+    cell: () => null
+  },
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -28,7 +35,7 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status");
       return (
-        <div className="flex w-[100px] items-center">
+        <div className="flex items-center">
           <Badge variant={status === 'Inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
         </div>
       );
@@ -40,9 +47,6 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center">
-          {/* {measurement.icon && (
-            <measurement.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )} */}
           <span>{row.getValue("measurement")}</span>
         </div>
       );
@@ -54,9 +58,6 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center">
-          {/* {measurement.icon && (
-            <measurement.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )} */}
           <span>{row.getValue("unit")}</span>
         </div>
       );
@@ -64,6 +65,12 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <ExerciseTableRowActions row={row} />,
+    cell: ({ row }) => {
+      const id = row.getValue("id");
+      console.log(id);
+      return (
+        <ExerciseTableRowActions id={row.getValue("id")} />
+      );
+    },
   },
 ];

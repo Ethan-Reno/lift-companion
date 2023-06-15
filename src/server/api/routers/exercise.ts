@@ -46,4 +46,47 @@ export const exerciseRouter = createTRPCRouter({
         console.log(error);
       }
     }),
+  softDelete: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.exercise.update({
+          where: {
+            id: input,
+          },
+          data: {
+            status: "Deleted",
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  ),
+  update: protectedProcedure
+    .input(z.object({
+      id: z.string(),
+      name: z.string().min(1, { message: 'Name is required' }),
+      description: z.string().min(1, { message: 'Description is required' }),
+      measurement: z.enum(['Weight', 'Distance', 'Time']),
+      unit: z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer', 'Second', 'Minute', 'Hour']),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.exercise.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            name: input.name,
+            description: input.description,
+            measurement: input.measurement,
+            unit: input.unit,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  ),
 });
