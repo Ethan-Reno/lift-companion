@@ -1,8 +1,8 @@
-import { type ColumnDef } from "@tanstack/react-table";
+import { Column, type ColumnDef } from "@tanstack/react-table";
 import { type ExerciseSchema } from "../../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
-import { Badge } from "good-nice-ui";
+import { Badge, Skeleton } from "good-nice-ui";
 
 export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
   // Not sure if this is the best solution:
@@ -74,3 +74,28 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     },
   },
 ];
+
+// TODO: Properly type the column parameter
+export const getExerciseLoadingColumns = (column: any) => {
+  if (column.id === "actions") {
+    return <div className="flex justify-end gap-2">
+      <Skeleton className="w-[42px] h-9" />
+      <Skeleton className="w-[42px] h-9" />
+    </div>
+  };
+
+  switch (column.accessorKey) {
+    case "name":
+      return (
+        <Skeleton className="max-w-[500px] h-6" />
+      );
+    case "status":
+      return <Skeleton className="w-24 h-6" />;
+    case "unit":
+      return <Skeleton className="w-16 h-6" />;
+    case "measurement":
+      return <Skeleton className="w-16 h-6" />;
+    default:
+      return null;
+  }
+}

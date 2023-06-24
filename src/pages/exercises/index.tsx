@@ -1,15 +1,42 @@
 import { type NextPage } from "next";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { api } from "../../utils/api";
 import { ExerciseTable } from "../../components/Tables/Exercises/ExerciseTable";
-import { exerciseColumns } from "../../components/Tables/Exercises/ExerciseTableColumns";
+import { exerciseColumns, getExerciseLoadingColumns } from "../../components/Tables/Exercises/ExerciseTableColumns";
 import Link from "next/link";
-import { buttonVariants } from "good-nice-ui";
+import { useStore } from "../../store/store";
+import { Skeleton, buttonVariants } from "good-nice-ui";
 import { clsx } from "clsx";
 import { ArrowBigLeft } from "lucide-react";
 
 const Exercises: NextPage = () => {
-  const { data: exercises, isLoading } = api.exercise.getAll.useQuery();
+  const { shouldRefetch, setShouldRefetch } = useStore();
+  const { data: exercises, isLoading, refetch } = api.exercise.getAll.useQuery();
+
+  useEffect(() => {
+    if (shouldRefetch) {
+      refetch();
+      setShouldRefetch(false);
+    }
+  }, [shouldRefetch, refetch, setShouldRefetch]);
+
+  const tableData = React.useMemo(
+    () => (isLoading ? Array(3).fill({}) : exercises || []),
+    [isLoading, exercises]
+  );
+
+  const tableColumns = useMemo(
+    () =>
+      isLoading
+        ? exerciseColumns.map((column) => ({
+            ...column,
+            cell: () => {
+              return getExerciseLoadingColumns(column);
+            },
+          }))
+        : exerciseColumns,
+    [isLoading, exerciseColumns]
+  );
 
   return (
     <div className="flex flex-col gap-16">
@@ -25,8 +52,7 @@ const Exercises: NextPage = () => {
         </Link>
         <span className="text-2xl">Exercise Manager</span>
       </div>
-      {isLoading && <div>Fetching exercises...</div>}
-      {exercises && <ExerciseTable data={exercises} columns={exerciseColumns} />}
+      <ExerciseTable data={tableData} columns={tableColumns} />
     </div>
   );
 };

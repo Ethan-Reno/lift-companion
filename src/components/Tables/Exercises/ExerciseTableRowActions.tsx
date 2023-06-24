@@ -17,7 +17,7 @@ export function ExerciseTableRowActions({
         <Tooltip>
           <Tooltip.Trigger asChild>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
             >
               <Pen className="h-4 w-4" />

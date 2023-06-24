@@ -2,6 +2,7 @@ import { Button, Dialog, buttonVariants } from 'good-nice-ui';
 import React, { useState } from 'react';
 import { api } from '../../utils/api';
 import { Trash } from 'lucide-react';
+import { useStore } from '../../store/store';
 
 export interface DeleteExerciseModalProps {
   id: string;
@@ -9,10 +10,14 @@ export interface DeleteExerciseModalProps {
 
 export const DeleteExericseModal = ({ id }: DeleteExerciseModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setShouldRefetch } = useStore();
 
   const deleteExercise = api.exercise.softDelete.useMutation({
     onMutate: () => console.log('mutating'),
-    onSettled: () => {setIsOpen(false)},
+    onSettled: () => {
+      setIsOpen(false);
+      setShouldRefetch(true);
+    },
   });
 
   return (
