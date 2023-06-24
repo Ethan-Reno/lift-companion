@@ -1,13 +1,6 @@
 import { type Column } from "@tanstack/react-table";
-import { ChevronsUpDown, EyeOff, SortAsc, SortDesc } from "lucide-react";
-import {
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "lift-companion-ui";
+import { ChevronsUpDown, SortAsc, SortDesc } from "lucide-react";
+import { Button, DropdownMenu } from "good-nice-ui";
 import { clsx } from "clsx";
 
 interface ExerciseTableColumnHeaderProps<TData, TValue>
@@ -29,7 +22,7 @@ export function ExerciseTableColumnHeader<TData, TValue>({
   return (
     <div className={clsx("flex items-center space-x-2", className)}>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenu.Trigger asChild>
           <Button
             variant="ghost"
             size="sm"
@@ -44,17 +37,17 @@ export function ExerciseTableColumnHeader<TData, TValue>({
               <ChevronsUpDown className="ml-2 h-4 w-4" />
             )}
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
-          <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content align="start">
+          <DropdownMenu.Item onClick={() => column.toggleSorting(false)}>
             <SortAsc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Asc
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item onClick={() => column.toggleSorting(true)}>
             <SortDesc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Desc
-          </DropdownMenuItem>
-        </DropdownMenuContent>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
       </DropdownMenu>
     </div>
   );

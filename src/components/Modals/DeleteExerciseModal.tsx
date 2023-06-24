@@ -1,14 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  buttonVariants
-} from 'lift-companion-ui';
+import { Button, Dialog, buttonVariants } from 'good-nice-ui';
 import React, { useState } from 'react';
 import { api } from '../../utils/api';
 import { Trash } from 'lucide-react';
@@ -27,22 +17,22 @@ export const DeleteExericseModal = ({ id }: DeleteExerciseModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
+      <Dialog.Trigger asChild>
         <div
           className={buttonVariants({ variant: "outline", size: "sm" })}
           onClick={() => setIsOpen(true)}
         >
           <Trash className="h-4 w-4" />
         </div>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Delete Exercise?</DialogTitle>
-          <DialogDescription>
+      </Dialog.Trigger>
+      <Dialog.Content className="sm:max-w-[425px]">
+        <Dialog.Header>
+          <Dialog.Title>Delete Exercise?</Dialog.Title>
+          <Dialog.Description>
             This will delete the exercise, but your data will still be visible in your workout history.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
+          </Dialog.Description>
+        </Dialog.Header>
+        <Dialog.Footer>
           <Button
             variant="secondary"
             type="button"
@@ -57,8 +47,8 @@ export const DeleteExericseModal = ({ id }: DeleteExerciseModalProps) => {
           >
             Delete
           </Button>
-        </DialogFooter>
-      </DialogContent>
+        </Dialog.Footer>
+      </Dialog.Content>
     </Dialog>
   );
 };

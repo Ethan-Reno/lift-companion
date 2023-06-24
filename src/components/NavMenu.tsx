@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  DropdownMenu,
-  Button,
-  Avatar,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  AvatarFallback,
-  AvatarImage,
-} from 'lift-companion-ui';
+import { DropdownMenu, Avatar } from 'good-nice-ui';
 import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import {
@@ -39,31 +30,31 @@ const NavMenu = () => {
       </div>
       {session &&
         <DropdownMenu>
-          <DropdownMenuTrigger
+          <DropdownMenu.Trigger
             asChild
           >
             <div className="flex">
               <Avatar>
-                <AvatarImage src={session?.user.image as string} alt='alt'/>
-                <AvatarFallback>{session?.user.name?.charAt(0) as string}</AvatarFallback>
+                <Avatar.Image src={session?.user.image as string} alt='alt'/>
+                <Avatar.Fallback>{session?.user.name?.charAt(0) as string}</Avatar.Fallback>
               </Avatar>
               <ChevronDownIcon className="h-9 w-9 pl-2" />
             </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Item
               onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
               {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
               <span className="pl-2">Theme</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
               onSelect={() => signOut()}
             >
               <ExitIcon />
               <span className="pl-2">Logout</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
         </DropdownMenu>
       }
     </div>

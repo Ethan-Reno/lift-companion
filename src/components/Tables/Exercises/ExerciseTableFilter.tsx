@@ -1,7 +1,7 @@
 import * as React from "react";
 import { type Column } from "@tanstack/react-table";
 import { type LucideIcon, PlusCircle } from "lucide-react";
-import { Badge, Button, DropdownMenu, Popover, PopoverContent, PopoverTrigger } from "lift-companion-ui";
+import { Badge, Button, DropdownMenu, Popover } from "good-nice-ui";
 
 interface ExerciseTableFilter<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -24,7 +24,7 @@ export function ExerciseTableFilter<TData, TValue>({
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <Popover.Trigger asChild>
         <Button variant="outline" size="sm" className="h-8 border-dashed">
           <PlusCircle className="mr-2 h-4 w-4" />
           {title}
@@ -61,12 +61,12 @@ export function ExerciseTableFilter<TData, TValue>({
             </>
           )}
         </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      </Popover.Trigger>
+      <Popover.Content className="w-[200px] p-0" align="start">
         <DropdownMenu>
           
         </DropdownMenu>
-      </PopoverContent>
+      </Popover.Content>
     </Popover>
   );
 }

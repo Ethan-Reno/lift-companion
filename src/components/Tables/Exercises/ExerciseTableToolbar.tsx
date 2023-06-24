@@ -1,6 +1,6 @@
 import { type Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
-import { Button, Input } from "lift-companion-ui";
+import { Button, Input } from "good-nice-ui";
 import { ExerciseTableViewOptions } from "./ExerciseTableViewOptions";
 // import { ExerciseTableFilter } from "./ExerciseTableFilter";
 

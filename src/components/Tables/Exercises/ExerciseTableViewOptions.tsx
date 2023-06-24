@@ -1,14 +1,6 @@
 import { type Table } from "@tanstack/react-table";
 import { SlidersHorizontal } from "lucide-react";
-import {
-  Button,
-  DropdownMenuTrigger,
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "lift-companion-ui";
+import { Button, DropdownMenu } from "good-nice-ui";
 
 interface ExerciseTableViewOptionsProps<TData> {
   table: Table<TData>
@@ -19,7 +11,7 @@ export function ExerciseTableViewOptions<TData>({
 }: ExerciseTableViewOptionsProps<TData>) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenu.Trigger asChild>
         <Button
           variant="outline"
           size="sm"
@@ -28,10 +20,10 @@ export function ExerciseTableViewOptions<TData>({
           <SlidersHorizontal className="mr-2 h-4 w-4" />
           View
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[150px]">
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content align="end" className="w-[150px]">
+        <DropdownMenu.Label>Toggle columns</DropdownMenu.Label>
+        <DropdownMenu.Separator />
         {table
           .getAllColumns()
           .filter(
@@ -41,18 +33,18 @@ export function ExerciseTableViewOptions<TData>({
           .map((column) => {
             if (column.id !== 'name' && column.id !== 'id') {
               return (
-                <DropdownMenuCheckboxItem
+                <DropdownMenu.CheckboxItem
                   key={column.id}
                   className="capitalize"
                   checked={column.getIsVisible()}
                   onCheckedChange={(value) => column.toggleVisibility(!!value)}
                 >
                   {column.id}
-                </DropdownMenuCheckboxItem>
+                </DropdownMenu.CheckboxItem>
               );
             }
           })}
-      </DropdownMenuContent>
+      </DropdownMenu.Content>
     </DropdownMenu>
   );
 }

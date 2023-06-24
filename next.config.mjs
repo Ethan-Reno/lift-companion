@@ -21,7 +21,7 @@ function defineNextConfig(config) {
 
 export default bundleAnalyzer(
   defineNextConfig({
-    transpilePackages: ['lift-companion-ui'],
+    transpilePackages: ['good-nice-ui'],
     reactStrictMode: true,
     swcMinify: true,
     // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing

@@ -4,7 +4,7 @@ import { api } from "../../utils/api";
 import { ExerciseTable } from "../../components/Tables/Exercises/ExerciseTable";
 import { exerciseColumns } from "../../components/Tables/Exercises/ExerciseTableColumns";
 import Link from "next/link";
-import { buttonVariants } from "lift-companion-ui";
+import { buttonVariants } from "good-nice-ui";
 import { clsx } from "clsx";
 import { ArrowBigLeft } from "lucide-react";
 

@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { type ExerciseSchema } from "../../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
-import { Badge } from "lift-companion-ui";
+import { Badge } from "good-nice-ui";
 
 export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
   // Not sure if this is the best solution:

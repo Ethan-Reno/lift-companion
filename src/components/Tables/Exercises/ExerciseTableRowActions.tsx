@@ -1,13 +1,7 @@
 import { type Row } from "@tanstack/react-table"
 import React from "react";
 import { Pen, Trash } from "lucide-react"
-import {
-  Button,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "lift-companion-ui";
+import { Button, Tooltip, TooltipProvider } from "good-nice-ui";
 import { DeleteExericseModal } from "../../Modals/DeleteExerciseModal";
 
 interface ExerciseTableRowActionsProps {
@@ -21,27 +15,27 @@ export function ExerciseTableRowActions({
     <div className="flex justify-end gap-2">
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger asChild>
+          <Tooltip.Trigger asChild>
             <Button
               variant="ghost"
               size="sm"
             >
               <Pen className="h-4 w-4" />
             </Button>
-          </TooltipTrigger>
-          <TooltipContent>
+          </Tooltip.Trigger>
+          <Tooltip.Content>
             <p>Edit</p>
-          </TooltipContent>
+          </Tooltip.Content>
         </Tooltip>
       </TooltipProvider>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger>
+          <Tooltip.Trigger>
             <DeleteExericseModal id={id} />
-          </TooltipTrigger>
-          <TooltipContent>
+          </Tooltip.Trigger>
+          <Tooltip.Content>
             <p>Delete</p>
-          </TooltipContent>
+          </Tooltip.Content>
         </Tooltip>
       </TooltipProvider>
     </div>

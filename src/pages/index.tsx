@@ -3,10 +3,9 @@ import { useTheme } from 'next-themes';
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
-import { Button } from 'lift-companion-ui';
+import { Button, buttonVariants } from 'good-nice-ui';
 import { CreateExerciseModal } from "../components/Modals/CreateExerciseModal";
 import Link from "next/link";
-import { buttonVariants } from "lift-companion-ui/dist/components/Button/Button";
 
 const Home: NextPage = () => {
   const { theme } = useTheme();

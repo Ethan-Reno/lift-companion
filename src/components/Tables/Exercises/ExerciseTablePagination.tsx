@@ -5,9 +5,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import {
-  Button,
-} from "lift-companion-ui";
+import { Button } from "good-nice-ui";
 
 interface ExerciseTablePaginationProps<TData> {
   table: Table<TData>
