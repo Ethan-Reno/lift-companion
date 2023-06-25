@@ -4,8 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 export const createExerciseSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.enum(['Weight', 'Distance', 'Time']),
-  unit: z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer', 'Second', 'Minute', 'Hour']),
+  measurement: z.string().includes('weight' || 'distance' || 'time'),
 });
 
 export type CreateExerciseInputs = TypeOf<typeof createExerciseSchema>;
@@ -19,7 +18,6 @@ export const exerciseRouter = createTRPCRouter({
           name: true,
           description: true,
           measurement: true,
-          unit: true,
           status: true,
         },
         orderBy: {
@@ -39,7 +37,6 @@ export const exerciseRouter = createTRPCRouter({
             name: input.name,
             description: input.description,
             measurement: input.measurement,
-            unit: input.unit,
           },
         });
       } catch (error) {
@@ -55,7 +52,7 @@ export const exerciseRouter = createTRPCRouter({
             id: input,
           },
           data: {
-            status: "Deleted",
+            status: "deleted",
           },
         });
       } catch (error) {
@@ -63,13 +60,26 @@ export const exerciseRouter = createTRPCRouter({
       }
     }
   ),
+  hardDelete: protectedProcedure
+  .input(z.string())
+  .mutation(async ({ ctx, input }) => {
+    try {
+      await ctx.prisma.exercise.delete({
+        where: {
+          id: input,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+),
   update: protectedProcedure
     .input(z.object({
       id: z.string(),
       name: z.string().min(1, { message: 'Name is required' }),
       description: z.string().min(1, { message: 'Description is required' }),
-      measurement: z.enum(['Weight', 'Distance', 'Time']),
-      unit: z.enum(['Pound', 'Kilogram', 'Meter', 'Mile', 'Kilometer', 'Second', 'Minute', 'Hour']),
+      measurement: z.string().includes('weight' || 'distance' || 'time'),
     }))
     .mutation(async ({ ctx, input }) => {
       try {
@@ -81,7 +91,6 @@ export const exerciseRouter = createTRPCRouter({
             name: input.name,
             description: input.description,
             measurement: input.measurement,
-            unit: input.unit,
           },
         });
       } catch (error) {

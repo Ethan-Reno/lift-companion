@@ -33,8 +33,7 @@ export function ExerciseTable<TData, TValue>({
       id: false,
       name: true,
       status: true,
-      measurement: false,
-      unit: false,
+      measurement: true,
     });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -62,6 +61,8 @@ export function ExerciseTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+
+  // console.log(table.getRowModel());
 
   return (
     <div className="space-y-6">

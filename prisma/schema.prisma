@@ -54,56 +54,24 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-// DO these need to be enums? Or just allow full user control
-// enum PrimaryUnit {
-//     POUND
-//     KILOGRAM
-//     SECOND
-//     MINUTE
-//     HOUR
-//     DIFFICULTY
+// enum Measurement {
+//     weight
+//     time
+//     distance
 // }
 
-// enum SecondaryUnit {
-//     REPETITIONS
-//     INTERVALS
-//     SECONDS
-//     MINUTES
-//     HOURS
-//     LAPS
+// enum Status {
+//     inactive
+//     active
+//     softDeleted
 // }
-
-enum Measurement {
-    Weight
-    Time
-    Distance
-}
-
-enum Unit {
-    Pound
-    Kilogram
-    Second
-    Minute
-    Hour
-    Meter
-    Kilometer
-    Mile
-}
-
-enum Status {
-    Inactive
-    Active
-    Deleted
-    Archived
-}
 
 model Exercise {
     id           String        @id @default(cuid())
     name         String        @db.VarChar(100)
     description  String        @db.VarChar(100)
-    measurement  Measurement   @default(Weight)
-    unit         Unit          @default(Pound)
-    status       Status        @default(Inactive)
+    measurement  String        @db.VarChar(100)
+    status       String        @default("inactive")
     createdAt    DateTime      @default(now())
     updatedAt    DateTime      @updatedAt
 }

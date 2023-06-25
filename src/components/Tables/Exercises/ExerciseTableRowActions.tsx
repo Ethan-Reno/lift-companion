@@ -2,14 +2,16 @@ import { type Row } from "@tanstack/react-table"
 import React from "react";
 import { Pen, Trash } from "lucide-react"
 import { Button, Tooltip, TooltipProvider } from "good-nice-ui";
-import { DeleteExericseModal } from "../../Modals/DeleteExerciseModal";
+import { DELETE_TYPE, DeleteExericseModal } from "../../Modals/DeleteExerciseModal";
 
 interface ExerciseTableRowActionsProps {
   id: string;
+  status: string;
 }
 
 export function ExerciseTableRowActions({
   id,
+  status
 }: ExerciseTableRowActionsProps) {
   return (
     <div className="flex justify-end gap-2">
@@ -31,7 +33,10 @@ export function ExerciseTableRowActions({
       <TooltipProvider>
         <Tooltip>
           <Tooltip.Trigger>
-            <DeleteExericseModal id={id} />
+            <DeleteExericseModal
+              id={id}
+              deleteType={status === 'deleted' ? DELETE_TYPE.HARD_DELETE : DELETE_TYPE.SOFT_DELETE}
+            />
           </Tooltip.Trigger>
           <Tooltip.Content>
             <p>Delete</p>

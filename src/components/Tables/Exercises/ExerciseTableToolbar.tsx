@@ -1,8 +1,7 @@
 import { type Table } from "@tanstack/react-table";
-import { X } from "lucide-react";
-import { Button, Input } from "good-nice-ui";
-import { ExerciseTableViewOptions } from "./ExerciseTableViewOptions";
-// import { ExerciseTableFilter } from "./ExerciseTableFilter";
+import { Button, DropdownMenu, Input, XIcon } from "good-nice-ui";
+import { SlidersHorizontal } from "lucide-react";
+import { ExerciseTableFacetedFilter } from "./ExerciseTableFacetedFilter";
 
 interface ExerciseTableToolbarProps<TData> {
   table: Table<TData>;
@@ -12,12 +11,15 @@ export function ExerciseTableToolbar<TData>({
   table,
 }: ExerciseTableToolbarProps<TData>) {
   const isFiltered =
-    table.getPreFilteredRowModel().rows.length >
-    table.getFilteredRowModel().rows.length;
+  table.getPreFilteredRowModel().rows.length >
+  table.getFilteredRowModel().rows.length;
+
+  console.log(isFiltered);
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
+        {/* Name text search */}
         <Input
           placeholder="Search..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -26,27 +28,47 @@ export function ExerciseTableToolbar<TData>({
           }
           className="h-8 w-[150px] sm:w-[250px]"
         />
-        {/* {table.getColumn("status") && (
+        {/* Faceted Filters */}
+        {table.getColumn("status") && (
           <ExerciseTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
-            options={statuses}
+            options={[
+              {
+                label: "Inactive",
+                value: "inactive",
+              },
+              {
+                label: "Active",
+                value: "active",
+              },
+              {
+                label: "Deleted",
+                value: "deleted",
+              }
+            ]}
           />
         )}
         {table.getColumn("measurement") && (
           <ExerciseTableFacetedFilter
             column={table.getColumn("measurement")}
             title="Measurement"
-            options={measurements}
+            options={[
+              {
+                label: "Weight",
+                value: "weight",
+              },
+              {
+                label: "Distance",
+                value: "distance",
+              },
+              {
+                label: "Time",
+                value: "time",
+              }
+            ]}
           />
         )}
-        {table.getColumn("unit") && (
-          <ExerciseTableFacetedFilter
-            column={table.getColumn("unit")}
-            title="Unit"
-            options={units}
-          />
-        )} */}
         {isFiltered && (
           <Button
             variant="ghost"
@@ -54,11 +76,47 @@ export function ExerciseTableToolbar<TData>({
             className="h-8 px-2 lg:px-3"
           >
             Reset
-            <X className="ml-2 h-4 w-4" />
+            <XIcon size={16} className="ml-2" />
           </Button>
         )}
       </div>
-      <ExerciseTableViewOptions table={table} />
+      {/* View Options */}
+      <DropdownMenu>
+        <DropdownMenu.Trigger asChild>
+          <Button
+            variant="outline"
+            size="sm"
+            className="ml-auto h-8 sm:flex"
+          >
+            <SlidersHorizontal size={16} className="mr-2" />
+            View
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content align="end" className="w-[150px]">
+          <DropdownMenu.Label>Toggle columns</DropdownMenu.Label>
+          <DropdownMenu.Separator />
+          {table
+            .getAllColumns()
+            .filter(
+              (column) =>
+                typeof column.accessorFn !== "undefined" && column.getCanHide()
+            )
+            .map((column) => {
+              if (column.id !== 'name' && column.id !== 'id') {
+                return (
+                  <DropdownMenu.CheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                  >
+                    {column.id}
+                  </DropdownMenu.CheckboxItem>
+                );
+              }
+            })}
+        </DropdownMenu.Content>
+      </DropdownMenu>
     </div>
   );
 }

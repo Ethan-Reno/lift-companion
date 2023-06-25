@@ -1,13 +1,13 @@
+import React, { useEffect, useMemo } from "react";
 import { type NextPage } from "next";
-import React, { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { buttonVariants } from "good-nice-ui";
+import { clsx } from "clsx";
+import { ArrowBigLeft } from "lucide-react";
 import { api } from "../../utils/api";
 import { ExerciseTable } from "../../components/Tables/Exercises/ExerciseTable";
 import { exerciseColumns, getExerciseLoadingColumns } from "../../components/Tables/Exercises/ExerciseTableColumns";
-import Link from "next/link";
 import { useStore } from "../../store/store";
-import { Skeleton, buttonVariants } from "good-nice-ui";
-import { clsx } from "clsx";
-import { ArrowBigLeft } from "lucide-react";
 
 const Exercises: NextPage = () => {
   const { shouldRefetch, setShouldRefetch } = useStore();
@@ -20,7 +20,7 @@ const Exercises: NextPage = () => {
     }
   }, [shouldRefetch, refetch, setShouldRefetch]);
 
-  const tableData = React.useMemo(
+  const tableData = useMemo(
     () => (isLoading ? Array(3).fill({}) : exercises || []),
     [isLoading, exercises]
   );

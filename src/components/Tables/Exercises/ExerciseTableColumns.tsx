@@ -36,7 +36,7 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
       const status = row.getValue("status");
       return (
         <div className="flex items-center">
-          <Badge variant={status === 'Inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
+          <Badge variant={status === 'inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
         </div>
       );
     },
@@ -53,23 +53,15 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     },
   },
   {
-    accessorKey: "unit",
-    header: "Unit",
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center">
-          <span>{row.getValue("unit")}</span>
-        </div>
-      );
-    },
-  },
-  {
     id: "actions",
     cell: ({ row }) => {
       const id = row.getValue("id");
-      console.log(id);
+      const status = row.getValue("status");
       return (
-        <ExerciseTableRowActions id={row.getValue("id")} />
+        <ExerciseTableRowActions
+          id={row.getValue("id")}
+          status={row.getValue("status")}
+        />
       );
     },
   },
@@ -91,8 +83,6 @@ export const getExerciseLoadingColumns = (column: any) => {
       );
     case "status":
       return <Skeleton className="w-24 h-6" />;
-    case "unit":
-      return <Skeleton className="w-16 h-6" />;
     case "measurement":
       return <Skeleton className="w-16 h-6" />;
     default:
