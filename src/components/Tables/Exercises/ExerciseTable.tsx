@@ -14,7 +14,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { Table } from "good-nice-ui";
-
 import { ExerciseTablePagination } from "./ExerciseTablePagination";
 import { ExerciseTableToolbar } from "./ExerciseTableToolbar";
 
@@ -31,9 +30,6 @@ export function ExerciseTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
       id: false,
-      name: true,
-      status: true,
-      measurement: true,
     });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -60,9 +56,7 @@ export function ExerciseTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-  });
-
-  // console.log(table.getRowModel());
+  })
 
   return (
     <div className="space-y-6">
@@ -91,10 +85,7 @@ export function ExerciseTable<TData, TValue>({
             <Table.Body>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <Table.Row
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
+                  <Table.Row key={row.id}>
                     {row.getVisibleCells().map((cell) => (
                       <Table.Cell key={cell.id}>
                         {flexRender(

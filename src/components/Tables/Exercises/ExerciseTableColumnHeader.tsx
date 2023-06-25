@@ -17,7 +17,6 @@ export function ExerciseTableColumnHeader<TData, TValue>({
   if (!column.getCanSort()) {
     return <div className={clsx(className)}>{title}</div>
   }
-  const selectedValues = new Set(column?.getFilterValue() as string[]);
 
   return (
     <div className={clsx("flex items-center space-x-2", className)}>

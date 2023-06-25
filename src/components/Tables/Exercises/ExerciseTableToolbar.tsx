@@ -29,6 +29,7 @@ export function ExerciseTableToolbar<TData>({
           className="h-8 w-[150px] sm:w-[250px]"
         />
         {/* Faceted Filters */}
+        {/* TODO: soluton for matching inactive when filtering by active */}
         {table.getColumn("status") && (
           <ExerciseTableFacetedFilter
             column={table.getColumn("status")}

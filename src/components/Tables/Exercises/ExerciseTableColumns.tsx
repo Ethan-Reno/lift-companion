@@ -5,8 +5,6 @@ import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
 import { Badge, Skeleton } from "good-nice-ui";
 
 export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
-  // Not sure if this is the best solution:
-  // Including an empty and hidden column to have access to the exercise id
   {
     accessorKey: "id",
     header: () => null,
@@ -19,12 +17,10 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("name")}
-          </span>
-        </div>
-      );
+        <span className="max-w-[500px] truncate font-medium">
+          {row.getValue("name")}
+        </span>
+      )
     },
   },
   {
@@ -35,15 +31,15 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status");
       return (
-        <div className="flex items-center">
-          <Badge variant={status === 'inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
-        </div>
+        <Badge variant={status === 'inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
       );
     },
   },
   {
     accessorKey: "measurement",
-    header: "Measurement",
+    header: ({ column }) => (
+      <ExerciseTableColumnHeader column={column} title="Measurement" />
+    ),
     cell: ({ row }) => {
       return (
         <div className="flex items-center">
@@ -55,8 +51,6 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const id = row.getValue("id");
-      const status = row.getValue("status");
       return (
         <ExerciseTableRowActions
           id={row.getValue("id")}
