@@ -29,8 +29,8 @@ export function ExerciseTableToolbar<TData>({
           className="h-8 w-[150px] sm:w-[250px]"
         />
         {/* Faceted Filters */}
-        {/* TODO: soluton for matching inactive when filtering by active */}
-        {table.getColumn("status") && (
+        {/* Disabled due to hydration error */}
+        {/* {table.getColumn("status") && (
           <ExerciseTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
@@ -69,7 +69,7 @@ export function ExerciseTableToolbar<TData>({
               }
             ]}
           />
-        )}
+        )} */}
         {isFiltered && (
           <Button
             variant="ghost"

@@ -1,8 +1,7 @@
 import * as React from "react"
 import { Column } from "@tanstack/react-table"
 import { PlusCircle } from "lucide-react"
-import { Command, Popover, Separator, Button, Badge, CheckIcon, DropdownMenu, XIcon } from 'good-nice-ui';
-import clsx from "clsx";
+import { Separator, Button, Badge, DropdownMenu } from 'good-nice-ui';
 
 interface ExerciseTableFacetedFilter<TData, TValue> {
   column?: Column<TData, TValue>;
