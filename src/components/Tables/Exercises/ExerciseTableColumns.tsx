@@ -11,6 +11,11 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     cell: () => null
   },
   {
+    accessorKey: "description",
+    header: () => null,
+    cell: () => null
+  },
+  {
     accessorKey: "name",
     header: ({ column }) => (
       <ExerciseTableColumnHeader column={column} title="Name" />
@@ -53,8 +58,13 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     cell: ({ row }) => {
       return (
         <ExerciseTableRowActions
-          id={row.getValue("id")}
-          status={row.getValue("status")}
+          data={{
+            id: row.getValue("id"),
+            name: row.getValue("name"),
+            description: row.getValue("description"),
+            status: row.getValue("status"),
+            measurement: row.getValue("measurement"),
+          }}
         />
       );
     },
@@ -64,9 +74,8 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
 // TODO: Properly type the column parameter
 export const getExerciseLoadingColumns = (column: any) => {
   if (column.id === "actions") {
-    return <div className="flex justify-end gap-2">
-      <Skeleton className="w-[42px] h-9" />
-      <Skeleton className="w-[42px] h-9" />
+    return <div className="flex justify-end">
+      <Skeleton className="w-10 h-10" />
     </div>
   };
 

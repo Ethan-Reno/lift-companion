@@ -15,21 +15,23 @@ import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
 
-export const CreateExerciseModal = () => {
+export const CreateExerciseDialog = () => {
   const [ isOpen, setIsOpen ] = useState(false);
   const { setShouldRefetch } = useStore();
+  const [submittedValues, setSubmittedValues] = useState<z.infer<typeof createExerciseSchema> | null>(null);
 
-  const createExercise = api.exercise.create.useMutation({
+  const { mutate, isLoading } = api.exercise.create.useMutation({
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
+      setSubmittedValues(null);
     },
   });
   
   const CreateExerciseForm = () => {
     const form = useForm<z.infer<typeof createExerciseSchema>>({
       resolver: zodResolver(createExerciseSchema),
-      defaultValues: {
+      defaultValues: submittedValues || {
         name: "",
         description: "",
         measurement: "weight",
@@ -37,7 +39,8 @@ export const CreateExerciseModal = () => {
     });
     
     const onSubmit = (values: z.infer<typeof createExerciseSchema>) => {
-      createExercise.mutate(values);
+      setSubmittedValues(values);
+      mutate(values);
     }
   
     return (
@@ -94,20 +97,30 @@ export const CreateExerciseModal = () => {
               </Form.Item>
             )}
           />
-          <Button
-            variant='primary'
-            type='submit'
-            disabled={createExercise.isLoading}
-          >
-            {createExercise.isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing
-              </>
-            ) : (
-              <>Create</>
-            )}
-          </Button>
+          <Dialog.Footer>
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={() => setIsOpen(false)}
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant='default'
+              type='submit'
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Processing
+                </>
+              ) : (
+                <>Create</>
+              )}
+            </Button>
+          </Dialog.Footer>
         </Form>
       </FormProvider>
     );
@@ -116,7 +129,7 @@ export const CreateExerciseModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger asChild>
-        <Button onClick={() => setIsOpen(true)}>Create Exercise</Button>
+        <Button onClick={() => setIsOpen(true)}>Create New</Button>
       </Dialog.Trigger>
       <Dialog.Content className="sm:max-w-[425px]">
         <Dialog.Header>

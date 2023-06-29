@@ -16,6 +16,7 @@ import {
 import { Table } from "good-nice-ui";
 import { ExerciseTablePagination } from "./ExerciseTablePagination";
 import { ExerciseTableToolbar } from "./ExerciseTableToolbar";
+import { CreateExerciseDialog } from "../../Dialogs/CreateExerciseDialog";
 
 interface ExerciseTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -30,6 +31,7 @@ export function ExerciseTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
       id: false,
+      description: false,
     });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -100,7 +102,7 @@ export function ExerciseTable<TData, TValue>({
                 <Table.Row>
                   <Table.Cell
                     colSpan={columns.length}
-                    className="h-24 text-center"
+                    className="h-[69px] text-center"
                   >
                     No results.
                   </Table.Cell>
@@ -110,7 +112,10 @@ export function ExerciseTable<TData, TValue>({
           </Table.Content>
         </Table>
       </div>
-      <ExerciseTablePagination table={table} />
+      <div className="flex justify-between">
+        <ExerciseTablePagination table={table} />
+        <CreateExerciseDialog />
+      </div>
     </div>
   );
 }

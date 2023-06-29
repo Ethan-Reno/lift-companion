@@ -1,13 +1,23 @@
-import { z, type TypeOf } from "zod";
+import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const createExerciseSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.string().includes('weight' || 'distance' || 'time'),
+  measurement: z.enum(["weight", "distance", "time"]),
 });
+export type CreateExerciseSchema = z.infer<typeof createExerciseSchema>;
 
-export type CreateExerciseInputs = TypeOf<typeof createExerciseSchema>;
+export const updateExerciseSchema = z.object({
+  id: z.string().cuid(),
+  name: z.string().min(1, { message: 'Name is required' }),
+  description: z.string().min(1, { message: 'Description is required' }),
+  measurement: z.enum(["weight", "distance", "time"]),
+});
+export type UpdateExerciseSchema = z.infer<typeof updateExerciseSchema>;
+
+export const deleteExerciseSchema = z.string().cuid();
+export type DeleteExerciseSchema = z.infer<typeof deleteExerciseSchema>;
 
 export const exerciseRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -44,7 +54,7 @@ export const exerciseRouter = createTRPCRouter({
       }
     }),
   softDelete: protectedProcedure
-    .input(z.string())
+    .input(deleteExerciseSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         await ctx.prisma.exercise.update({
@@ -61,7 +71,7 @@ export const exerciseRouter = createTRPCRouter({
     }
   ),
   hardDelete: protectedProcedure
-  .input(z.string())
+  .input(deleteExerciseSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       await ctx.prisma.exercise.delete({
@@ -75,12 +85,7 @@ export const exerciseRouter = createTRPCRouter({
   }
 ),
   update: protectedProcedure
-    .input(z.object({
-      id: z.string(),
-      name: z.string().min(1, { message: 'Name is required' }),
-      description: z.string().min(1, { message: 'Description is required' }),
-      measurement: z.string().includes('weight' || 'distance' || 'time'),
-    }))
+    .input(updateExerciseSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         await ctx.prisma.exercise.update({

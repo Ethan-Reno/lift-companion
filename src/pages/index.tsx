@@ -3,8 +3,7 @@ import { useTheme } from 'next-themes';
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
-import { Button, buttonVariants } from 'good-nice-ui';
-import { CreateExerciseModal } from "../components/Modals/CreateExerciseModal";
+import { Button, Skeleton, buttonVariants } from 'good-nice-ui';
 import Link from "next/link";
 
 const Home: NextPage = () => {
@@ -19,7 +18,9 @@ const Home: NextPage = () => {
 
   const { data: session, status } = useSession();
   if (status === "loading") {
-    return <main className="flex flex-col min-h-screen min-w-screen p-10 grow">Loading...</main>;
+    return <div className="flex justify-center gap-2">
+      <Skeleton className="h-10 w-32" />
+    </div>;
   }
 
   return (
@@ -30,12 +31,16 @@ const Home: NextPage = () => {
 };
 
 const Dashboard: FC = () => {
+  const { status } = useSession();
   return (
     <div className="flex justify-center gap-2">
-      <CreateExerciseModal />
-      <Link href="/exercises" className={buttonVariants({ variant: "outline" })}>
-        View Exercises
-      </Link>
+      {status === 'loading' ? (
+        <Skeleton className="h-[48px] w-[127px]" />
+      ) : (
+        <Link href="/exercises" className={buttonVariants({ variant: "outline" })}>
+          View Exercises
+        </Link>
+      )}
     </div>
   );
 };
@@ -51,7 +56,7 @@ const Landing: FC = () => {
         <p className="text-md w-72 text-center">An app to track lifting sessions and provide insight on the saved data.</p>
         <Button
           onClick={() => {
-            signIn("discord").catch(console.log);
+            signIn("discord");
           }}
         >
           Login

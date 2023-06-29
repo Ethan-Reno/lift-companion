@@ -1,48 +1,79 @@
-import { type Row } from "@tanstack/react-table"
 import React from "react";
-import { Pen, Trash } from "lucide-react"
-import { Button, Tooltip, TooltipProvider } from "good-nice-ui";
-import { DELETE_TYPE, DeleteExericseModal } from "../../Modals/DeleteExerciseModal";
+import { Button, Dialog, DropdownMenu, Tooltip, TooltipProvider } from "good-nice-ui";
+import { DELETE_TYPE, DeleteExerciseDialog } from "../../Dialogs/DeleteExerciseDialog";
+import { UpdateExerciseDialog } from "../../Dialogs/UpdateExerciseDialog";
+import { ExerciseSchema } from "../../../schemas/ExerciseSchema";
+import { MoreHorizontal, Pen, Trash } from "lucide-react";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 interface ExerciseTableRowActionsProps {
-  id: string;
-  status: string;
+  data: ExerciseSchema;
 }
 
 export function ExerciseTableRowActions({
-  id,
-  status
+  data
 }: ExerciseTableRowActionsProps) {
+  const [dialogType, setDialogType] = React.useState<string>('');
+  const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false);
+  const { id, status } = data;
+
+  const getDialogContent = () => {
+    switch (dialogType) {
+      case 'update':
+        return <UpdateExerciseDialog data={data} setIsOpen={setIsDialogOpen} />;
+      case 'softDelete':
+        return <DeleteExerciseDialog id={id} deleteType={DELETE_TYPE.SOFT_DELETE} setIsOpen={setIsDialogOpen} />;
+      case 'hardDelete':
+        return <DeleteExerciseDialog id={id} deleteType={DELETE_TYPE.HARD_DELETE} setIsOpen={setIsDialogOpen} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="flex justify-end gap-2">
-      <TooltipProvider>
-        <Tooltip>
-          <Tooltip.Trigger asChild>
+    <div className="flex justify-end">
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DropdownMenu>
+          <DropdownMenu.Trigger asChild>
             <Button
               variant="outline"
-              size="sm"
+              size="icon"
+              className="data-[state=open]:bg-muted"
             >
-              <Pen className="h-4 w-4" />
+              <MoreHorizontal className="h-5 w-5" />
+              <span className="sr-only">Open menu</span>
             </Button>
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            <p>Edit</p>
-          </Tooltip.Content>
-        </Tooltip>
-      </TooltipProvider>
-      <TooltipProvider>
-        <Tooltip>
-          <Tooltip.Trigger>
-            <DeleteExericseModal
-              id={id}
-              deleteType={status === 'deleted' ? DELETE_TYPE.HARD_DELETE : DELETE_TYPE.SOFT_DELETE}
-            />
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            <p>Delete</p>
-          </Tooltip.Content>
-        </Tooltip>
-      </TooltipProvider>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content align="end" className="w-[160px]">
+            <Dialog.Trigger asChild>
+              <DropdownMenu.Item>
+                <Link href={`/exercises/:${id}`} >
+                  <MagnifyingGlassIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                  View Details
+                </Link>
+              </DropdownMenu.Item>
+            </Dialog.Trigger>
+            <Dialog.Trigger asChild onClick={(): void => setDialogType('update')}>
+              <DropdownMenu.Item>
+                <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                Edit
+              </DropdownMenu.Item>
+            </Dialog.Trigger>
+            <DropdownMenu.Separator />
+            <Dialog.Trigger
+              asChild
+              onClick={(): void => setDialogType(status === 'deleted' ? 'hardDelete' : 'softDelete')}
+            >
+              <DropdownMenu.Item>
+                <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                Delete
+              </DropdownMenu.Item>
+            </Dialog.Trigger>
+          </DropdownMenu.Content>
+        </DropdownMenu>
+        {getDialogContent()}
+      </Dialog>
     </div>
   );
 }

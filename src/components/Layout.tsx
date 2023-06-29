@@ -14,7 +14,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Head>
         <title>Lift Companion</title>
       </Head>
-      <main className={`${roboto.variable} font-sans max-w-5xl mx-auto`}>
+      <main className={`${roboto.variable} font-sans max-w-5xl mx-auto min-h-screen`}>
         <NavMenu />
         <div id="Content" className="p-6">
           {children}

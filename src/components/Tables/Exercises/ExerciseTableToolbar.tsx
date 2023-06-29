@@ -14,8 +14,6 @@ export function ExerciseTableToolbar<TData>({
   table.getPreFilteredRowModel().rows.length >
   table.getFilteredRowModel().rows.length;
 
-  console.log(isFiltered);
-
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -103,7 +101,7 @@ export function ExerciseTableToolbar<TData>({
                 typeof column.accessorFn !== "undefined" && column.getCanHide()
             )
             .map((column) => {
-              if (column.id !== 'name' && column.id !== 'id') {
+              if (column.id !== 'name' && column.id !== 'id' && column.id !== 'description') {
                 return (
                   <DropdownMenu.CheckboxItem
                     key={column.id}
