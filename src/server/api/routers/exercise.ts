@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
+export const getExerciseByIdSchema = z.string().cuid();
+export type GetExerciseByIdSchema = z.infer<typeof getExerciseByIdSchema>;
+
 export const createExerciseSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
@@ -32,6 +35,26 @@ export const exerciseRouter = createTRPCRouter({
         },
         orderBy: {
           updatedAt: "desc",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }),
+  getById: protectedProcedure
+    .input(getExerciseByIdSchema)
+    .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.prisma.exercise.findFirst({
+        where: {
+          id: input,
+        },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          measurement: true,
+          status: true,
         },
       });
     } catch (error) {

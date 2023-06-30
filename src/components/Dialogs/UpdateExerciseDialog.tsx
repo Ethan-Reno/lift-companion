@@ -6,15 +6,15 @@ import {
   FormProvider,
   Input,
   Select,
-  buttonVariants,
 } from 'good-nice-ui'; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type z } from 'zod';
 import { ExerciseSchema, updateExerciseSchema } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
-import { Loader2, Pen } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
+import { useToast } from '../Toaster/useToast';
 
 export interface UpdateExerciseDialogProps {
   data: ExerciseSchema;
@@ -31,6 +31,7 @@ export const UpdateExerciseDialog = ({
   },
   setIsOpen,
 }: UpdateExerciseDialogProps) => {
+  const { toast } = useToast();
   const { setShouldRefetch } = useStore();
   const [ currentExercise, setCurrentExercise ] = useState({
     id,
@@ -43,6 +44,11 @@ export const UpdateExerciseDialog = ({
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
+      toast({
+        variant: 'default',
+        title: 'Success!',
+        description: `"${name}" was updated successfully.`,
+      })
     },
     onError: () => {
       // On error, revert back to original data
@@ -52,6 +58,11 @@ export const UpdateExerciseDialog = ({
         description,
         measurement,
       });
+      toast({
+        title: 'Error!',
+        description: `Something went wrong. "${name}" was not updated.`,
+        variant: 'destructive',
+      })
     },
   });
   

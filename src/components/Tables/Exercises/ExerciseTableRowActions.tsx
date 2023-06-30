@@ -48,9 +48,10 @@ export function ExerciseTableRowActions({
           <DropdownMenu.Content align="end" className="w-[160px]">
             <Dialog.Trigger asChild>
               <DropdownMenu.Item>
-                <Link href={`/exercises/:${id}`} >
+                <Link href={`/exercises/${id}`} className='flex items-center'>
                   <MagnifyingGlassIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                   View Details
+                  <span className="sr-only">View details</span>
                 </Link>
               </DropdownMenu.Item>
             </Dialog.Trigger>
@@ -58,6 +59,7 @@ export function ExerciseTableRowActions({
               <DropdownMenu.Item>
                 <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                 Edit
+                <span className="sr-only">Edit exercise</span>
               </DropdownMenu.Item>
             </Dialog.Trigger>
             <DropdownMenu.Separator />
@@ -68,6 +70,7 @@ export function ExerciseTableRowActions({
               <DropdownMenu.Item>
                 <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                 Delete
+                <span className="sr-only">Delete exercise</span>
               </DropdownMenu.Item>
             </Dialog.Trigger>
           </DropdownMenu.Content>
