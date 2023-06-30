@@ -51,7 +51,7 @@ export const UpdateExerciseDialog = ({
       })
     },
     onError: () => {
-      // On error, revert back to original data
+      // On error, revert back to original known data
       setCurrentExercise({
         id,
         name,
@@ -73,7 +73,7 @@ export const UpdateExerciseDialog = ({
     });
     
     const onSubmit = (values: z.infer<typeof updateExerciseSchema>) => {
-      // Optimistically update the current exercise
+      // Optimistically update the form values
       setCurrentExercise(values);
       mutate(values);
     }
@@ -136,30 +136,6 @@ export const UpdateExerciseDialog = ({
               )}
             />
           )}
-          <Dialog.Footer>
-            <Button
-              variant="secondary"
-              type="button"
-              onClick={() => setIsOpen(false)}
-              disabled={isLoading}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant='default'
-              type='submit'
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing
-                </>
-              ) : (
-                <>Update</>
-              )}
-            </Button>
-          </Dialog.Footer>
         </Form>
       </FormProvider>
     );
@@ -175,8 +151,32 @@ export const UpdateExerciseDialog = ({
           The measurement type can't be updated because this exercise already has saved data.
         </Dialog.Description>
       )}
-      <div className="grid gap-4 py-4">
+      <div className="space-y-8">
         <UpdateExerciseForm />
+        <Dialog.Footer>
+          <Button
+            variant="secondary"
+            type="button"
+            onClick={() => setIsOpen(false)}
+            disabled={isLoading}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant='default'
+            type='submit'
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processing
+              </>
+            ) : (
+              <>Update</>
+            )}
+          </Button>
+        </Dialog.Footer>
       </div>
     </Dialog.Content>
   );

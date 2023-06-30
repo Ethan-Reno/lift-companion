@@ -102,7 +102,7 @@ export function ExerciseTable<TData, TValue>({
                 <Table.Row>
                   <Table.Cell
                     colSpan={columns.length}
-                    className="h-[69px] text-center"
+                    className="h-[73px] text-center"
                   >
                     No results.
                   </Table.Cell>

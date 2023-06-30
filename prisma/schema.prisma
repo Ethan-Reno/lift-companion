@@ -31,19 +31,9 @@ model Account {
 model Session {
     id           String   @id @default(cuid())
     sessionToken String   @unique
-    userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+    userId       String
 }
 
 model VerificationToken {
@@ -54,24 +44,110 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-// enum Measurement {
-//     weight
-//     time
-//     distance
-// }
+model User {
+    id            String      @id @default(cuid())
+    name          String?
+    email         String?     @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    settings      Settings[]
+    exercises     Exercise[]
+}
 
-// enum Status {
-//     inactive
-//     active
-//     softDeleted
-// }
+model Settings {
+    id               String      @id @default(cuid())
+    unit             String      @default("metric")
+    dashboardDisplay String      @default("recent")
+    createdAt        DateTime    @default(now())
+    updatedAt        DateTime    @updatedAt
+    user             User        @relation(fields: [userId], references: [id])
+    userId           String
+}
 
 model Exercise {
-    id           String        @id @default(cuid())
-    name         String        @db.VarChar(100)
-    description  String        @db.VarChar(100)
-    measurement  String        @db.VarChar(100)
-    status       String        @default("inactive")
-    createdAt    DateTime      @default(now())
-    updatedAt    DateTime      @updatedAt
+    id           String      @id @default(cuid())
+    name         String      @db.VarChar(100)
+    description  String      @db.VarChar(100)
+    measurement  String      @db.VarChar(100)
+    status       String      @default("inactive")
+    favourite    Boolean     @default(false)
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+    user         User        @relation(fields: [userId], references: [id])
+    userId       String
+    workout      Workout[]
 }
+
+// Example using Json fields instead of normalized fields
+// model Workout {
+//     id            String        @id @default(cuid())
+//     createdAt     DateTime      @default(now())
+//     updatedAt     DateTime      @updatedAt
+//     status        String        @default("In Progress")
+//     sets          Json          // Array of objects, each with `reps`, `value`, `rpe`
+//     insights      Json          // Object with keys for each insight and enum values
+//     exercise      Exercise      @relation(fields: [exerciseId], references: [id])
+//     exerciseId    String
+// }
+
+model Workout {
+    id            String      @id @default(cuid())
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+    status        String      @default("active")
+    exercise      Exercise    @relation(fields: [exerciseId], references: [id])
+    exerciseId    String
+    sets          Set[]
+    insights      Insight[]
+}
+
+model Set {
+    id            String   @id @default(cuid())
+    reps          Int
+    value         Int
+    rpe           Int?
+    warmup        Boolean?
+    workout       Workout  @relation(fields: [workoutId], references: [id])
+    workoutId     String
+}
+
+model Insight {
+    id            String   @id @default(cuid())
+    mood          String?          
+    sleepQuality  String?
+    energyLevel   String?
+    warmupQuality String?
+    workout       Workout  @relation(fields: [workoutId], references: [id])
+    workoutId     String
+}
+
+// enum WorkoutStatus {
+//   ACTIVE
+//   COMPLETED
+// }
+
+// enum Mood {
+//   BELOW_AVERAGE
+//   AVERAGE
+//   ABOVE_AVERAGE
+// }
+
+// enum SleepQuality {
+//   BELOW_AVERAGE
+//   AVERAGE
+//   ABOVE_AVERAGE
+// }
+
+// enum EnergyLevel {
+//   LOW
+//   MEDIUM
+//   HIGH
+// }
+
+// enum WarmupQuality {
+//   POOR
+//   AVERAGE
+//   GOOD
+// }

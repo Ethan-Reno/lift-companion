@@ -26,6 +26,9 @@ export const exerciseRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
       return await ctx.prisma.exercise.findMany({
+        where: {
+          userId: ctx.session.user.id,
+        },
         select: {
           id: true,
           name: true,
@@ -48,6 +51,7 @@ export const exerciseRouter = createTRPCRouter({
       return await ctx.prisma.exercise.findFirst({
         where: {
           id: input,
+          userId: ctx.session.user.id,
         },
         select: {
           id: true,
@@ -67,6 +71,11 @@ export const exerciseRouter = createTRPCRouter({
       try {
         await ctx.prisma.exercise.create({
           data: {
+            user: {
+              connect: {
+                id: ctx.session.user.id,
+              },
+            },
             name: input.name,
             description: input.description,
             measurement: input.measurement,

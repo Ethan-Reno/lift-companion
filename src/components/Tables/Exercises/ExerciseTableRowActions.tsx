@@ -1,9 +1,9 @@
 import React from "react";
-import { Button, Dialog, DropdownMenu, Tooltip, TooltipProvider } from "good-nice-ui";
+import { Button, Dialog, DropdownMenu } from "good-nice-ui";
 import { DELETE_TYPE, DeleteExerciseDialog } from "../../Dialogs/DeleteExerciseDialog";
 import { UpdateExerciseDialog } from "../../Dialogs/UpdateExerciseDialog";
 import { ExerciseSchema } from "../../../schemas/ExerciseSchema";
-import { MoreHorizontal, Pen, Search, Trash } from "lucide-react";
+import { Dumbbell, LineChart, MoreHorizontal, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 
 interface ExerciseTableRowActionsProps {
@@ -45,15 +45,20 @@ export function ExerciseTableRowActions({
             </Button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content align="end" className="w-[160px]">
-            <Dialog.Trigger asChild>
-              <DropdownMenu.Item>
-                <Link href={`/exercises/${id}`} className='flex items-center'>
-                  <Search className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-                  View Details
-                  <span className="sr-only">View details</span>
-                </Link>
-              </DropdownMenu.Item>
-            </Dialog.Trigger>
+          <DropdownMenu.Item>
+              <Link href={`/workout/${id}`} className='flex items-center'>
+                <Dumbbell className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                Start Workout
+                <span className="sr-only">View details</span>
+              </Link>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item>
+              <Link href={`/exercises/${id}`} className='flex items-center'>
+                <LineChart className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                View Data
+                <span className="sr-only">View details</span>
+              </Link>
+            </DropdownMenu.Item>
             <Dialog.Trigger asChild onClick={(): void => setDialogType('update')}>
               <DropdownMenu.Item>
                 <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />

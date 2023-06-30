@@ -14,8 +14,10 @@ import { createExerciseSchema } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
+import { useToast } from '../Toaster/useToast';
 
 export const CreateExerciseDialog = () => {
+  const { toast } = useToast();
   const [ isOpen, setIsOpen ] = useState(false);
   const { setShouldRefetch } = useStore();
   const [submittedValues, setSubmittedValues] = useState<z.infer<typeof createExerciseSchema> | null>(null);
@@ -26,6 +28,13 @@ export const CreateExerciseDialog = () => {
       setShouldRefetch(true);
       setSubmittedValues(null);
     },
+    onError: (error) => {
+      toast({
+        title: 'Error!',
+        description: error.message,
+        variant: 'destructive',
+      })
+    }
   });
   
   const CreateExerciseForm = () => {
@@ -97,6 +106,22 @@ export const CreateExerciseDialog = () => {
               </Form.Item>
             )}
           />
+        </Form>
+      </FormProvider>
+    );
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Dialog.Trigger asChild>
+        <Button onClick={() => setIsOpen(true)}>Create New</Button>
+      </Dialog.Trigger>
+      <Dialog.Content className="sm:max-w-[425px]">
+        <Dialog.Header>
+          <Dialog.Title>Create Exercise</Dialog.Title>
+        </Dialog.Header>
+        <div className="space-y-8">
+          <CreateExerciseForm />
           <Dialog.Footer>
             <Button
               variant="secondary"
@@ -121,22 +146,6 @@ export const CreateExerciseDialog = () => {
               )}
             </Button>
           </Dialog.Footer>
-        </Form>
-      </FormProvider>
-    );
-  };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <Dialog.Trigger asChild>
-        <Button onClick={() => setIsOpen(true)}>Create New</Button>
-      </Dialog.Trigger>
-      <Dialog.Content className="sm:max-w-[425px]">
-        <Dialog.Header>
-          <Dialog.Title>Create Exercise</Dialog.Title>
-        </Dialog.Header>
-        <div className="grid gap-4 py-4">
-          <CreateExerciseForm />
         </div>
       </Dialog.Content>
     </Dialog>

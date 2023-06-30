@@ -3,6 +3,7 @@ import React from 'react';
 import { api } from '../../utils/api';
 import { Loader2 } from 'lucide-react';
 import { useStore } from '../../store/store';
+import { useToast } from '../Toaster/useToast';
 
 export enum DELETE_TYPE {
   SOFT_DELETE = 'softDelete',
@@ -16,6 +17,7 @@ export interface DeleteExerciseDialogProps {
 }
 
 export const DeleteExerciseDialog = ({ id, deleteType, setIsOpen }: DeleteExerciseDialogProps) => {
+  const { toast } = useToast();
   const { setShouldRefetch } = useStore();
   const isHardDelete = deleteType === DELETE_TYPE.HARD_DELETE;
   const deleteRouter = isHardDelete ? api.exercise.hardDelete : api.exercise.softDelete;
@@ -24,6 +26,13 @@ export const DeleteExerciseDialog = ({ id, deleteType, setIsOpen }: DeleteExerci
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
+    },
+    onError: () => {
+      toast({
+        title: 'Error!',
+        description: `Something went wrong. The exercise was not deleted.`,
+        variant: 'destructive',
+      })
     },
   });
 
