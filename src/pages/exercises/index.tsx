@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from "react";
 import { type NextPage } from "next";
 import Link from "next/link";
 import { buttonVariants } from "good-nice-ui";
-import { clsx } from "clsx";
 import { ArrowBigLeft } from "lucide-react";
 import { api } from "../../utils/api";
 import { ExerciseTable } from "../../components/Tables/Exercises/ExerciseTable";
@@ -43,10 +42,7 @@ const Exercises: NextPage = () => {
       <div className="flex gap-6 items-center">
         <Link
           href="/"
-          className={clsx(
-            "",
-            buttonVariants({ variant: "outline", size: "sm" })
-          )}
+          className={buttonVariants({ variant: "outline", size: "sm" })}
         >
           <ArrowBigLeft className="h-4 w-4"/>
         </Link>

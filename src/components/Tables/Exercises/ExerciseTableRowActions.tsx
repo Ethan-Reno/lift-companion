@@ -3,8 +3,7 @@ import { Button, Dialog, DropdownMenu, Tooltip, TooltipProvider } from "good-nic
 import { DELETE_TYPE, DeleteExerciseDialog } from "../../Dialogs/DeleteExerciseDialog";
 import { UpdateExerciseDialog } from "../../Dialogs/UpdateExerciseDialog";
 import { ExerciseSchema } from "../../../schemas/ExerciseSchema";
-import { MoreHorizontal, Pen, Trash } from "lucide-react";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { MoreHorizontal, Pen, Search, Trash } from "lucide-react";
 import Link from "next/link";
 
 interface ExerciseTableRowActionsProps {
@@ -49,7 +48,7 @@ export function ExerciseTableRowActions({
             <Dialog.Trigger asChild>
               <DropdownMenu.Item>
                 <Link href={`/exercises/${id}`} className='flex items-center'>
-                  <MagnifyingGlassIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                  <Search className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                   View Details
                   <span className="sr-only">View details</span>
                 </Link>
