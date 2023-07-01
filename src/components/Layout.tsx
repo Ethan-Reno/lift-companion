@@ -8,7 +8,7 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <Head>
@@ -24,5 +24,3 @@ const Layout = ({ children }: LayoutProps) => {
     </>
   )
 }
-
-export default Layout;

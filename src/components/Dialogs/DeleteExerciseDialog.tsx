@@ -3,7 +3,7 @@ import React from 'react';
 import { api } from '../../utils/api';
 import { Loader2 } from 'lucide-react';
 import { useStore } from '../../store/store';
-import { useToast } from '../Toaster/useToast';
+import { useToast } from '../../hooks/useToast';
 
 export enum DELETE_TYPE {
   SOFT_DELETE = 'softDelete',

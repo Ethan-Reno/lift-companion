@@ -5,7 +5,7 @@ import { ThemeProvider } from 'next-themes';
 import { api } from "../utils/api";
 import { Layout } from "../components";
 import { Analytics } from '@vercel/analytics/react';
-import { Toaster } from "../components/Toaster/Toaster";
+import { Toaster } from "../components/Toaster";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react";

@@ -14,7 +14,7 @@ import { createExerciseSchema } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
-import { useToast } from '../Toaster/useToast';
+import { useToast } from '../../hooks/useToast';
 
 export const CreateExerciseDialog = () => {
   const { toast } = useToast();

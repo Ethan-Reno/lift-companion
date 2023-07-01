@@ -16,7 +16,7 @@ import {
 import { Table } from "good-nice-ui";
 import { ExerciseTablePagination } from "./ExerciseTablePagination";
 import { ExerciseTableToolbar } from "./ExerciseTableToolbar";
-import { CreateExerciseDialog } from "../../Dialogs/CreateExerciseDialog";
+import { CreateExerciseDialog } from "../../components/Dialogs/CreateExerciseDialog";
 
 interface ExerciseTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

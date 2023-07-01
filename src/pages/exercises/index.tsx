@@ -4,8 +4,8 @@ import Link from "next/link";
 import { buttonVariants } from "good-nice-ui";
 import { ArrowBigLeft } from "lucide-react";
 import { api } from "../../utils/api";
-import { ExerciseTable } from "../../components/Tables/Exercises/ExerciseTable";
-import { exerciseColumns, getExerciseLoadingColumns } from "../../components/Tables/Exercises/ExerciseTableColumns";
+import { ExerciseTable } from "../../features/exercise-manager/ExerciseTable";
+import { exerciseColumns, getExerciseLoadingColumns } from "../../features/exercise-manager/ExerciseTableColumns";
 import { useStore } from "../../store/store";
 
 const Exercises: NextPage = () => {

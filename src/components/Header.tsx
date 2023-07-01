@@ -3,12 +3,12 @@ import { ArrowBigLeft } from 'lucide-react';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-interface BackHeaderProps {
+interface HeaderProps {
   header?: string;
   isLoading?: boolean;
 }
 
-export const BackHeader = ({ header, isLoading }: BackHeaderProps) => {
+export const Header = ({ header, isLoading }: HeaderProps) => {
   const router = useRouter();
   return (
     <div className='flex gap-6 items-center'>

@@ -1,5 +1,5 @@
-import { Column, type ColumnDef } from "@tanstack/react-table";
-import { type ExerciseSchema } from "../../../schemas/ExerciseSchema";
+import { type ColumnDef } from "@tanstack/react-table";
+import { type ExerciseSchema } from "../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
 import { Badge, Skeleton, Tooltip, TooltipProvider } from "good-nice-ui";

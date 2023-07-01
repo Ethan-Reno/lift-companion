@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Dialog, DropdownMenu } from "good-nice-ui";
-import { DELETE_TYPE, DeleteExerciseDialog } from "../../Dialogs/DeleteExerciseDialog";
-import { UpdateExerciseDialog } from "../../Dialogs/UpdateExerciseDialog";
-import { ExerciseSchema } from "../../../schemas/ExerciseSchema";
+import { ExerciseSchema } from "../../schemas/ExerciseSchema";
 import { Dumbbell, LineChart, MoreHorizontal, Pen, Trash } from "lucide-react";
 import Link from "next/link";
+import { UpdateExerciseDialog } from "../../components/Dialogs/UpdateExerciseDialog";
+import { DELETE_TYPE, DeleteExerciseDialog } from "../../components/Dialogs/DeleteExerciseDialog";
 
 interface ExerciseTableRowActionsProps {
   data: ExerciseSchema;

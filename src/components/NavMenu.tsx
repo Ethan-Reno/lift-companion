@@ -7,7 +7,7 @@ import logo from '../../public/barbell.png';
 import { useSession } from 'next-auth/react';
 import { LogOut, Moon, Sun } from 'lucide-react';
 
-const NavMenu = () => {
+export const NavMenu = () => {
   const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
 
@@ -56,5 +56,3 @@ const NavMenu = () => {
     </div>
   );
 };
-
-export default NavMenu;

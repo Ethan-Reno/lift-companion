@@ -14,7 +14,7 @@ import { ExerciseSchema, updateExerciseSchema } from '../../schemas/ExerciseSche
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
-import { useToast } from '../Toaster/useToast';
+import { useToast } from '../../hooks/useToast';
 
 export interface UpdateExerciseDialogProps {
   data: ExerciseSchema;

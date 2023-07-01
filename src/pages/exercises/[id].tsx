@@ -2,7 +2,7 @@ import React from 'react';
 import { type NextPage } from 'next';
 import { api } from '../../utils/api';
 import { useRouter } from 'next/router';
-import { BackHeader } from '../../components/BackHeader';
+import { Header } from '../../components/Header';
 
 const Exercise: NextPage = () => {
   const router = useRouter();
@@ -10,13 +10,13 @@ const Exercise: NextPage = () => {
   const { data: exercise, isLoading } = api.exercise.getById.useQuery(exerciseId);
 
   if (!exercise) return (
-    <BackHeader header='No Exercise Found' />
+    <Header header='No Exercise Found' />
   );
 
   return (
     <div className='flex flex-col gap-16'>
       <div className='flex gap-6 items-center'>
-        <BackHeader
+        <Header
           isLoading={isLoading}
           header={exercise.name}
         />

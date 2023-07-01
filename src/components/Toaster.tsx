@@ -1,8 +1,8 @@
 import React from 'react';
 import { Toast, ToastProvider, ToastViewport } from 'good-nice-ui';
-import { useToast } from './useToast';
+import { useToast } from '../hooks/useToast';
 
-export function Toaster() {
+export const Toaster = () => {
   const { toasts } = useToast();
 
   return (
