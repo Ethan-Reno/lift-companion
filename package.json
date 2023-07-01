@@ -24,7 +24,7 @@
     "@trpc/server": "^10.9.0",
     "@vercel/analytics": "^0.1.8",
     "clsx": "^1.2.1",
-    "good-nice-ui": "^0.4.7",
+    "good-nice-ui": "^0.4.8",
     "lucide-react": "^0.114.0",
     "next": "13.1.6",
     "next-auth": "^4.19.0",

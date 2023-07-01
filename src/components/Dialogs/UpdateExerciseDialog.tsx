@@ -136,6 +136,30 @@ export const UpdateExerciseDialog = ({
               )}
             />
           )}
+          <Dialog.Footer>
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={() => setIsOpen(false)}
+              disabled={isLoading}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant='default'
+              type='submit'
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Processing
+                </>
+              ) : (
+                <>Update</>
+              )}
+            </Button>
+          </Dialog.Footer>
         </Form>
       </FormProvider>
     );
@@ -151,33 +175,7 @@ export const UpdateExerciseDialog = ({
           The measurement type can't be updated because this exercise already has saved data.
         </Dialog.Description>
       )}
-      <div className="space-y-8">
-        <UpdateExerciseForm />
-        <Dialog.Footer>
-          <Button
-            variant="secondary"
-            type="button"
-            onClick={() => setIsOpen(false)}
-            disabled={isLoading}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant='default'
-            type='submit'
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing
-              </>
-            ) : (
-              <>Update</>
-            )}
-          </Button>
-        </Dialog.Footer>
-      </div>
+      <UpdateExerciseForm />
     </Dialog.Content>
   );
 };

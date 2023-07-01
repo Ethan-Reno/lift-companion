@@ -12,7 +12,7 @@ const NavMenu = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="flex p-6 justify-between items-center">
+    <div className="flex p-6 justify-between items-center border-b">
       <div className="flex items-center mr-4 gap-3 align-middle">
         <Image 
           src={logo}

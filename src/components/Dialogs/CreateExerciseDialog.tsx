@@ -106,22 +106,6 @@ export const CreateExerciseDialog = () => {
               </Form.Item>
             )}
           />
-        </Form>
-      </FormProvider>
-    );
-  };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <Dialog.Trigger asChild>
-        <Button onClick={() => setIsOpen(true)}>Create New</Button>
-      </Dialog.Trigger>
-      <Dialog.Content className="sm:max-w-[425px]">
-        <Dialog.Header>
-          <Dialog.Title>Create Exercise</Dialog.Title>
-        </Dialog.Header>
-        <div className="space-y-8">
-          <CreateExerciseForm />
           <Dialog.Footer>
             <Button
               variant="secondary"
@@ -146,7 +130,21 @@ export const CreateExerciseDialog = () => {
               )}
             </Button>
           </Dialog.Footer>
-        </div>
+        </Form>
+      </FormProvider>
+    );
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Dialog.Trigger asChild>
+        <Button onClick={() => setIsOpen(true)}>Create New</Button>
+      </Dialog.Trigger>
+      <Dialog.Content className="sm:max-w-[425px]">
+        <Dialog.Header>
+          <Dialog.Title>Create Exercise</Dialog.Title>
+        </Dialog.Header>
+        <CreateExerciseForm />
       </Dialog.Content>
     </Dialog>
   );

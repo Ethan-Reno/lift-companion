@@ -2,7 +2,7 @@ import { Column, type ColumnDef } from "@tanstack/react-table";
 import { type ExerciseSchema } from "../../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
-import { Badge, Skeleton } from "good-nice-ui";
+import { Badge, Skeleton, Tooltip, TooltipProvider } from "good-nice-ui";
 
 export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
   {
@@ -22,9 +22,18 @@ export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("name")}
-        </span>
+        <TooltipProvider>
+          <Tooltip>
+            <Tooltip.Trigger>
+              <span className="max-w-[500px] truncate font-medium cursor-default">
+                {row.getValue("name")}
+              </span>
+            </Tooltip.Trigger>
+            <Tooltip.Content>
+              {row.getValue("description")}
+            </Tooltip.Content>
+          </Tooltip>
+        </TooltipProvider>
       )
     },
   },

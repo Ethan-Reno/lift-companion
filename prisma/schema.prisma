@@ -75,29 +75,17 @@ model Exercise {
     favourite    Boolean     @default(false)
     createdAt    DateTime    @default(now())
     updatedAt    DateTime    @updatedAt
-    user         User        @relation(fields: [userId], references: [id])
+    user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId       String
     workout      Workout[]
 }
-
-// Example using Json fields instead of normalized fields
-// model Workout {
-//     id            String        @id @default(cuid())
-//     createdAt     DateTime      @default(now())
-//     updatedAt     DateTime      @updatedAt
-//     status        String        @default("In Progress")
-//     sets          Json          // Array of objects, each with `reps`, `value`, `rpe`
-//     insights      Json          // Object with keys for each insight and enum values
-//     exercise      Exercise      @relation(fields: [exerciseId], references: [id])
-//     exerciseId    String
-// }
 
 model Workout {
     id            String      @id @default(cuid())
     createdAt     DateTime    @default(now())
     updatedAt     DateTime    @updatedAt
     status        String      @default("active")
-    exercise      Exercise    @relation(fields: [exerciseId], references: [id])
+    exercise      Exercise    @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
     exerciseId    String
     sets          Set[]
     insights      Insight[]
@@ -109,7 +97,7 @@ model Set {
     value         Int
     rpe           Int?
     warmup        Boolean?
-    workout       Workout  @relation(fields: [workoutId], references: [id])
+    workout       Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
     workoutId     String
 }
 
@@ -119,7 +107,7 @@ model Insight {
     sleepQuality  String?
     energyLevel   String?
     warmupQuality String?
-    workout       Workout  @relation(fields: [workoutId], references: [id])
+    workout       Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
     workoutId     String
 }
 
