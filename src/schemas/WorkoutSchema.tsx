@@ -5,6 +5,7 @@ const setSchema = z.object({
   value: z.number(),
   rpe: z.number(),
 });
+export type Set = z.infer<typeof setSchema>;
 
 const insightSchema = z.object({
   mood: z.enum(["belowAverage", "average", "aboveAverage"]).optional(),
@@ -12,6 +13,7 @@ const insightSchema = z.object({
   energyLevel: z.enum(["belowAverage", "average", "aboveAverage"]).optional(),
   warmupQuality: z.enum(["belowAverage", "average", "aboveAverage"]).optional(),
 });
+export type Insight = z.infer<typeof insightSchema>;
 
 export const workoutSchema = z.object({
   id: z.string().cuid(),

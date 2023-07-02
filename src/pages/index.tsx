@@ -1,10 +1,11 @@
-import React, { type FC, useEffect } from "react";
+import React, { type FC, useEffect, useState } from "react";
 import { useTheme } from 'next-themes';
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
 import { Button, Skeleton, buttonVariants } from 'good-nice-ui';
 import Link from "next/link";
+import { RecentExercisesChart } from "../features/dashboard/RecentExercises";
 
 const Home: NextPage = () => {
   const { theme } = useTheme();
@@ -26,7 +27,7 @@ const Home: NextPage = () => {
 const Dashboard: FC = () => {
   const { status } = useSession();
   return (
-    <div className="flex justify-center gap-2">
+    <div className="flex flex-col justify-center gap-16">
       {status === 'loading' ? (
         <Skeleton className="h-[48px] w-[127px]" />
       ) : (
@@ -34,6 +35,7 @@ const Dashboard: FC = () => {
           View Exercises
         </Link>
       )}
+      <RecentExercisesChart />
     </div>
   );
 };
