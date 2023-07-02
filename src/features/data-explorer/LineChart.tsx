@@ -1,5 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import { Workout, Set } from '../../schemas/WorkoutSchema';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,8 +12,6 @@ import {
   Legend,
   ChartData,
 } from 'chart.js';
-import { ExerciseWorkoutData, Set } from './types';
-import { WorkoutSchema } from '../../schemas/WorkoutSchema';
 
 ChartJS.register(
   CategoryScale,
@@ -47,7 +46,7 @@ export const ExerciseLineChart = ({ data }: any) => {
   data.forEach((exercise: any, index: number) => {
     finalData.datasets.push({
       label: exercise.exercise.name,
-      data: exercise.workouts.map((workout: WorkoutSchema) => {
+      data: exercise.workouts.map((workout: Workout) => {
         return workout.sets.reduce((acc: number, set: Set) => {
           return acc + set.value;
         }, 0);

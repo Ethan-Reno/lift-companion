@@ -1,26 +1,5 @@
-import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-
-export const getExerciseByIdSchema = z.string().cuid();
-export type GetExerciseByIdSchema = z.infer<typeof getExerciseByIdSchema>;
-
-export const createExerciseSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.enum(["weight", "distance", "time"]),
-});
-export type CreateExerciseSchema = z.infer<typeof createExerciseSchema>;
-
-export const updateExerciseSchema = z.object({
-  id: z.string().cuid(),
-  name: z.string().min(1, { message: 'Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.enum(["weight", "distance", "time"]),
-});
-export type UpdateExerciseSchema = z.infer<typeof updateExerciseSchema>;
-
-export const deleteExerciseSchema = z.string().cuid();
-export type DeleteExerciseSchema = z.infer<typeof deleteExerciseSchema>;
+import { createExerciseSchema, deleteExerciseSchema, getExerciseByIdSchema, updateExerciseSchema } from "../../../schemas/ExerciseSchema";
 
 export const exerciseRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -79,6 +58,7 @@ export const exerciseRouter = createTRPCRouter({
             name: input.name,
             description: input.description,
             measurement: input.measurement,
+            status: 'inactive',
           },
         });
       } catch (error) {
@@ -94,7 +74,7 @@ export const exerciseRouter = createTRPCRouter({
             id: input,
           },
           data: {
-            status: "deleted",
+            status: 'deleted',
           },
         });
       } catch (error) {

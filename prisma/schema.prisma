@@ -66,25 +66,41 @@ model Settings {
     userId           String
 }
 
+enum Measurement {
+    weight
+    distance
+    time
+}
+
+enum ExerciseStatus {
+    active
+    inactive
+    deleted
+}
+
 model Exercise {
-    id           String      @id @default(cuid())
-    name         String      @db.VarChar(100)
-    description  String      @db.VarChar(100)
-    measurement  String      @db.VarChar(100)
-    status       String      @default("inactive")
-    favourite    Boolean     @default(false)
-    createdAt    DateTime    @default(now())
-    updatedAt    DateTime    @updatedAt
-    user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String         @id @default(cuid())
+    name         String         @db.VarChar(100)
+    description  String         @db.VarChar(100)
+    measurement  Measurement    @default(weight)
+    status       ExerciseStatus @default(inactive)
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId       String
     workout      Workout[]
+}
+
+enum WorkoutStatus {
+    started
+    completed
 }
 
 model Workout {
     id            String        @id @default(cuid())
     createdAt     DateTime      @default(now())
     updatedAt     DateTime      @updatedAt
-    status        String        @default("active")
+    status        WorkoutStatus @default(started)
     sets          Json          // Array of objects, each with `reps`, `value`, `rpe`
     insights      Json?         // Object with keys for each insight and enum values
     exercise      Exercise      @relation(fields: [exerciseId], references: [id], onDelete: Cascade)

@@ -1,10 +1,10 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { type ExerciseSchema } from "../../schemas/ExerciseSchema";
+import { type Exercise } from "../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
 import { Badge, Skeleton, Tooltip, TooltipProvider } from "good-nice-ui";
 
-export const exerciseColumns: ColumnDef<ExerciseSchema>[] = [
+export const exerciseColumns: ColumnDef<Exercise>[] = [
   {
     accessorKey: "id",
     header: () => null,

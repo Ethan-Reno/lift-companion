@@ -18,7 +18,7 @@ interface WorkoutFormProps {
 
 export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
   const router = useRouter();
-  const [status, setStatus] = useState<'active' | 'completed'>('active');
+  const [status, setStatus] = useState<'started' | 'completed'>('started');
   const { mutate, isLoading } = api.workout.create.useMutation({
     onSettled: () => {
       router.push('/');
@@ -71,7 +71,7 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
           </Button>
           <Button
             variant="secondary"
-            onClick={() => setStatus('active')}
+            onClick={() => setStatus('started')}
             type="submit"
             disabled={isLoading}
           >

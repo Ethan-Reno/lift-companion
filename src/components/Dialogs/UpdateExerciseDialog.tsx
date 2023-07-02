@@ -9,15 +9,14 @@ import {
 } from 'good-nice-ui'; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type z } from 'zod';
-import { ExerciseSchema, updateExerciseSchema } from '../../schemas/ExerciseSchema';
+import { Exercise, UpdateExerciseInputs, updateExerciseSchema } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
 import { useToast } from '../../hooks/useToast';
 
 export interface UpdateExerciseDialogProps {
-  data: ExerciseSchema;
+  data: Exercise;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -67,12 +66,12 @@ export const UpdateExerciseDialog = ({
   });
   
   const UpdateExerciseForm = () => {
-    const form = useForm<z.infer<typeof updateExerciseSchema>>({
+    const form = useForm<UpdateExerciseInputs>({
       resolver: zodResolver(updateExerciseSchema),
       defaultValues: currentExercise,
     });
     
-    const onSubmit = (values: z.infer<typeof updateExerciseSchema>) => {
+    const onSubmit = (values: UpdateExerciseInputs) => {
       // Optimistically update the form values
       setCurrentExercise(values);
       mutate(values);

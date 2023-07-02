@@ -9,8 +9,7 @@ import {
 } from 'good-nice-ui'; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type z } from 'zod';
-import { createExerciseSchema } from '../../schemas/ExerciseSchema';
+import { CreateExerciseInputs, createExerciseSchema } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
@@ -20,7 +19,7 @@ export const CreateExerciseDialog = () => {
   const { toast } = useToast();
   const [ isOpen, setIsOpen ] = useState(false);
   const { setShouldRefetch } = useStore();
-  const [submittedValues, setSubmittedValues] = useState<z.infer<typeof createExerciseSchema> | null>(null);
+  const [submittedValues, setSubmittedValues] = useState<CreateExerciseInputs | null>(null);
 
   const { mutate, isLoading } = api.exercise.create.useMutation({
     onSettled: () => {
@@ -38,16 +37,17 @@ export const CreateExerciseDialog = () => {
   });
   
   const CreateExerciseForm = () => {
-    const form = useForm<z.infer<typeof createExerciseSchema>>({
+    const form = useForm<CreateExerciseInputs>({
       resolver: zodResolver(createExerciseSchema),
       defaultValues: submittedValues || {
         name: "",
         description: "",
         measurement: "weight",
+        // status is handled at the RPC level
       },
     });
     
-    const onSubmit = (values: z.infer<typeof createExerciseSchema>) => {
+    const onSubmit = (values: CreateExerciseInputs) => {
       setSubmittedValues(values);
       mutate(values);
     }
