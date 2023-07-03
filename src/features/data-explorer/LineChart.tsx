@@ -34,7 +34,7 @@ interface ExerciseLineChartProps {
   isDateMode?: boolean;
 }
 
-export const ExerciseLineChart = ({ data, isDateMode }: any) => {
+export const ExerciseLineChart = ({ data, isDateMode }: ExerciseLineChartProps) => {
   const options: ChartOptions<'line'> = {
     responsive: true,
     plugins: {

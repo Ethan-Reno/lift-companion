@@ -30,7 +30,7 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
       exerciseId: exerciseData.id,
       status: status,
       sets: [{ reps: 0, value: 0, rpe: 0 }],
-      insights: {},
+      insights: [{}],
     },
   });
 

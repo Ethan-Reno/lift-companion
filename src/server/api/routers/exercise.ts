@@ -76,6 +76,10 @@ export const exerciseRouter = createTRPCRouter({
             where: {
               status: 'completed',
             },
+            include: {
+              sets: true,
+              insights: true,
+            },
           },
         },
       });

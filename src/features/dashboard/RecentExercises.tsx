@@ -7,6 +7,7 @@ export const RecentExercisesChart = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  console.log(data);
 
   return data && <ExerciseLineChart data={data} isDateMode={true} />;
 }
