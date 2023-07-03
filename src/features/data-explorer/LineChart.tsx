@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { Workout, Set } from '../../schemas/WorkoutSchema';
 import {
   Chart as ChartJS,
+  TimeScale,
   CategoryScale,
   LinearScale,
   PointElement,
@@ -11,9 +12,14 @@ import {
   Tooltip,
   Legend,
   ChartData,
+  ChartOptions,
 } from 'chart.js';
+import { Exercise } from '../../schemas/ExerciseSchema';
+import { compareAsc } from 'date-fns';
+import 'chartjs-adapter-date-fns';
 
 ChartJS.register(
+  TimeScale,
   CategoryScale,
   LinearScale,
   PointElement,
@@ -23,38 +29,68 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Recent Exercises',
-    },
-  },
-};
+interface ExerciseLineChartProps {
+  data: Exercise[];
+  isDateMode?: boolean;
+}
 
-export const ExerciseLineChart = ({ data }: any) => {
-  const colors = ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(153, 102, 255)'];
-  const finalData: ChartData<'line'> = {
-    labels: Array.from({ length: data.length }, (_, i) => `Data Point ${i + 1}`),
+export const ExerciseLineChart = ({ data, isDateMode }: any) => {
+  const options: ChartOptions<'line'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Recent Exercises',
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+      x: {
+        type: 'time',
+        time: {
+          unit: 'day',
+        },
+      },
+    },
+  };
+
+  const labels: any[] = [];
+  const chartData: ChartData<'line'> = {
+    labels: [],
     datasets: [],
   };
 
-  data.forEach((exercise: any, index: number) => {
-    finalData.datasets.push({
-      label: exercise.exercise.name,
-      data: exercise.workouts.map((workout: Workout) => {
-        return workout.sets.reduce((acc: number, set: Set) => {
-          return acc + set.value;
-        }, 0);
-      }),
-      borderColor: colors[index],
-      backgroundColor: colors[index],
-    });
+  data.forEach((exercise: Exercise) => {
+    if (!exercise.workouts) {
+      return;
+    }
+    const dataset = {
+      label: exercise.name,
+      data: [] as any,
+      borderColor: 'rgb(75, 192, 192)',
+      borderBackground: 'rgba(75, 192, 192, 0.2)',
+    };
+
+    exercise.workouts.sort((a: Workout, b: Workout) => compareAsc(a.createdAt, b.createdAt))
+      .forEach((workout: Workout) => {
+        const date = workout.createdAt;
+        if (!labels.includes(date)) {
+          labels.push(date);
+        }
+        dataset.data.push({
+          x: date,
+          y: workout.sets.reduce((total: number, set: any) => total + (set.reps * set.value), 0)
+        });
+      });
+    chartData.datasets.push(dataset);
   });
 
-  return <Line data={finalData} />;
+  chartData.labels = labels;
+
+  return <Line options={options} data={chartData} />;
 };

@@ -1,5 +1,5 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { type Exercise } from "../../schemas/ExerciseSchema";
+import { ExerciseStatusEnum, type Exercise, MeasurementEnum } from "../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
 import { Badge, Skeleton, Tooltip, TooltipProvider } from "good-nice-ui";
@@ -43,7 +43,7 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
       <ExerciseTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const status = row.getValue("status");
+      const status: ExerciseStatusEnum = row.getValue("status");
       return (
         <Badge variant={status === 'inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
       );
@@ -55,9 +55,10 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
       <ExerciseTableColumnHeader column={column} title="Measurement" />
     ),
     cell: ({ row }) => {
+      const measurement: MeasurementEnum = row.getValue("measurement");
       return (
         <div className="flex items-center">
-          <span>{row.getValue("measurement")}</span>
+          <span>{measurement}</span>
         </div>
       );
     },

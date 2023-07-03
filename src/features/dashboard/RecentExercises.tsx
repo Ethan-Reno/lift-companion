@@ -3,10 +3,10 @@ import { api } from '../../utils/api';
 import { ExerciseLineChart } from '../data-explorer/LineChart';
 
 export const RecentExercisesChart = () => {
-  const { data, isLoading } = api.workout.getLatestWorkouts.useQuery();
-  if (isLoading || !data) {
+  const { data, isLoading } = api.exercise.getAllExercisesWithCompletedWorkouts.useQuery();
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  return <ExerciseLineChart data={data} />;
+  return data && <ExerciseLineChart data={data} isDateMode={true} />;
 }

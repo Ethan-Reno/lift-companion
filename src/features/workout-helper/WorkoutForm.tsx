@@ -3,29 +3,28 @@ import { api } from '../../utils/api';
 import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { createWorkoutSchema } from '../../schemas/WorkoutSchema';
+import { CreateWorkoutInputs, WorkoutStatusEnum, createWorkoutSchema } from '../../schemas/WorkoutSchema';
 import { Button, Form, FormProvider, buttonVariants } from 'good-nice-ui';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { SetsFormSection } from './SetsFormSection';
 import { InsightsFormSection } from './InsightsFormSection';
+import { Exercise } from '../../schemas/ExerciseSchema';
 
 interface WorkoutFormProps {
-  // Fix the type inference on status to resolve this
-  exerciseData: any;
+  exerciseData: Exercise;
 }
 
 export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
   const router = useRouter();
-  const [status, setStatus] = useState<'started' | 'completed'>('started');
+  const [status, setStatus] = useState<WorkoutStatusEnum>('started');
   const { mutate, isLoading } = api.workout.create.useMutation({
     onSettled: () => {
       router.push('/');
     },
   });
 
-  const form = useForm<z.infer<typeof createWorkoutSchema>>({
+  const form = useForm<CreateWorkoutInputs>({
     resolver: zodResolver(createWorkoutSchema),
     defaultValues: {
       exerciseId: exerciseData.id,
@@ -35,7 +34,7 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof createWorkoutSchema>) => {
+  const onSubmit = (values: CreateWorkoutInputs) => {
     mutate(values);
   };
   const onError = (errors: any) => console.log(errors);

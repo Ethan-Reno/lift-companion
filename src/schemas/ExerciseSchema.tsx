@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ExerciseStatus, Measurement } from '@prisma/client';
+import { workoutSchema } from './WorkoutSchema';
 
 export const exerciseSchema = z.object({
   id: z.string().cuid(),
@@ -7,6 +8,9 @@ export const exerciseSchema = z.object({
   description: z.string(),
   measurement: z.nativeEnum(Measurement),
   status: z.nativeEnum(ExerciseStatus),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  workouts: z.array(workoutSchema).optional(),
 });
 
 export const getExerciseByIdSchema = z.string().cuid();
@@ -34,7 +38,7 @@ export type UpdateExerciseInputs = z.infer<typeof updateExerciseSchema>;
 export type DeleteExerciseInputs = z.infer<typeof deleteExerciseSchema>;
 
 // Enum definitions
-const ExerciseStatusEnum = z.nativeEnum(ExerciseStatus);
-export type ExerciseStatusEnum = z.infer<typeof ExerciseStatusEnum>;
-const MeasurementEnum = z.nativeEnum(Measurement);
-export type MeasurementEnum = z.infer<typeof MeasurementEnum>;
+const exerciseStatus = z.nativeEnum(ExerciseStatus);
+export type ExerciseStatusEnum = z.infer<typeof exerciseStatus>;
+const measurement = z.nativeEnum(Measurement);
+export type MeasurementEnum = z.infer<typeof measurement>;

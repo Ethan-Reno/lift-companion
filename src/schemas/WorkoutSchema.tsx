@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { WorkoutStatus } from '@prisma/client';
-const insightValue = ["belowAverage", "average", "aboveAverage"] as const;
 
+const insightValue = ["belowAverage", "average", "aboveAverage"] as const;
 const insightSchema = z.object({
   mood: z.enum(insightValue).optional(),
   sleepQuality: z.enum(insightValue).optional(),
@@ -10,7 +10,7 @@ const insightSchema = z.object({
 });
 
 const setSchema = z.object({
-  reps: z.number().int(),
+  reps: z.number(),
   value: z.number(),
   rpe: z.number(),
 });
@@ -21,6 +21,8 @@ export const workoutSchema = z.object({
   exerciseId: z.string().cuid(),
   sets: z.array(setSchema),
   insights: insightSchema.optional(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export const createWorkoutSchema = z.object({
@@ -49,5 +51,5 @@ export type UpdateWorkoutInputs = z.infer<typeof updateWorkoutSchema>;
 export type DeleteWorkoutInputs = z.infer<typeof deleteWorkoutSchema>;
 
 // Enum definitions
-const WorkoutStatusEnum = z.nativeEnum(WorkoutStatus);
-export type WorkoutStatusEnum = z.infer<typeof WorkoutStatusEnum>;
+const workoutStatus = z.nativeEnum(WorkoutStatus);
+export type WorkoutStatusEnum = z.infer<typeof workoutStatus>;

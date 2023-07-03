@@ -1,12 +1,11 @@
 import React from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
 import { Button, Form, Input, ScrollArea, XIcon } from 'good-nice-ui';
 import { PlusIcon } from 'lucide-react';
-import { createWorkoutSchema } from '../../schemas/WorkoutSchema';
+import { CreateWorkoutInputs } from '../../schemas/WorkoutSchema';
 
 interface SetsFormSectionProps {
-  form: UseFormReturn<z.infer<typeof createWorkoutSchema>>;
+  form: UseFormReturn<CreateWorkoutInputs>;
   measurement: string;
 }
 

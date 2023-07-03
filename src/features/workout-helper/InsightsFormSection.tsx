@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { Button, DropdownMenu, Form, ScrollArea, Select, XIcon } from 'good-nice-ui';
 import { PlusIcon } from 'lucide-react';
-import { createWorkoutSchema } from '../../schemas/WorkoutSchema';
-import { z } from 'zod';
+import { CreateWorkoutInputs } from '../../schemas/WorkoutSchema';
 
 interface InsightsFormSectionProps {
-  form: UseFormReturn<z.infer<typeof createWorkoutSchema>>;
+  form: UseFormReturn<CreateWorkoutInputs>;
 }
 
 export const InsightsFormSection = ({ form }: InsightsFormSectionProps) => {
