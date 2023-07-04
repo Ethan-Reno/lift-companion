@@ -34,7 +34,7 @@ interface ExerciseLineChartProps {
   isDateMode?: boolean;
 }
 
-export const ExerciseLineChart = ({ data, isDateMode }: any) => {
+export const ExerciseLineChart = ({ data, isDateMode }: ExerciseLineChartProps) => {
   const options: ChartOptions<'line'> = {
     responsive: true,
     plugins: {
@@ -84,7 +84,7 @@ export const ExerciseLineChart = ({ data, isDateMode }: any) => {
         }
         dataset.data.push({
           x: date,
-          y: workout.sets.reduce((total: number, set: any) => total + (set.reps * set.value), 0)
+          y: workout.sets.reduce((total: number, set: Set) => total + (set.reps * set.value), 0)
         });
       });
     chartData.datasets.push(dataset);

@@ -32,6 +32,8 @@ export function ExerciseTable<TData, TValue>({
     React.useState<VisibilityState>({
       id: false,
       description: false,
+      createdAt: false,
+      updatedAt: false,
     });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

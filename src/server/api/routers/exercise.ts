@@ -8,13 +8,6 @@ export const exerciseRouter = createTRPCRouter({
         where: {
           userId: ctx.session.user.id,
         },
-        select: {
-          id: true,
-          name: true,
-          description: true,
-          measurement: true,
-          status: true,
-        },
         orderBy: {
           updatedAt: "desc",
         },
@@ -31,13 +24,6 @@ export const exerciseRouter = createTRPCRouter({
         where: {
           id: input,
           userId: ctx.session.user.id,
-        },
-        select: {
-          id: true,
-          name: true,
-          description: true,
-          measurement: true,
-          status: true,
         },
       });
     } catch (error) {
@@ -75,6 +61,10 @@ export const exerciseRouter = createTRPCRouter({
           workouts: {
             where: {
               status: 'completed',
+            },
+            include: {
+              sets: true,
+              insights: true,
             },
           },
         },

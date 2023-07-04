@@ -10,8 +10,12 @@ export const workoutRouter = createTRPCRouter({
         data: {
           exerciseId: input.exerciseId,
           status: input.status,
-          sets: input.sets,
-          insights: input.insights,
+          insights: {
+            create: input.insights,
+          },
+          sets: {
+            create: input.sets,
+          },
         },
       });
     } catch (error) {
