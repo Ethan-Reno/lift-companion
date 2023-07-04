@@ -84,7 +84,7 @@ export const ExerciseLineChart = ({ data, isDateMode }: ExerciseLineChartProps) 
         }
         dataset.data.push({
           x: date,
-          y: workout.sets.reduce((total: number, set: any) => total + (set.reps * set.value), 0)
+          y: workout.sets.reduce((total: number, set: Set) => total + (set.reps * set.value), 0)
         });
       });
     chartData.datasets.push(dataset);

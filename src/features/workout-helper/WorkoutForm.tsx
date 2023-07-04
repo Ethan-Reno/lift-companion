@@ -17,7 +17,6 @@ interface WorkoutFormProps {
 
 export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
   const router = useRouter();
-  const [status, setStatus] = useState<WorkoutStatusEnum>('started');
   const { mutate, isLoading } = api.workout.create.useMutation({
     onSettled: () => {
       router.push('/');
@@ -28,7 +27,7 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
     resolver: zodResolver(createWorkoutSchema),
     defaultValues: {
       exerciseId: exerciseData.id,
-      status: status,
+      status: 'started',
       sets: [{ reps: 0, value: 0, rpe: 0 }],
       insights: [{}],
     },
@@ -55,8 +54,11 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
         </div>
         <div className='flex justify-end gap-3'>
           <Button
-            type="submit"
-            onClick={() => setStatus('completed')}
+            type="button"
+            onClick={() => {
+              form.setValue('status', 'completed');
+              form.handleSubmit(onSubmit, onError)();
+            }}
             disabled={isLoading}
           >
             {isLoading ? (
@@ -69,9 +71,11 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
             )}
           </Button>
           <Button
-            variant="secondary"
-            onClick={() => setStatus('started')}
-            type="submit"
+            type="button"
+            onClick={() => {
+              form.setValue('status', 'started');
+              form.handleSubmit(onSubmit, onError)();
+            }}
             disabled={isLoading}
           >
             {isLoading ? (

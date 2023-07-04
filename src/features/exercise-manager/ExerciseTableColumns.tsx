@@ -74,6 +74,8 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
             description: row.getValue("description"),
             status: row.getValue("status"),
             measurement: row.getValue("measurement"),
+            createdAt: row.getValue("createdAt"),
+            updatedAt: row.getValue("updatedAt"),
           }}
         />
       );
