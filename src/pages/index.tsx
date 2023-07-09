@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
 import { Button, Skeleton, buttonVariants } from 'good-nice-ui';
 import Link from "next/link";
-import { RecentExercisesChart } from "../features/dashboard/RecentExercises";
+import { RecentExercisesChart } from "../features/dashboard/RecentExercisesChart";
 
 const Home: NextPage = () => {
   const { theme } = useTheme();

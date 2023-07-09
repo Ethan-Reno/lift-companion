@@ -1,6 +1,5 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Workout, Set } from '../../schemas/WorkoutSchema';
 import {
   Chart as ChartJS,
   TimeScale,
@@ -14,8 +13,6 @@ import {
   ChartData,
   ChartOptions,
 } from 'chart.js';
-import { Exercise } from '../../schemas/ExerciseSchema';
-import { compareAsc } from 'date-fns';
 import 'chartjs-adapter-date-fns';
 
 ChartJS.register(
@@ -29,12 +26,29 @@ ChartJS.register(
   Legend
 );
 
-interface ExerciseLineChartProps {
-  data: Exercise[];
-  isDateMode?: boolean;
+export enum X_AXIS_TYPE {
+  DATE = 'date',
+  NUMBER = 'number',
 }
 
-export const ExerciseLineChart = ({ data, isDateMode }: ExerciseLineChartProps) => {
+export enum Y_AXIS_TYPE {
+  TOTAL_VALUE = 'totalValue',
+  ONE_REP_MAX = 'oneRepMax',
+}
+
+interface LineChartProps {
+  data: ChartData<'line'>;
+  axes: {
+    x: X_AXIS_TYPE;
+    y: Y_AXIS_TYPE;
+  };
+  title: string;
+}
+
+export const LineChart = ({ data, axes, title }: LineChartProps) => {
+
+  // Options needs to be in the same component as the chart
+  // Due to the date-fns adapter being kind of weird
   const options: ChartOptions<'line'> = {
     responsive: true,
     plugins: {
@@ -43,7 +57,7 @@ export const ExerciseLineChart = ({ data, isDateMode }: ExerciseLineChartProps) 
       },
       title: {
         display: true,
-        text: 'Recent Exercises',
+        text: title,
       },
     },
     scales: {
@@ -51,46 +65,43 @@ export const ExerciseLineChart = ({ data, isDateMode }: ExerciseLineChartProps) 
         beginAtZero: true,
       },
       x: {
+        type: 'linear',
+        ticks: {
+          stepSize: 1,
+        },
+      },
+    },
+    layout: {
+      padding: {
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20,
+      },
+    },
+    elements: {
+      point: {
+        radius: 4,
+        hoverRadius: 8,
+      },
+      line: {
+        tension: 0.1,
+      }
+    },
+  };
+
+  // Override default options based on props
+  if (axes.x === X_AXIS_TYPE.DATE) {
+    options.scales = {  
+      ...options.scales,
+      x: {
         type: 'time',
         time: {
           unit: 'day',
         },
       },
-    },
-  };
-
-  const labels: any[] = [];
-  const chartData: ChartData<'line'> = {
-    labels: [],
-    datasets: [],
-  };
-
-  data.forEach((exercise: Exercise) => {
-    if (!exercise.workouts) {
-      return;
-    }
-    const dataset = {
-      label: exercise.name,
-      data: [] as any,
-      borderColor: 'rgb(75, 192, 192)',
-      borderBackground: 'rgba(75, 192, 192, 0.2)',
     };
+  }
 
-    exercise.workouts.sort((a: Workout, b: Workout) => compareAsc(a.createdAt, b.createdAt))
-      .forEach((workout: Workout) => {
-        const date = workout.createdAt;
-        if (!labels.includes(date)) {
-          labels.push(date);
-        }
-        dataset.data.push({
-          x: date,
-          y: workout.sets.reduce((total: number, set: Set) => total + (set.reps * set.value), 0)
-        });
-      });
-    chartData.datasets.push(dataset);
-  });
-
-  chartData.labels = labels;
-
-  return <Line options={options} data={chartData} />;
+  return <Line options={options} data={data} />;
 };
