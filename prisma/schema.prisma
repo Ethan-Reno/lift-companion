@@ -60,6 +60,7 @@ model Settings {
     id               String      @id @default(cuid())
     unit             String      @default("metric")
     dashboardDisplay String      @default("recent")
+    formula1RM       String      @default("brzycki")
     createdAt        DateTime    @default(now())
     updatedAt        DateTime    @updatedAt
     user             User        @relation(fields: [userId], references: [id])

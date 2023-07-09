@@ -64,6 +64,16 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
     },
   },
   {
+    accessorKey: "createdAt",
+    header: () => null,
+    cell: () => null
+  },
+  {
+    accessorKey: "updatedAt",
+    header: () => null,
+    cell: () => null
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       return (

@@ -72,6 +72,7 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
           </Button>
           <Button
             type="button"
+            variant="secondary"
             onClick={() => {
               form.setValue('status', 'started');
               form.handleSubmit(onSubmit, onError)();

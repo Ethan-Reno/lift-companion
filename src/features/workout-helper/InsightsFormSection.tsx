@@ -65,7 +65,7 @@ export const InsightsFormSection = ({ form }: InsightsFormSectionProps) => {
       </div>
       <ScrollArea className="border rounded-md max-h-[540px]" id="insights">
         {Object.keys(selectedInsights).length === 0 ? (
-          <div className='flex flex-col p-6 gap-3'>
+          <div className='flex flex-col p-6 gap-2'>
             <h3>No insights added.</h3>
             <p className='text-sm'>Adding insights to your workouts will give you more information about what is influencing your performance</p>
           </div>
