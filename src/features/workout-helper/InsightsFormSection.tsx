@@ -7,17 +7,21 @@ import { CreateWorkoutInputs, InsightValueEnum } from '../../schemas/WorkoutSche
 const insights = ['mood', 'sleepQuality', 'energyLevel', 'warmupQuality'] as const;
 type InsightKeys = typeof insights[number]; // 'mood' | 'sleepQuality' | 'energyLevel' | 'warmupQuality'
 
-type SelectedInsights = {
+export type SelectedInsights = {
   [K in InsightKeys]?: InsightValueEnum | null;
 }
 
 type InsightsFormSectionProps = {
   form: UseFormReturn<CreateWorkoutInputs>;
+  selectedInsights: SelectedInsights;
+  setSelectedInsights: React.Dispatch<React.SetStateAction<SelectedInsights>>;
 };
 
-export const InsightsFormSection = ({ form }: InsightsFormSectionProps) => {
-  const [selectedInsights, setSelectedInsights] = useState<SelectedInsights>({});
-
+export const InsightsFormSection = ({
+  form,
+  selectedInsights,
+  setSelectedInsights
+}: InsightsFormSectionProps) => {
   const toggleInsight = (insight: InsightKeys) => {
     setSelectedInsights(prev => {
       if (prev[insight]) {
@@ -35,75 +39,72 @@ export const InsightsFormSection = ({ form }: InsightsFormSectionProps) => {
   const isAnyInsightSelected = Object.keys(selectedInsights).length > 0;
 
   return (
-    <div className="flex flex-col gap-3 w-1/2" id='insightsContainer'>
-      <div className="flex gap-6 items-center">
-        <h1>Insights</h1>
-        <DropdownMenu>
-          <DropdownMenu.Trigger asChild>
-            <Button
-              type="button"
-              size="sm"
-              variant='link'
-              className='w-fit'
+    <div className="flex flex-col gap-3" id='insightsContainer'>
+      {Object.keys(selectedInsights).length === 0 ? (
+        <div className='flex flex-col gap-2'>
+          <h3>No insights added.</h3>
+          <p className='text-sm'>Adding insights to your workouts will give you more information about what is influencing your performance</p>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-6">
+          {Object.keys(selectedInsights).map((insightKey) => (
+            <div className='flex gap-2 items-end' key={insightKey}>
+              <Form.Field
+                control={form.control}
+                name={`insights.0.${insightKey}` as any}
+                render={({ field }) => (
+                  <Form.Item
+                    className="grow"
+                  >
+                    <Form.Label>{insightKey}</Form.Label>
+                    <Select
+                      value={field.value}
+                      onValueChange={value => field.onChange(value)}
+                    >
+                      <Select.Trigger>
+                        <Select.Value/>
+                      </Select.Trigger>
+                      <Select.Content>
+                        <Select.Item value={'belowAverage'}>Below Average</Select.Item>
+                        <Select.Item value={'average'}>Average</Select.Item>
+                        <Select.Item value={'aboveAverage'}>Above Average</Select.Item>
+                      </Select.Content>
+                    </Select>
+                    <Form.Message />
+                  </Form.Item>
+                )}
+              />
+              <Button type="button" variant="ghost" size="icon" onClick={() => toggleInsight(insightKey as InsightKeys)}>
+                <XIcon size={22} className="text-red-500" />
+              </Button>
+            </div>
+          ))}
+        </div>
+      )}
+      <DropdownMenu>
+        <DropdownMenu.Trigger asChild>
+          <Button
+            type="button"
+            size="sm"
+            variant='link'
+            className='w-fit'
+          >
+            <PlusIcon size={18} className='mr-2' />
+            Add
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          {insights.map((insight) => (
+            <DropdownMenu.CheckboxItem
+              key={insight}
+              checked={insight in selectedInsights}
+              onClick={() => toggleInsight(insight)}
             >
-              <PlusIcon size={18} className='mr-2' />
-              Add
-            </Button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content>
-            {insights.map((insight) => (
-              <DropdownMenu.CheckboxItem
-                key={insight}
-                checked={insight in selectedInsights}
-                onClick={() => toggleInsight(insight)}
-              >
-                {insight}
-              </DropdownMenu.CheckboxItem>
-            ))}
-          </DropdownMenu.Content>
-        </DropdownMenu>
-      </div>
-      <ScrollArea className="border rounded-md max-h-[540px]" id="insights">
-        {Object.keys(selectedInsights).length === 0 ? (
-          <div className='flex flex-col p-6 gap-2'>
-            <h3>No insights added.</h3>
-            <p className='text-sm'>Adding insights to your workouts will give you more information about what is influencing your performance</p>
-          </div>
-        ) : (
-          <div className="flex flex-col p-6 gap-8">
-            {Object.keys(selectedInsights).map((insightKey) => (
-              <div className='flex gap-2 items-end' key={insightKey}>
-                <Form.Field
-                  control={form.control}
-                  name={`insights.0.${insightKey}` as any}
-                  render={({ field }) => (
-                    <Form.Item className="flex-grow">
-                      <Form.Label>{insightKey}</Form.Label>
-                      <Select
-                        value={field.value}
-                        onValueChange={value => field.onChange(value)}
-                      >
-                        <Select.Trigger>
-                          <Select.Value placeholder="Select one" />
-                        </Select.Trigger>
-                        <Select.Content>
-                          <Select.Item value={'belowAverage'}>Below Average</Select.Item>
-                          <Select.Item value={'average'}>Average</Select.Item>
-                          <Select.Item value={'aboveAverage'}>Above Average</Select.Item>
-                        </Select.Content>
-                      </Select>
-                      <Form.Message />
-                    </Form.Item>
-                  )}
-                />
-                <Button type="button" variant="ghost" size="icon" onClick={() => toggleInsight(insightKey as InsightKeys)}>
-                  <XIcon size={22} className="text-red-500" />
-                </Button>
-              </div>
-            ))}
-          </div>
-        )}
-      </ScrollArea>
+              {insight}
+            </DropdownMenu.CheckboxItem>
+          ))}
+        </DropdownMenu.Content>
+      </DropdownMenu>
     </div>
   );
 };

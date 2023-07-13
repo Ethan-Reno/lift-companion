@@ -2227,10 +2227,10 @@ globrex@^0.1.2:
   resolved "https://registry.yarnpkg.com/globrex/-/globrex-0.1.2.tgz#dd5d9ec826232730cd6793a5e33a9302985e6098"
   integrity sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==
 
-good-nice-ui@^0.4.8:
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/good-nice-ui/-/good-nice-ui-0.4.8.tgz#33aa0961991813f5a31c6b405bd9c49835b43a59"
-  integrity sha512-WslV6US9ymBgnzniGKcEpQ0x56cdCWkJGkNllMz6fWuAfGeesyZ0qnRtcSS0U2uH8a1k02XvciJG08/KQfIf5Q==
+good-nice-ui@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/good-nice-ui/-/good-nice-ui-0.5.0.tgz#86cc7dea23403ab0dc670ad9744cf8557bdb9c13"
+  integrity sha512-N+AGFhukl1W+VudzfiCFcMJ8DMqhNuziCwwTTuIswURj9AyyHr6Tj2CpZFjWSgzWuV0QMSBFM3E74B0QiV8jzg==
   dependencies:
     "@radix-ui/react-accordion" "^1.1.2"
     "@radix-ui/react-aspect-ratio" "^1.0.3"
@@ -3759,10 +3759,10 @@ typed-array-length@^1.0.4:
     for-each "^0.3.3"
     is-typed-array "^1.1.9"
 
-typescript@^4.9.4:
-  version "4.9.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
-  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+typescript@^5.1.6:
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.1.6.tgz#02f8ac202b6dad2c0dd5e0913745b47a37998274"
+  integrity sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

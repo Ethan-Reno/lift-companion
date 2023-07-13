@@ -10,8 +10,8 @@ const Workout = () => {
   const { data: exercise, isLoading } = api.exercise.getById.useQuery(exerciseId);
 
   return (
-    <div className='flex flex-col gap-16' id='page'>
-      <div className='flex gap-6 justify-between items-center' id='header'>
+    <div className='flex flex-col w-full gap-16 items-center' id='WorkoutHelper'>
+      <div className='self-start'>
         <Header
           isLoading={isLoading}
           header={`${exercise?.name} Workout`}

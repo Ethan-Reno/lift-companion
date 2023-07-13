@@ -67,51 +67,49 @@ export function ExerciseTable<TData, TValue>({
       <ExerciseTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
-          <Table.Content>
-            <Table.Header>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <Table.Row key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <Table.Head key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </Table.Head>
-                    )
-                  })}
+          <Table.Header>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <Table.Row key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <Table.Head key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </Table.Head>
+                  )
+                })}
+              </Table.Row>
+            ))}
+          </Table.Header>
+          <Table.Body>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <Table.Row key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Table.Cell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Table.Cell>
+                  ))}
                 </Table.Row>
-              ))}
-            </Table.Header>
-            <Table.Body>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <Table.Row key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
-                      <Table.Cell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </Table.Cell>
-                    ))}
-                  </Table.Row>
-                ))
-              ) : (
-                <Table.Row>
-                  <Table.Cell
-                    colSpan={columns.length}
-                    className="h-[73px] text-center"
-                  >
-                    No results.
-                  </Table.Cell>
-                </Table.Row>
-              )}
-            </Table.Body>
-          </Table.Content>
+              ))
+            ) : (
+              <Table.Row>
+                <Table.Cell
+                  colSpan={columns.length}
+                  className="h-[73px] text-center"
+                >
+                  No results.
+                </Table.Cell>
+              </Table.Row>
+            )}
+          </Table.Body>
         </Table>
       </div>
       <div className="flex justify-between">

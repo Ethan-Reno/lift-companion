@@ -3,13 +3,14 @@ import { api } from '../../utils/api';
 import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { CreateWorkoutInputs, WorkoutStatusEnum, createWorkoutSchema } from '../../schemas/WorkoutSchema';
-import { Button, Form, FormProvider, buttonVariants } from 'good-nice-ui';
+import { CreateWorkoutInputs, createWorkoutSchema } from '../../schemas/WorkoutSchema';
+import { Button, Form, FormProvider, Tabs, buttonVariants } from 'good-nice-ui';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { SetsFormSection } from './SetsFormSection';
-import { InsightsFormSection } from './InsightsFormSection';
+import { InsightsFormSection, SelectedInsights } from './InsightsFormSection';
 import { Exercise } from '../../schemas/ExerciseSchema';
+import { cn } from '../../utils/cn';
 
 interface WorkoutFormProps {
   exerciseData: Exercise;
@@ -33,6 +34,8 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
     },
   });
 
+  const [selectedInsights, setSelectedInsights] = useState<SelectedInsights>({});
+
   const onSubmit = (values: CreateWorkoutInputs) => {
     mutate(values);
   };
@@ -41,20 +44,36 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
   return (
     <FormProvider {...form}>
       <Form
-        className='flex flex-col gap-16'
+        className='flex flex-col gap-8 grow w-full items-center justify-center'
         id='Form'
         onSubmit={form.handleSubmit(onSubmit, onError)}
       >
-        <div className='flex gap-16' id='set+insight'>
-          <SetsFormSection
-            form={form}
-            measurement={exerciseData.measurement}
-          />
-          <InsightsFormSection form={form} />
-        </div>
+        <Tabs
+          className='flex flex-col items-center w-full max-w-[450px] border rounded-md'
+          defaultValue="sets"
+        >
+          <Tabs.List className='w-fit'>
+            <Tabs.Trigger value="sets">Sets</Tabs.Trigger>
+            <Tabs.Trigger value="insights">Insights</Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content className='py-5 px-3 w-full' value="sets">
+            <SetsFormSection
+              form={form}
+              measurement={exerciseData.measurement}
+            />
+          </Tabs.Content>
+          <Tabs.Content className='py-5 px-3 w-full' value="insights">
+            <InsightsFormSection
+              form={form}
+              selectedInsights={selectedInsights}
+              setSelectedInsights={setSelectedInsights}
+            />
+          </Tabs.Content>
+        </Tabs>
         <div className='flex justify-end gap-3'>
           <Button
             type="button"
+            className='flex w-20 items-center justify-center'
             onClick={() => {
               form.setValue('status', 'completed');
               form.handleSubmit(onSubmit, onError)();
@@ -64,7 +83,6 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing
               </>
             ) : (
               <>Finish</>
@@ -73,6 +91,7 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
           <Button
             type="button"
             variant="secondary"
+            className='flex w-20 items-center justify-center'
             onClick={() => {
               form.setValue('status', 'started');
               form.handleSubmit(onSubmit, onError)();
@@ -82,14 +101,13 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing
               </>
             ) : (
               <>Save</>
             )}
           </Button>
           <Link
-            className={buttonVariants({variant: 'outline'})}
+            className={cn(buttonVariants({variant: 'outline'}), 'flex w-20 items-center justify-center')}
             href="/"
           >
             Exit
