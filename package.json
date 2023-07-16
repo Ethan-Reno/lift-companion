@@ -27,7 +27,7 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
-    "good-nice-ui": "0.5.2",
+    "good-nice-ui": "0.5.3",
     "lucide-react": "^0.114.0",
     "next": "13.1.6",
     "next-auth": "^4.19.0",

@@ -31,7 +31,6 @@ export function ExerciseTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
       id: false,
-      description: false,
       createdAt: false,
       updatedAt: false,
     });
@@ -71,6 +70,7 @@ export function ExerciseTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Row key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  console.log(header);
                   return (
                     <Table.Head key={header.id}>
                       {header.isPlaceholder

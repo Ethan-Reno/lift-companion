@@ -1,40 +1,97 @@
-import React from 'react';
-import { Button, Separator } from 'good-nice-ui';
+import React, { useState } from 'react';
+import { Avatar, Button, ChevronDownIcon, DropdownMenu, Separator, Sheet, XIcon } from 'good-nice-ui';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LogOut, Moon, Sun } from 'lucide-react';
+import { LogOut, Menu, Moon, Settings, Sun } from 'lucide-react';
 import logo from '../../public/barbell.png';
+import { cn } from '../utils/cn';
 
 export const NavMenu = () => {
   const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
+  const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+  const mobileMenuOverlay = (
+    <div className='fixed top-16 left-0 w-screen h-screen bg-background z-50'>
+      <div className="flex flex-col gap-8 text-2xl items-center pt-8">
+        <Link href='/exercises' onClick={() => setIsMenuOpen(false)}>
+          Exercises
+        </Link>
+        <div className="pointer-events-none text-muted">
+          Start Workout
+        </div>
+        <div className="pointer-events-none text-muted">
+          View Data
+        </div>
+        <Separator className="w-2/3" />
+        <div onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+          Change Theme
+        </div>
+        <div className="pointer-events-none text-muted">
+          Settings
+        </div>
+        <div onClick={() => signOut()}>
+          Logout
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className='mx-auto px-4 w-full max-w-5xl flex h-14 items-center justify-between'>
-      <Link href="/">
+      <Link href="/" className='flex gap-4 items-center'>
         <Image
           src={logo}
           alt="logo"
           className='w-8 h-8'
           priority
         />
+        Lift Companion
       </Link>
       {session &&
         <>
+          <div className='sm:hidden'>
+            <Button variant="outline" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <XIcon size={20} /> : <Menu className='h-5 w-5' />}
+            </Button>
+            {isMenuOpen && mobileMenuOverlay}
+          </div>
           <div className='max-sm:hidden'>
-            <div className='flex w-full justify-between gap-8 items-center'>
-              <Link className='text-muted-foreground hover:text-foreground text-sm' href='/exercises'>Exercises</Link>
-              <Separator className="h-5" orientation='vertical'/>
-              <div className='flex gap-2'>
-                <Button variant="ghost" size="icon" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-                  {theme === 'light' ? <Moon className='h-5 w-5' /> : <Sun className='h-5 w-5' />}
-                </Button>
-                <Button variant="ghost" size="icon" onClick={() => signOut()}>
-                  <LogOut className='h-5 w-5' />
-                </Button>
-              </div>
+            <div className="flex items-center gap-8">
+              <Link className='text-lowContrast-foreground hover:text-foreground text-sm' href='/exercises'>Exercises</Link>
+              <DropdownMenu>
+                <DropdownMenu.Trigger asChild>
+                  <Button
+                    variant="ghost"
+                    className={cn(
+                      'flex items-center border border-transparent gap-2 hover:bg-surface p-1',
+                      'data-[state=open]:bg-surface data-[state=open]:border-border',
+                      '[&>svg]:rotate-0 [&>svg]:transition-transform [&>svg]:data-[state=open]:rotate-180 [&>svg]:data-[state=open]:transition-transform'
+                    )}
+                  >
+                    <Avatar className='h-8 w-8 ml-1'>
+                      <Avatar.Image src={session?.user.image as string} alt='alt'/>
+                      <Avatar.Fallback>{session?.user.name?.charAt(0) as string}</Avatar.Fallback>
+                    </Avatar>
+                    <ChevronDownIcon size={32} strokeWidth={1}/>
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content className="min-w-fit" align='end'>
+                  <DropdownMenu.Item className='px-4 py-2' onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+                    {theme === 'dark' ? <Moon className="pr-2"/> : <Sun className="pr-2"/>}
+                    Theme
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item className='px-4 py-2'>
+                    <Settings className="pr-2" />
+                    Settings
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item className='px-4 py-2' onSelect={() => signOut()}>
+                    <LogOut className="pr-2" />
+                    Logout
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu>
             </div>
           </div>
         </>

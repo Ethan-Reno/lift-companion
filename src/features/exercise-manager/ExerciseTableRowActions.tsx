@@ -31,56 +31,54 @@ export function ExerciseTableRowActions({
   };
 
   return (
-    <div className="flex justify-end">
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DropdownMenu>
-          <DropdownMenu.Trigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className="data-[state=open]:bg-muted"
-            >
-              <MoreHorizontal className="h-5 w-5" />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content align="end" className="w-[160px]">
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DropdownMenu>
+        <DropdownMenu.Trigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="data-[state=open]:bg-muted"
+          >
+            <MoreHorizontal className="h-5 w-5" />
+            <span className="sr-only">Open menu</span>
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+        <DropdownMenu.Item>
+            <Link href={`/workout/${id}`} className='flex items-center'>
+              <Dumbbell className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              Start Workout
+              <span className="sr-only">View details</span>
+            </Link>
+          </DropdownMenu.Item>
           <DropdownMenu.Item>
-              <Link href={`/workout/${id}`} className='flex items-center'>
-                <Dumbbell className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-                Start Workout
-                <span className="sr-only">View details</span>
-              </Link>
-            </DropdownMenu.Item>
+            <Link href={`/exercises/${id}`} className='flex items-center'>
+              <LineChart className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              View Data
+              <span className="sr-only">View details</span>
+            </Link>
+          </DropdownMenu.Item>
+          <Dialog.Trigger asChild onClick={(): void => setDialogType('update')}>
             <DropdownMenu.Item>
-              <Link href={`/exercises/${id}`} className='flex items-center'>
-                <LineChart className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-                View Data
-                <span className="sr-only">View details</span>
-              </Link>
+              <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              Edit
+              <span className="sr-only">Edit exercise</span>
             </DropdownMenu.Item>
-            <Dialog.Trigger asChild onClick={(): void => setDialogType('update')}>
-              <DropdownMenu.Item>
-                <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-                Edit
-                <span className="sr-only">Edit exercise</span>
-              </DropdownMenu.Item>
-            </Dialog.Trigger>
-            <DropdownMenu.Separator />
-            <Dialog.Trigger
-              asChild
-              onClick={(): void => setDialogType(status === 'deleted' ? 'hardDelete' : 'softDelete')}
-            >
-              <DropdownMenu.Item>
-                <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-                Delete
-                <span className="sr-only">Delete exercise</span>
-              </DropdownMenu.Item>
-            </Dialog.Trigger>
-          </DropdownMenu.Content>
-        </DropdownMenu>
-        {getDialogContent()}
-      </Dialog>
-    </div>
+          </Dialog.Trigger>
+          <DropdownMenu.Separator />
+          <Dialog.Trigger
+            asChild
+            onClick={(): void => setDialogType(status === 'deleted' ? 'hardDelete' : 'softDelete')}
+          >
+            <DropdownMenu.Item>
+              <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              Delete
+              <span className="sr-only">Delete exercise</span>
+            </DropdownMenu.Item>
+          </Dialog.Trigger>
+        </DropdownMenu.Content>
+      </DropdownMenu>
+      {getDialogContent()}
+    </Dialog>
   );
 }

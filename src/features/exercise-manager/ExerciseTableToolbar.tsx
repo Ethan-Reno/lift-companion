@@ -14,6 +14,14 @@ export function ExerciseTableToolbar<TData>({
   table.getPreFilteredRowModel().rows.length >
   table.getFilteredRowModel().rows.length;
 
+  const columnsToDisplay = [
+    'actions',
+    'name',
+    'status',
+    'description',
+    'measurement',
+  ];
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -101,7 +109,7 @@ export function ExerciseTableToolbar<TData>({
                 typeof column.accessorFn !== "undefined" && column.getCanHide()
             )
             .map((column) => {
-              if (column.id !== 'name' && column.id !== 'id' && column.id !== 'description') {
+              if (columnsToDisplay.includes(column.id)) {
                 return (
                   <DropdownMenu.CheckboxItem
                     key={column.id}
