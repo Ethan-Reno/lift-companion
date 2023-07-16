@@ -49,12 +49,12 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
         onSubmit={form.handleSubmit(onSubmit, onError)}
       >
         <Tabs
-          className='flex flex-col items-center w-full max-w-[450px] border rounded-md'
+          className='flex flex-col items-center w-full border bg-surface sm:max-w-[450px] rounded-md'
           defaultValue="sets"
         >
-          <Tabs.List className='w-fit'>
-            <Tabs.Trigger value="sets">Sets</Tabs.Trigger>
-            <Tabs.Trigger value="insights">Insights</Tabs.Trigger>
+          <Tabs.List className='w-full border-b'>
+            <Tabs.Trigger className='w-1/2 p-3' value="sets">Sets</Tabs.Trigger>
+            <Tabs.Trigger className='w-1/2 p-3' value="insights">Insights</Tabs.Trigger>
           </Tabs.List>
           <Tabs.Content className='py-5 px-3 w-full' value="sets">
             <SetsFormSection

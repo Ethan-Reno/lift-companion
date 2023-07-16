@@ -1,57 +1,43 @@
 import React from 'react';
-import { DropdownMenu, Avatar, Button, ChevronDownIcon } from 'good-nice-ui';
-import { signOut } from 'next-auth/react';
+import { Button, Separator } from 'good-nice-ui';
+import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
-import logo from '../../public/barbell.png';
-import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { LogOut, Moon, Sun } from 'lucide-react';
+import logo from '../../public/barbell.png';
 
 export const NavMenu = () => {
   const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
 
   return (
-    <div className="flex p-6 justify-between items-center border-b">
-      <div className="flex items-center mr-4 gap-3 align-middle">
-        <Image 
+    <div className='mx-auto px-4 w-full max-w-5xl flex h-14 items-center justify-between'>
+      <Link href="/">
+        <Image
           src={logo}
           alt="logo"
-          width={32}
-          height={32}
+          className='w-8 h-8'
           priority
         />
-        <h1 className="text-lg font-medium">Lift Companion</h1>
-      </div>
+      </Link>
       {session &&
-        <DropdownMenu>
-          <DropdownMenu.Trigger asChild>
-            <Button
-              variant="ghost"
-              className='flex items-center gap-2 hover:bg-transparent'
-            >
-              <Avatar>
-                <Avatar.Image src={session?.user.image as string} alt='alt'/>
-                <Avatar.Fallback>{session?.user.name?.charAt(0) as string}</Avatar.Fallback>
-              </Avatar>
-              <ChevronDownIcon size={36} className="pr-2" />
-            </Button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content>
-            <DropdownMenu.Item
-              onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            >
-              {theme === 'dark' ? <Moon className="pr-2"/> : <Sun className="pr-2"/>}
-              Theme
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              onSelect={() => signOut()}
-            >
-              <LogOut className="pr-2" />
-              Logout
-            </DropdownMenu.Item>
-          </DropdownMenu.Content>
-        </DropdownMenu>
+        <>
+          <div className='max-sm:hidden'>
+            <div className='flex w-full justify-between gap-8 items-center'>
+              <Link className='text-muted-foreground hover:text-foreground text-sm' href='/exercises'>Exercises</Link>
+              <Separator className="h-5" orientation='vertical'/>
+              <div className='flex gap-2'>
+                <Button variant="ghost" size="icon" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+                  {theme === 'light' ? <Moon className='h-5 w-5' /> : <Sun className='h-5 w-5' />}
+                </Button>
+                <Button variant="ghost" size="icon" onClick={() => signOut()}>
+                  <LogOut className='h-5 w-5' />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </>
       }
     </div>
   );

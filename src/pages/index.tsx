@@ -1,10 +1,9 @@
-import React, { type FC, useEffect, useState } from "react";
+import React, { type FC, useEffect } from "react";
 import { useTheme } from 'next-themes';
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
-import { Button, Skeleton, buttonVariants } from 'good-nice-ui';
-import Link from "next/link";
+import { Button } from 'good-nice-ui';
 import { RecentExercisesChart } from "../features/dashboard/RecentExercisesChart";
 
 const Home: NextPage = () => {
@@ -27,14 +26,7 @@ const Home: NextPage = () => {
 const Dashboard: FC = () => {
   const { status } = useSession();
   return (
-    <div className="flex flex-col justify-center gap-16">
-      {status === 'loading' ? (
-        <Skeleton className="h-[48px] w-[127px]" />
-      ) : (
-        <Link href="/exercises" className={buttonVariants({ variant: "outline" })}>
-          View Exercises
-        </Link>
-      )}
+    <div className="flex flex-col">
       <RecentExercisesChart />
     </div>
   );
