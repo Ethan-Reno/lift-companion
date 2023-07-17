@@ -88,7 +88,7 @@ export const CreateExerciseDialog = () => {
               <Form.Item>
                 <Form.Label>Measurement</Form.Label>
                 <div className='flex items-center gap-2'>
-                  <Select onValueChange={field.onChange} defaultValue="weight">
+                  <Select onValueChange={() => field.onChange} defaultValue="weight">
                     <Form.Control>
                       <Select.Trigger>
                         <Select.Value placeholder="Pick a measurement" />

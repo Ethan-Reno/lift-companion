@@ -116,7 +116,7 @@ export const UpdateExerciseDialog = ({
                 <Form.Item>
                   <Form.Label>Measurement</Form.Label>
                   <div className='flex items-center gap-2'>
-                    <Select onValueChange={field.onChange} defaultValue={currentExercise.measurement}>
+                    <Select onValueChange={() => field.onChange} defaultValue={currentExercise.measurement}>
                       <Form.Control>
                         <Select.Trigger>
                           <Select.Value/>
