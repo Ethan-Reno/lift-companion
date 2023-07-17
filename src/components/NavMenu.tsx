@@ -78,15 +78,17 @@ export const NavMenu = () => {
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content className="min-w-fit" align='end'>
-                  <DropdownMenu.Item className='px-4 py-2' onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+                  <DropdownMenu.Label className="text-lowContrast-foreground">Menu</DropdownMenu.Label>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Item className='p-2' onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
                     {theme === 'dark' ? <Moon className="pr-2"/> : <Sun className="pr-2"/>}
                     Theme
                   </DropdownMenu.Item>
-                  <DropdownMenu.Item className='px-4 py-2'>
+                  <DropdownMenu.Item className='p-2'>
                     <Settings className="pr-2" />
                     Settings
                   </DropdownMenu.Item>
-                  <DropdownMenu.Item className='px-4 py-2' onSelect={() => signOut()}>
+                  <DropdownMenu.Item className='p-2' onSelect={() => signOut()}>
                     <LogOut className="pr-2" />
                     Logout
                   </DropdownMenu.Item>

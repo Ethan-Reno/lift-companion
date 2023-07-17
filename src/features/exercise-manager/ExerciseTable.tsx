@@ -17,6 +17,7 @@ import { Table } from "good-nice-ui";
 import { ExerciseTablePagination } from "./ExerciseTablePagination";
 import { ExerciseTableToolbar } from "./ExerciseTableToolbar";
 import { CreateExerciseDialog } from "../../components/Dialogs/CreateExerciseDialog";
+import { cn } from "../../utils/cn";
 
 interface ExerciseTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -66,13 +67,15 @@ export function ExerciseTable<TData, TValue>({
       <ExerciseTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
-          <Table.Header>
+          <Table.Header className="bg-surface rounded-t-md">
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Row key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  console.log(header);
+                {headerGroup.headers.map((header, index) => {
                   return (
-                    <Table.Head key={header.id}>
+                    <Table.Head
+                      key={header.id}
+                      className={cn(index === 0 && 'rounded-tl-md', index === headerGroup.headers.length -1 && 'rounded-tr-md')}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(

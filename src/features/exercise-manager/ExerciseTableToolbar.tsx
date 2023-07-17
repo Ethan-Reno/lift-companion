@@ -100,20 +100,17 @@ export function ExerciseTableToolbar<TData>({
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content align="end" className="w-[150px]">
-          <DropdownMenu.Label>Toggle columns</DropdownMenu.Label>
+          <DropdownMenu.Label className="text-lowContrast-foreground">Toggle columns</DropdownMenu.Label>
           <DropdownMenu.Separator />
           {table
             .getAllColumns()
-            .filter(
-              (column) =>
-                typeof column.accessorFn !== "undefined" && column.getCanHide()
-            )
+            .filter((column) => typeof column.accessorFn !== "undefined" && column.getCanHide())
             .map((column) => {
               if (columnsToDisplay.includes(column.id)) {
                 return (
                   <DropdownMenu.CheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    className="capitalize p-2 pl-8"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >
