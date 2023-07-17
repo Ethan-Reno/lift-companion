@@ -2,79 +2,12 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { ExerciseStatusEnum, type Exercise, MeasurementEnum } from "../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
-import { Badge, Skeleton, Tooltip, TooltipProvider } from "good-nice-ui";
+import { Badge, Popover, Skeleton } from "good-nice-ui";
 
 export const exerciseColumns: ColumnDef<Exercise>[] = [
   {
-    accessorKey: "id",
-    header: () => null,
-    cell: () => null
-  },
-  {
-    accessorKey: "description",
-    header: () => null,
-    cell: () => null
-  },
-  {
-    accessorKey: "name",
-    header: ({ column }) => (
-      <ExerciseTableColumnHeader column={column} title="Name" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <TooltipProvider>
-          <Tooltip>
-            <Tooltip.Trigger>
-              <span className="max-w-[500px] truncate font-medium cursor-default">
-                {row.getValue("name")}
-              </span>
-            </Tooltip.Trigger>
-            <Tooltip.Content>
-              {row.getValue("description")}
-            </Tooltip.Content>
-          </Tooltip>
-        </TooltipProvider>
-      )
-    },
-  },
-  {
-    accessorKey: "status",
-    header: ({ column }) => (
-      <ExerciseTableColumnHeader column={column} title="Status" />
-    ),
-    cell: ({ row }) => {
-      const status: ExerciseStatusEnum = row.getValue("status");
-      return (
-        <Badge variant={status === 'inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "measurement",
-    header: ({ column }) => (
-      <ExerciseTableColumnHeader column={column} title="Measurement" />
-    ),
-    cell: ({ row }) => {
-      const measurement: MeasurementEnum = row.getValue("measurement");
-      return (
-        <div className="flex items-center">
-          <span>{measurement}</span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "createdAt",
-    header: () => null,
-    cell: () => null
-  },
-  {
-    accessorKey: "updatedAt",
-    header: () => null,
-    cell: () => null
-  },
-  {
     id: "actions",
+    maxSize: 40,
     cell: ({ row }) => {
       return (
         <ExerciseTableRowActions
@@ -90,6 +23,81 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
         />
       );
     },
+  },
+  {
+    accessorKey: "name",
+    header: ({ column }) => (
+      <ExerciseTableColumnHeader column={column} title="Name" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <Popover>
+          <Popover.Trigger>
+            <span className="max-w-[500px] truncate font-medium cursor-default">
+              {row.getValue("name")}
+            </span>
+          </Popover.Trigger>
+          <Popover.Content>
+            {row.getValue("description")}
+          </Popover.Content>
+        </Popover>
+      )
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <ExerciseTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const status: ExerciseStatusEnum = row.getValue("status");
+      return (
+        <Badge className='capitalize' variant={status === 'inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "description",
+    header: ({ column }) => (
+      <ExerciseTableColumnHeader column={column} title="Description" />
+    ),
+    cell: ({ row }) => {
+      const description: string = row.getValue("description");
+      return (
+        <div className="flex items-center">
+          <span>{description}</span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "measurement",
+    header: ({ column }) => (
+      <ExerciseTableColumnHeader column={column} title="Measurement" />
+    ),
+    cell: ({ row }) => {
+      const measurement: MeasurementEnum = row.getValue("measurement");
+      return (
+        <div className="flex items-center capitalize">
+          <span>{measurement}</span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "id",
+    header: () => null,
+    cell: () => null
+  },
+  {
+    accessorKey: "createdAt",
+    header: () => null,
+    cell: () => null
+  },
+  {
+    accessorKey: "updatedAt",
+    header: () => null,
+    cell: () => null
   },
 ];
 

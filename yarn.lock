@@ -2227,10 +2227,10 @@ globrex@^0.1.2:
   resolved "https://registry.yarnpkg.com/globrex/-/globrex-0.1.2.tgz#dd5d9ec826232730cd6793a5e33a9302985e6098"
   integrity sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==
 
-good-nice-ui@0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/good-nice-ui/-/good-nice-ui-0.5.0.tgz#86cc7dea23403ab0dc670ad9744cf8557bdb9c13"
-  integrity sha512-N+AGFhukl1W+VudzfiCFcMJ8DMqhNuziCwwTTuIswURj9AyyHr6Tj2CpZFjWSgzWuV0QMSBFM3E74B0QiV8jzg==
+good-nice-ui@0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/good-nice-ui/-/good-nice-ui-0.5.3.tgz#7c5ab40c19f8af6c0fcaf55d616648b57214f809"
+  integrity sha512-piONMneG3rguN3wKGvYFXMiGAZTNYgCACbMwYlneVi8VsfxaT0cuvKBWjiUJnO9RZ9p0y4wouK9UTgz1j0BxCg==
   dependencies:
     "@radix-ui/react-accordion" "^1.1.2"
     "@radix-ui/react-aspect-ratio" "^1.0.3"

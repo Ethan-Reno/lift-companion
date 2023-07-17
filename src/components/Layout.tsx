@@ -14,9 +14,11 @@ export const Layout = ({ children }: LayoutProps) => {
       <Head>
         <title>Lift Companion</title>
       </Head>
-      <main className={`${roboto.variable} font-sans max-w-5xl mx-auto`}>
-        <NavMenu />
-        <div id="Content" className="p-6">
+      <main className={`${roboto.variable} flex flex-col font-sans min-h-screen relative`}>
+        <header className='sticky top-0 w-full bg-background z-40'>
+          <NavMenu />
+        </header>
+        <div id="Content" className="self-center px-4 py-8 w-full max-w-5xl">
           {children}
         </div>
         {/* <Footer /> */}

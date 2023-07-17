@@ -1,12 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { type NextPage } from "next";
-import Link from "next/link";
-import { buttonVariants } from "good-nice-ui";
-import { ArrowBigLeft } from "lucide-react";
 import { api } from "../../utils/api";
 import { ExerciseTable } from "../../features/exercise-manager/ExerciseTable";
 import { exerciseColumns, getExerciseLoadingColumns } from "../../features/exercise-manager/ExerciseTableColumns";
 import { useStore } from "../../store/store";
+import { Header } from "../../components";
 
 const Exercises: NextPage = () => {
   const { shouldRefetch, setShouldRefetch } = useStore();
@@ -39,14 +37,11 @@ const Exercises: NextPage = () => {
 
   return (
     <div className="flex flex-col gap-16">
-      <div className="flex gap-6 items-center">
-        <Link
-          href="/"
-          className={buttonVariants({ variant: "outline", size: "sm" })}
-        >
-          <ArrowBigLeft className="h-4 w-4"/>
-        </Link>
-        <span className="text-2xl">Exercise Manager</span>
+      <div className='self-start'>
+        <Header
+          isLoading={isLoading}
+          header='Exercise Manager'
+        />
       </div>
       <ExerciseTable data={tableData} columns={tableColumns} />
     </div>

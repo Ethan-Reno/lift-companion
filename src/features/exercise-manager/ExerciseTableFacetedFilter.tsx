@@ -40,6 +40,8 @@ export function ExerciseTableFacetedFilter<TData, TValue>({
         </Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
+        <DropdownMenu.Label className="text-lowContrast-foreground">Filter</DropdownMenu.Label>
+        <DropdownMenu.Separator />
         <DropdownMenu.RadioGroup
           onValueChange={value => {
             column?.setFilterValue(value || undefined)
@@ -68,7 +70,7 @@ export function ExerciseTableFacetedFilter<TData, TValue>({
             <DropdownMenu.Separator />
             <DropdownMenu.Item
               onSelect={() => column?.setFilterValue(undefined)}
-              className="justify-center text-center"
+              className="justify-center text-center p-2"
             >
               Clear filter
             </DropdownMenu.Item>

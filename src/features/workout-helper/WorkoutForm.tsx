@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { CreateWorkoutInputs, createWorkoutSchema } from '../../schemas/WorkoutSchema';
-import { Button, Form, FormProvider, Tabs, buttonVariants } from 'good-nice-ui';
+import { Button, Form, FormProvider, Separator, Tabs, buttonVariants } from 'good-nice-ui';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { SetsFormSection } from './SetsFormSection';
@@ -49,20 +49,21 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
         onSubmit={form.handleSubmit(onSubmit, onError)}
       >
         <Tabs
-          className='flex flex-col items-center w-full max-w-[450px] border rounded-md'
+          className='flex flex-col items-center w-full border sm:max-w-[450px] rounded-md'
           defaultValue="sets"
         >
-          <Tabs.List className='w-fit'>
-            <Tabs.Trigger value="sets">Sets</Tabs.Trigger>
-            <Tabs.Trigger value="insights">Insights</Tabs.Trigger>
+          <Tabs.List className='w-full border-b bg-surface rounded-t-md'>
+            <Tabs.Trigger className='w-1/2 p-3' value="sets">Sets</Tabs.Trigger>
+            <Separator className='h-12 bg-border' orientation="vertical"/>
+            <Tabs.Trigger className='w-1/2 p-3' value="insights">Insights</Tabs.Trigger>
           </Tabs.List>
-          <Tabs.Content className='py-5 px-3 w-full' value="sets">
+          <Tabs.Content className='w-full' value="sets">
             <SetsFormSection
               form={form}
               measurement={exerciseData.measurement}
             />
           </Tabs.Content>
-          <Tabs.Content className='py-5 px-3 w-full' value="insights">
+          <Tabs.Content className='w-full' value="insights">
             <InsightsFormSection
               form={form}
               selectedInsights={selectedInsights}

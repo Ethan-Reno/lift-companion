@@ -38,11 +38,13 @@ export function ExerciseTableColumnHeader<TData, TValue>({
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content align="start">
-          <DropdownMenu.Item onClick={() => column.toggleSorting(false)}>
+          <DropdownMenu.Label className="text-lowContrast-foreground">Sort</DropdownMenu.Label>
+          <DropdownMenu.Separator />
+          <DropdownMenu.Item className='p-2' onClick={() => column.toggleSorting(false)}>
             <SortAsc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Asc
           </DropdownMenu.Item>
-          <DropdownMenu.Item onClick={() => column.toggleSorting(true)}>
+          <DropdownMenu.Item className='p-2' onClick={() => column.toggleSorting(true)}>
             <SortDesc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
             Desc
           </DropdownMenu.Item>

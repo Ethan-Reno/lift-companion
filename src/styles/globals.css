@@ -3,20 +3,106 @@
 @import "tailwindcss/utilities";
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
 
+@layer base {
+  :root {
+    /* Backgrounds */
+    /* zinc-50 */
+    --background: 0 0% 98%;
+    /* zinc-100 */
+    --surface: 240 5% 96%;
+    /* zinc-200 */
+    --muted: 240 6% 90%;
+    /* zinc-300 */
+    --accent: 240 5% 84%;
+    /* zinc-400 */
+    --lowContrast: 240 5% 65%;
+
+    /* Foregrounds */
+    /* zinc-500 */
+    --lowContrast-foreground: 240 4% 46%;
+    /* zinc-600 */
+    --muted-foreground: 240 5% 34%;
+    /* zinc-900 */
+    --foreground: 240 6% 10%;
+
+    /* zinc-500 */
+    --border: 240 4% 46%;
+
+    /* blue-600 */
+    --primary: 221 83% 53%;
+    /* blue-700 */
+    --primary-hover: 224 76% 48%;
+    /* zinc-50 */
+    --primary-foreground: 0 0% 98%;
+
+    /* zinc-200 */
+    --secondary: 240 6% 90%;
+    /* zinc-300 */
+    --secondary-hover: 240 5% 84%;
+    /* zinc-900 */
+    --secondary-foreground: 240 6% 10%;
+
+    /* red-500 */
+    --destructive: 0 84% 60%;
+    /* red-600 */
+    --destructive-hover: 0 72% 51%;
+    /* zinc-50 */
+    --destructive-foreground: 0 0% 98%;
+
+    /* blue-600 */
+    --ring: 221 83% 53%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark,
+  [data-mode='dark'] {
+    /* Backgrounds */
+    /* zinc-900 */
+    --background: 240 6% 10%;
+    /* zinc-800 */
+    --surface: 240 4% 16%;
+    /* zinc-700 */
+    --muted: 240 5% 26%;
+    /* zinc-600 */
+    --accent: 240 5% 34%;
+    /* zinc-500 */
+    --lowContrast: 240 4% 46%;
+
+    /* Foregrounds */
+    /* zinc-400 */
+    --lowContrast-foreground: 240 5% 65%;
+    /* zinc-300 */
+    --muted-foreground: 240 5% 84%;
+    /* zinc-50 */
+    --foreground: 0 0% 98%;
+
+    /* zinc-700 */
+    --border: 240 5% 26%;
+
+    /* zinc-700 */
+    --secondary: 240 5% 26%;
+    /* zinc-600 */
+    --secondary-hover: 240 5% 34%;
+    /* zinc-50 */
+    --secondary-foreground: 0 0% 98%;
+  }
+}
+
 :root {
   @apply scroll-smooth;
 }
 
 html {
   @apply bg-zinc-50;
-  @apply text-zinc-800;
+  @apply text-zinc-900;
   scrollbar-color: #00000080 transparent;
   scrollbar-width: auto;
 }
 
 html[class*="dark"] {
-  @apply bg-zinc-800;
-  @apply text-zinc-200;
+  @apply bg-zinc-900;
+  @apply text-zinc-50;
   scrollbar-color: #ffffffb3 transparent;
   scrollbar-width: auto;
 }

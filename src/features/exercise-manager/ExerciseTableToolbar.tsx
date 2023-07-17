@@ -14,6 +14,14 @@ export function ExerciseTableToolbar<TData>({
   table.getPreFilteredRowModel().rows.length >
   table.getFilteredRowModel().rows.length;
 
+  const columnsToDisplay = [
+    'actions',
+    'name',
+    'status',
+    'description',
+    'measurement',
+  ];
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -92,20 +100,17 @@ export function ExerciseTableToolbar<TData>({
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content align="end" className="w-[150px]">
-          <DropdownMenu.Label>Toggle columns</DropdownMenu.Label>
+          <DropdownMenu.Label className="text-lowContrast-foreground">Toggle columns</DropdownMenu.Label>
           <DropdownMenu.Separator />
           {table
             .getAllColumns()
-            .filter(
-              (column) =>
-                typeof column.accessorFn !== "undefined" && column.getCanHide()
-            )
+            .filter((column) => typeof column.accessorFn !== "undefined" && column.getCanHide())
             .map((column) => {
-              if (column.id !== 'name' && column.id !== 'id' && column.id !== 'description') {
+              if (columnsToDisplay.includes(column.id)) {
                 return (
                   <DropdownMenu.CheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    className="capitalize p-2 pl-8"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >
