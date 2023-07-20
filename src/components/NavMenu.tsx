@@ -4,17 +4,24 @@ import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LogOut, Menu, Moon, Settings, Sun } from 'lucide-react';
+import { Dumbbell, LogOut, Menu, Moon, Settings, Sun } from 'lucide-react';
 import logo from '../../public/barbell.png';
 import { cn } from '../utils/cn';
+import { useRouter } from 'next/router';
+
 
 export const NavMenu = () => {
   const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
+  const router = useRouter();
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+  console.log(router.pathname);
   const mobileMenuOverlay = (
     <div className='fixed top-16 left-0 w-screen h-screen bg-background z-50'>
       <div className="flex flex-col gap-8 text-2xl items-center pt-8">
+        <Link href='/' onClick={() => setIsMenuOpen(false)}>
+          Dashboard
+        </Link>
         <Link href='/exercises' onClick={() => setIsMenuOpen(false)}>
           Exercises
         </Link>
@@ -41,12 +48,13 @@ export const NavMenu = () => {
   return (
     <div className='mx-auto px-4 w-full max-w-5xl flex h-14 items-center justify-between'>
       <Link href="/" className='flex gap-4 items-center'>
-        <Image
+        {/* <Image
           src={logo}
           alt="logo"
           className='w-8 h-8'
           priority
-        />
+        /> */}
+        <Dumbbell className='h-8 w-8 text-blue-500 border border-muted-foreground rounded-full p-1' />
         Lift Companion
       </Link>
       {session &&
@@ -59,7 +67,24 @@ export const NavMenu = () => {
           </div>
           <div className='max-sm:hidden'>
             <div className="flex items-center gap-8">
-              <Link className='text-lowContrast-foreground hover:text-foreground text-sm' href='/exercises'>Exercises</Link>
+              <Link
+                className={cn(
+                  'text-lowContrast-foreground hover:text-foreground text-sm transition-colors',
+                  router.pathname === '/' && 'text-foreground underline'
+                )}
+                href='/'
+              >
+                Dashboard
+              </Link>
+              <Link
+                className={cn(
+                  'text-lowContrast-foreground hover:text-foreground text-sm transition-colors',
+                  router.pathname === '/exercises' && 'text-foreground underline'
+                )}
+                href='/exercises'
+              >
+                Exercises
+              </Link>
               <DropdownMenu>
                 <DropdownMenu.Trigger asChild>
                   <Button
