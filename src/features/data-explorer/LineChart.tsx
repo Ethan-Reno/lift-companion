@@ -10,6 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Colors,
   ChartData,
   ChartOptions,
 } from 'chart.js';
@@ -23,7 +24,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Colors,
 );
 
 export enum X_AXIS_TYPE {
@@ -51,13 +53,13 @@ export const LineChart = ({ data, axes, title }: LineChartProps) => {
   // Due to the date-fns adapter being kind of weird
   const options: ChartOptions<'line'> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'top',
+        display: false,
       },
       title: {
-        display: true,
-        text: title,
+        display: false,
       },
     },
     scales: {
