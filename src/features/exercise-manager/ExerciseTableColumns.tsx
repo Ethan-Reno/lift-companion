@@ -38,18 +38,6 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
     },
   },
   {
-    accessorKey: "status",
-    header: ({ column }) => (
-      <ExerciseTableColumnHeader column={column} title="Status" />
-    ),
-    cell: ({ row }) => {
-      const status: ExerciseStatusEnum = row.getValue("status");
-      return (
-        <Badge className='capitalize' variant={status === 'inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
-      );
-    },
-  },
-  {
     accessorKey: "description",
     header: ({ column }) => (
       <ExerciseTableColumnHeader column={column} title="Description" />
@@ -74,6 +62,18 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
         <div className="flex items-center capitalize">
           <span>{measurement}</span>
         </div>
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <ExerciseTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      const status: ExerciseStatusEnum = row.getValue("status");
+      return (
+        <Badge className='capitalize' variant={status === 'inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
       );
     },
   },

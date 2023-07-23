@@ -1,7 +1,6 @@
 import { type Table } from "@tanstack/react-table";
 import { Button, DropdownMenu, Input, XIcon } from "good-nice-ui";
 import { SlidersHorizontal } from "lucide-react";
-import { ExerciseTableFacetedFilter } from "./ExerciseTableFacetedFilter";
 
 interface ExerciseTableToolbarProps<TData> {
   table: Table<TData>;
@@ -34,48 +33,6 @@ export function ExerciseTableToolbar<TData>({
           }
           className="h-8 w-[150px] sm:w-[250px]"
         />
-        {/* Faceted Filters */}
-        {/* Disabled due to hydration error */}
-        {/* {table.getColumn("status") && (
-          <ExerciseTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={[
-              {
-                label: "Inactive",
-                value: "inactive",
-              },
-              {
-                label: "Active",
-                value: "active",
-              },
-              {
-                label: "Deleted",
-                value: "deleted",
-              }
-            ]}
-          />
-        )}
-        {table.getColumn("measurement") && (
-          <ExerciseTableFacetedFilter
-            column={table.getColumn("measurement")}
-            title="Measurement"
-            options={[
-              {
-                label: "Weight",
-                value: "weight",
-              },
-              {
-                label: "Distance",
-                value: "distance",
-              },
-              {
-                label: "Time",
-                value: "time",
-              }
-            ]}
-          />
-        )} */}
         {isFiltered && (
           <Button
             variant="ghost"
