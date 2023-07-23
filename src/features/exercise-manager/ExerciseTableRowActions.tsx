@@ -48,21 +48,21 @@ export function ExerciseTableRowActions({
           <DropdownMenu.Separator />
           <DropdownMenu.Item className='p-2'>
             <Link href={`/workout/${id}`} className='flex items-center'>
-              <Dumbbell className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              <Dumbbell className="mr-2 h-3.5 w-3.5 text-primary" />
               Start Workout
               <span className="sr-only">View details</span>
             </Link>
           </DropdownMenu.Item>
           <DropdownMenu.Item className='p-2'>
             <Link href={`/exercises/${id}`} className='flex items-center'>
-              <LineChart className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              <LineChart className="mr-2 h-3.5 w-3.5 text-primary" />
               View Data
               <span className="sr-only">View details</span>
             </Link>
           </DropdownMenu.Item>
           <Dialog.Trigger asChild onClick={(): void => setDialogType('update')}>
             <DropdownMenu.Item className='p-2'>
-              <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              <Pen className="mr-2 h-3.5 w-3.5 text-primary" />
               Edit
               <span className="sr-only">Edit exercise</span>
             </DropdownMenu.Item>
@@ -72,7 +72,7 @@ export function ExerciseTableRowActions({
             onClick={(): void => setDialogType(status === 'deleted' ? 'hardDelete' : 'softDelete')}
           >
             <DropdownMenu.Item className='p-2'>
-              <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+              <Trash className="mr-2 h-3.5 w-3.5 text-primary" />
               Delete
               <span className="sr-only">Delete exercise</span>
             </DropdownMenu.Item>

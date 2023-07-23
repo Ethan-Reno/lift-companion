@@ -33,23 +33,20 @@ export const RecentExercisesGrid = () => {
     <div className='flex flex-col gap-4'>
       <div className='flex items-center justify-between'>
         <div className=''>Dashboard</div>
-        <div className="flex gap-3 items-center">
-          <Label>Sort By:</Label>
-          <Select
-            onValueChange={(value) => setSortType(value as SORT_TYPE)}
-            defaultValue={sortType}
-          >
-            <Select.Trigger className='w-32'>{sortType}</Select.Trigger>
-            <Select.Content>
-              <Select.Item value={SORT_TYPE.MOST_RECENT}>
-                Most Recent
-              </Select.Item>
-              <Select.Item disabled value={SORT_TYPE.FAVOURITES}>
-                Favourites
-              </Select.Item>
-            </Select.Content>
-          </Select>
-        </div>
+        <Select
+          onValueChange={(value) => setSortType(value as SORT_TYPE)}
+          defaultValue={sortType}
+        >
+          <Select.Trigger className='w-32'>{sortType}</Select.Trigger>
+          <Select.Content>
+            <Select.Item value={SORT_TYPE.MOST_RECENT}>
+              Most Recent
+            </Select.Item>
+            <Select.Item disabled value={SORT_TYPE.FAVOURITES}>
+              Favourites
+            </Select.Item>
+          </Select.Content>
+        </Select>
       </div>
       <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
         {isLoading && (
@@ -87,14 +84,14 @@ export const RecentExercisesGrid = () => {
                     <DropdownMenu.Separator />
                     <DropdownMenu.Item className='p-2'>
                       <Link href={`/workout/${exercise.id}`} className='flex items-center'>
-                        <Dumbbell className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                        <Dumbbell className="mr-2 h-3.5 w-3.5 text-primary" />
                         Start Workout
                         <span className="sr-only">View details</span>
                       </Link>
                     </DropdownMenu.Item>
                     <DropdownMenu.Item className='p-2'>
                       <Link href={`/exercises/${exercise.id}`} className='flex items-center'>
-                        <LineChartIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                        <LineChartIcon className="mr-2 h-3.5 w-3.5 text-primary" />
                         View Data
                         <span className="sr-only">View details</span>
                       </Link>

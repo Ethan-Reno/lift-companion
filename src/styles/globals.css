@@ -80,6 +80,13 @@
     /* zinc-700 */
     --border: 240 5% 26%;
 
+    /* blue-500 */
+    --primary: 217 91% 60%;
+    /* blue-600 */
+    --primary-hover: 221 83% 53%;
+    /* zinc-900 */
+    --primary-foreground: 240 6% 10%;
+
     /* zinc-700 */
     --secondary: 240 5% 26%;
     /* zinc-600 */

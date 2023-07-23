@@ -2,6 +2,7 @@ import { type Column } from "@tanstack/react-table";
 import { ChevronsUpDown, Filter, SortAsc, SortDesc } from "lucide-react";
 import { Button, DropdownMenu } from "good-nice-ui";
 import { clsx } from "clsx";
+import { cn } from "../../utils/cn";
 
 interface ExerciseTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -39,11 +40,11 @@ export function ExerciseTableColumnHeader<TData, TValue>({
         <DropdownMenu.Label className="text-lowContrast-foreground">Sort</DropdownMenu.Label>
         <DropdownMenu.Separator />
         <DropdownMenu.Item className='p-2' onClick={() => column.toggleSorting(false)}>
-          <SortAsc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          <SortAsc className="mr-2 h-3.5 w-3.5 text-primary" />
           Asc
         </DropdownMenu.Item>
         <DropdownMenu.Item className='p-2' onClick={() => column.toggleSorting(true)}>
-          <SortDesc className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          <SortDesc className="mr-2 h-3.5 w-3.5 text-primary" />
           Desc
         </DropdownMenu.Item>
         {column.getIsSorted() && (
@@ -70,9 +71,7 @@ export function ExerciseTableColumnHeader<TData, TValue>({
           className="-ml-3 h-8 data-[state=open]:bg-accent"
         >
           <span>{title}</span>
-          {selectedValue ? (
-            <Filter className="ml-2 h-4 w-4 text-primary" />
-          ) : <Filter className="ml-2 h-4 w-4" />}
+          <Filter className={cn("ml-2 h-4 w-4 ", selectedValue && "text-primary")} />
         </Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
