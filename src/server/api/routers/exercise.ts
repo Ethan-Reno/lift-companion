@@ -8,6 +8,14 @@ export const exerciseRouter = createTRPCRouter({
         where: {
           userId: ctx.session.user.id,
         },
+        include: {
+          workouts: {
+            include: {
+              sets: true,
+              insights: true,
+            },
+          },
+        },
         orderBy: {
           updatedAt: "desc",
         },
@@ -24,49 +32,6 @@ export const exerciseRouter = createTRPCRouter({
         where: {
           id: input,
           userId: ctx.session.user.id,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }),
-  getAllExercisesWithCompletedWorkouts: protectedProcedure.query(async ({ ctx }) => {
-    try {
-      // First, get ids of all exercises with completed workouts
-      const exerciseIds = await ctx.prisma.workout.findMany({
-        where: {
-          status: 'completed',
-          exercise: {
-            userId: ctx.session.user.id, // Only consider workouts from exercises that belong to the logged-in user
-          },
-        },
-        select: {
-          exerciseId: true, // Only fetch the exercise ids
-        },
-      }).then(workouts => workouts.map(workout => workout.exerciseId)); // map to get an array of ids
-      
-      if (exerciseIds.length === 0) {
-        // No exercises with completed workouts were found
-        return [];
-      }
-
-      // Fetch exercises and their completed workouts
-      return await ctx.prisma.exercise.findMany({
-        where: {
-          id: {
-            in: exerciseIds,
-          },
-        },
-        include: {
-          workouts: {
-            where: {
-              status: 'completed',
-            },
-            include: {
-              sets: true,
-              insights: true,
-            },
-          },
         },
       });
     } catch (error) {

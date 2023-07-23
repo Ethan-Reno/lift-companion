@@ -3,8 +3,10 @@ import { api } from '../../utils/api';
 import { Button, Card, DropdownMenu, Label, Select, Skeleton } from 'good-nice-ui';
 import { LineChart, X_AXIS_TYPE, Y_AXIS_TYPE } from '../data-explorer/LineChart';
 import { getExerciseChartData } from '../data-explorer/getExerciseChartData';
+import { useStore } from '../../store/store';
 import { Dumbbell, LineChartIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
+import { Exercise } from '../../schemas/ExerciseSchema';
 
 export enum SORT_TYPE {
   MOST_RECENT = 'Most Recent',
@@ -12,13 +14,20 @@ export enum SORT_TYPE {
 }
 
 export const RecentExercisesGrid = () => {
-  const { data, isLoading } = api.exercise.getAllExercisesWithCompletedWorkouts.useQuery();
+  const { data, isLoading } = api.exercise.getAll.useQuery();
   const [ xAxisType, setXAxisType ] = useState<X_AXIS_TYPE>(X_AXIS_TYPE.NUMBER);
   const [ yAxisType, setYAxisType ] = useState<Y_AXIS_TYPE>(Y_AXIS_TYPE.TOTAL_VALUE);
   const [ sortType, setSortType ] = useState<SORT_TYPE>(SORT_TYPE.MOST_RECENT);
   const axes = {
     x: xAxisType,
     y: yAxisType,
+  }
+
+  const exercisesWithCompletedWorkouts = (exercises: Exercise[]) => {
+    // Filter exercises to only include those with at least one completed workout
+    return exercises.filter(exercise =>
+      exercise.workouts?.some(workout => workout.status === 'completed')
+    );
   }
 
   return (
@@ -58,7 +67,7 @@ export const RecentExercisesGrid = () => {
             ))}
           </>
         )}
-        {data?.map((exercise) => {
+        {data && exercisesWithCompletedWorkouts(data).map((exercise) => {
           return (
             <Card className='border-muted shadow-md dark:border-transparent' key={exercise.id}>
               <Card.Header className='flex flex-row items-center justify-between p-3'>
