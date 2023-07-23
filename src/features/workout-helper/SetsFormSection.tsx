@@ -84,7 +84,10 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
                     </div>
                   )}
                   <Form.Control>
-                    <Select defaultValue="1" onValueChange={(value) => field.onChange(parseInt(value))}>
+                    <Select
+                      defaultValue={item.rpe.toString() !== '0' ? item.rpe.toString() : '1'}
+                      onValueChange={(value) => field.onChange(parseInt(value))}
+                    >
                       <Select.Trigger className="w-[60px]">
                         <Select.Value  />
                       </Select.Trigger>

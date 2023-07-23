@@ -15,7 +15,6 @@ export const NavMenu = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
-  console.log(router.pathname);
   const mobileMenuOverlay = (
     <div className='fixed top-16 left-0 w-screen h-screen bg-background z-50'>
       <div className="flex flex-col gap-8 text-2xl items-center pt-8">

@@ -41,6 +41,8 @@ export const InsightsFormSection = ({
     insights.forEach((insight) => {
       if (!(insight in selectedInsights)) {
         insightsToAdd[insight] = 'average';
+        // Set the default value for the added insight directly in the form
+        form.setValue(`insights.0.${insight}`, 'average');
       }
     });
     setSelectedInsights(prev => ({ ...prev, ...insightsToAdd }));
@@ -86,7 +88,7 @@ export const InsightsFormSection = ({
                       <Select.Trigger className="mt-0">
                         <Select.Value />
                       </Select.Trigger>
-                      <Select.Content>
+                      <Select.Content defaultValue='average'>
                         <Select.Item value={'belowAverage'}>Below Average</Select.Item>
                         <Select.Item value={'average'}>Average</Select.Item>
                         <Select.Item value={'aboveAverage'}>Above Average</Select.Item>

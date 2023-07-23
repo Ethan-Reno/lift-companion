@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { SetsFormSection } from './SetsFormSection';
 import { InsightsFormSection, SelectedInsights } from './InsightsFormSection';
 import { Exercise } from '../../schemas/ExerciseSchema';
-import { cn } from '../../utils/cn';
 
 interface WorkoutFormProps {
   exerciseData: Exercise;
@@ -29,7 +28,7 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
     defaultValues: {
       exerciseId: exerciseData.id,
       status: 'started',
-      sets: [{ reps: 0, value: 0, rpe: 0 }],
+      sets: [{ reps: 0, value: 0, rpe: 1 }],
       insights: [{}],
     },
   });
@@ -71,28 +70,17 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
             />
           </Tabs.Content>
         </Tabs>
-        <div className='flex justify-end gap-3'>
-          <Button
-            type="button"
-            className='flex w-20 items-center justify-center'
-            onClick={() => {
-              form.setValue('status', 'completed');
-              form.handleSubmit(onSubmit, onError)();
-            }}
-            disabled={isLoading}
+        <div className='flex flex-col-reverse justify-center gap-3 w-full sm:w-30 sm:flex-row sm:space-x-2'>
+          <Link
+            className={buttonVariants({variant: 'outline'})}
+            href="/"
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              </>
-            ) : (
-              <>Finish</>
-            )}
-          </Button>
+            Exit
+          </Link>
           <Button
             type="button"
             variant="secondary"
-            className='flex w-20 items-center justify-center'
+            className='flex items-center justify-center'
             onClick={() => {
               form.setValue('status', 'started');
               form.handleSubmit(onSubmit, onError)();
@@ -107,12 +95,23 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
               <>Save</>
             )}
           </Button>
-          <Link
-            className={cn(buttonVariants({variant: 'outline'}), 'flex w-20 items-center justify-center')}
-            href="/"
+          <Button
+            type="button"
+            className='flex items-center justify-center'
+            onClick={() => {
+              form.setValue('status', 'completed');
+              form.handleSubmit(onSubmit, onError)();
+            }}
+            disabled={isLoading}
           >
-            Exit
-          </Link>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              </>
+            ) : (
+              <>Finish</>
+            )}
+          </Button>
         </div>
       </Form>
     </FormProvider>
