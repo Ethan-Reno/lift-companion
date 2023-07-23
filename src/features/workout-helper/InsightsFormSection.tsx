@@ -3,6 +3,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { Button, Dialog, DropdownMenu, Form, Label, Popover, ScrollArea, Select, XIcon } from 'good-nice-ui';
 import { Info, PlusIcon } from 'lucide-react';
 import { CreateWorkoutInputs, InsightValueEnum } from '../../schemas/WorkoutSchema';
+import { toTitleCase } from '../../utils/toTitleCase';
 
 const insights = ['mood', 'sleepQuality', 'energyLevel', 'warmupQuality'] as const;
 type InsightKeys = typeof insights[number]; // 'mood' | 'sleepQuality' | 'energyLevel' | 'warmupQuality'
@@ -25,16 +26,27 @@ export const InsightsFormSection = ({
   const toggleInsight = (insight: InsightKeys) => {
     setSelectedInsights(prev => {
       if (prev[insight]) {
-        form.setValue(`insights.0.${insight}`, undefined); // adjusted the setValue path
+        form.setValue(`insights.0.${insight}`, undefined);
         const { [insight]: removed, ...rest } = prev;
         return rest;
       } else {
-        form.setValue(`insights.0.${insight}`, 'average'); // adjusted the setValue path and corrected the enum reference
+        form.setValue(`insights.0.${insight}`, 'average');
         return { ...prev, [insight]: 'average' };
       }
     });
   };
 
+  const addAllInsights = () => {
+    const insightsToAdd: SelectedInsights = {};
+    insights.forEach((insight) => {
+      if (!(insight in selectedInsights)) {
+        insightsToAdd[insight] = 'average';
+      }
+    });
+    setSelectedInsights(prev => ({ ...prev, ...insightsToAdd }));
+  };
+
+  const allInsightsAdded = insights.every((insight) => insight in selectedInsights);
   // Use Object.keys to handle the selectedInsights object
   // const isAnyInsightSelected = Object.keys(selectedInsights).length > 0;
 
@@ -120,6 +132,13 @@ export const InsightsFormSection = ({
         <DropdownMenu.Content>
           <DropdownMenu.Label className="text-lowContrast-foreground">Insights</DropdownMenu.Label>
           <DropdownMenu.Separator />
+          <DropdownMenu.CheckboxItem
+            className='p-2 pl-8'
+            checked={allInsightsAdded}
+            onClick={addAllInsights}
+          >
+            All
+          </DropdownMenu.CheckboxItem>
           {insights.map((insight) => (
             <DropdownMenu.CheckboxItem
               key={insight}
@@ -127,7 +146,7 @@ export const InsightsFormSection = ({
               checked={insight in selectedInsights}
               onClick={() => toggleInsight(insight)}
             >
-              {insight}
+              {toTitleCase(insight)}
             </DropdownMenu.CheckboxItem>
           ))}
         </DropdownMenu.Content>

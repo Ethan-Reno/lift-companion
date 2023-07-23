@@ -50,7 +50,7 @@ export const DeleteExerciseDialog = ({ id, deleteType, setIsOpen }: DeleteExerci
           </Dialog.Description>
         )}
       </Dialog.Header>
-      <Dialog.Footer>
+      <Dialog.Footer className='gap-y-4'>
         <Button
           variant="secondary"
           type="button"

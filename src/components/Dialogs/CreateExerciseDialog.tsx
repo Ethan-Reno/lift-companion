@@ -62,7 +62,7 @@ export const CreateExerciseDialog = () => {
               <Form.Item>
                 <Form.Label>Name</Form.Label>
                 <Form.Control>
-                  <Input {...field} />
+                  <Input {...field} className='text-base' />
                 </Form.Control>
                 <Form.Message />
               </Form.Item>
@@ -75,7 +75,7 @@ export const CreateExerciseDialog = () => {
               <Form.Item>
                 <Form.Label>Description</Form.Label>
                 <Form.Control>
-                  <Input {...field} />
+                  <Input {...field} className='text-base' />
                 </Form.Control>
                 <Form.Message />
               </Form.Item>
@@ -106,7 +106,7 @@ export const CreateExerciseDialog = () => {
               </Form.Item>
             )}
           />
-          <Dialog.Footer>
+          <Dialog.Footer className="gap-y-4">
             <Button
               variant="secondary"
               type="button"

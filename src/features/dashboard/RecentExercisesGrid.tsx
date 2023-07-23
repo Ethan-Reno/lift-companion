@@ -3,7 +3,6 @@ import { api } from '../../utils/api';
 import { Button, Card, DropdownMenu, Label, Select, Skeleton } from 'good-nice-ui';
 import { LineChart, X_AXIS_TYPE, Y_AXIS_TYPE } from '../data-explorer/LineChart';
 import { getExerciseChartData } from '../data-explorer/getExerciseChartData';
-import { useStore } from '../../store/store';
 import { Dumbbell, LineChartIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { Exercise } from '../../schemas/ExerciseSchema';

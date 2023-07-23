@@ -31,7 +31,7 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
                     <Input
                       {...field}
                       type="number"
-                      className='bg-background'
+                      className='bg-background text-base'
                       onFocus={(event) => event.target.select()}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
                     />
@@ -53,7 +53,7 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
                   <Input
                       {...field}
                       type="number"
-                      className='bg-background'
+                      className='bg-background text-base'
                       onFocus={(event) => event.target.select()}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
                     />
