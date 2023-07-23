@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { ExerciseStatusEnum, type Exercise, MeasurementEnum } from "../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
-import { Badge, Popover, Skeleton } from "good-nice-ui";
+import { Badge, Skeleton } from "good-nice-ui";
 
 export const exerciseColumns: ColumnDef<Exercise>[] = [
   {
@@ -31,16 +31,9 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <Popover>
-          <Popover.Trigger>
-            <span className="max-w-[500px] truncate font-medium cursor-default">
-              {row.getValue("name")}
-            </span>
-          </Popover.Trigger>
-          <Popover.Content>
-            {row.getValue("description")}
-          </Popover.Content>
-        </Popover>
+        <span className="max-w-[500px] truncate font-medium cursor-default">
+          {row.getValue("name")}
+        </span>
       )
     },
   },
