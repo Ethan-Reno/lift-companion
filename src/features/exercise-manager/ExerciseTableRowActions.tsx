@@ -5,6 +5,7 @@ import { Dumbbell, LineChart, MoreHorizontal, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import { UpdateExerciseDialog } from "../../components/Dialogs/UpdateExerciseDialog";
 import { DELETE_TYPE, DeleteExerciseDialog } from "../../components/Dialogs/DeleteExerciseDialog";
+import { useStore } from "../../store/store";
 
 interface ExerciseTableRowActionsProps {
   data: Exercise;
@@ -15,6 +16,7 @@ export function ExerciseTableRowActions({
 }: ExerciseTableRowActionsProps) {
   const [dialogType, setDialogType] = React.useState<string>('');
   const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false);
+  const { setInitialExerciseId } = useStore();
   const { id, status } = data;
 
   const getDialogContent = () => {
@@ -47,7 +49,7 @@ export function ExerciseTableRowActions({
           <DropdownMenu.Label className="text-lowContrast-foreground">Actions</DropdownMenu.Label>
           <DropdownMenu.Separator />
           <DropdownMenu.Item className='p-2'>
-            <Link href={`/workout/${id}`} className='flex items-center'>
+            <Link href='/workout' onClick={() => setInitialExerciseId(id)} className='flex items-center'>
               <Dumbbell className="mr-2 h-3.5 w-3.5 text-primary" />
               Start Workout
               <span className="sr-only">View details</span>

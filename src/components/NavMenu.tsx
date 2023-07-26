@@ -8,13 +8,14 @@ import { Dumbbell, LogOut, Menu, Moon, Settings, Sun } from 'lucide-react';
 import logo from '../../public/barbell.png';
 import { cn } from '../utils/cn';
 import { useRouter } from 'next/router';
-
+import { useStore } from '../store/store';
 
 export const NavMenu = () => {
   const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
   const router = useRouter();
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+  const { setInitialExerciseId } = useStore();
   const mobileMenuOverlay = (
     <div className='fixed top-16 left-0 w-screen h-screen bg-background z-50'>
       <div className="flex flex-col gap-8 text-2xl items-center pt-8">
@@ -24,9 +25,15 @@ export const NavMenu = () => {
         <Link href='/exercises' onClick={() => setIsMenuOpen(false)}>
           Exercises
         </Link>
-        <div className="pointer-events-none text-muted">
+        <Link
+          href='/exercises'
+          onClick={() => {
+            setInitialExerciseId('');
+            setIsMenuOpen(false);
+          }}
+        >
           Start Workout
-        </div>
+        </Link>
         <div className="pointer-events-none text-muted">
           View Data
         </div>
@@ -83,6 +90,19 @@ export const NavMenu = () => {
                 href='/exercises'
               >
                 Exercises
+              </Link>
+              <Link
+                className={cn(
+                  'text-lowContrast-foreground hover:text-foreground text-sm transition-colors',
+                  router.pathname === '/workout' && 'text-foreground underline'
+                )}
+                href='/workout'
+                onClick={() => {
+                  setInitialExerciseId('');
+                  setIsMenuOpen(false);
+                }}
+              >
+                Workout
               </Link>
               <DropdownMenu>
                 <DropdownMenu.Trigger asChild>

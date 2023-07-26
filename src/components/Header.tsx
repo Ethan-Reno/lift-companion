@@ -2,16 +2,18 @@ import { Button, Skeleton } from 'good-nice-ui';
 import { ArrowBigLeft } from 'lucide-react';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { cn } from '../utils/cn';
 
 interface HeaderProps {
-  header?: string;
+  children: React.ReactNode;
   isLoading?: boolean;
+  className?: string;
 }
 
-export const Header = ({ header, isLoading }: HeaderProps) => {
+export const Header = ({ children, isLoading, className }: HeaderProps) => {
   const router = useRouter();
   return (
-    <div className='flex gap-6 items-center'>
+    <div className={cn('flex gap-6 items-center', className)}>
       <Button
         variant='outline'
         size='sm'
@@ -22,7 +24,7 @@ export const Header = ({ header, isLoading }: HeaderProps) => {
       {isLoading ? (
           <Skeleton className='w-32 h-6' />
         ) : (
-          <span className='text-2xl'>{header}</span>
+          <span className='text-2xl'>{children}</span>
         )}
     </div>
   )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { api } from '../../utils/api';
 import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,35 +10,40 @@ import Link from 'next/link';
 import { SetsFormSection } from './SetsFormSection';
 import { InsightsFormSection, SelectedInsights } from './InsightsFormSection';
 import { Exercise } from '../../schemas/ExerciseSchema';
+import { useStore } from '../../store/store';
+import { init } from 'next/dist/compiled/@vercel/og/satori';
 
 interface WorkoutFormProps {
   exerciseData: Exercise;
+  initialState: CreateWorkoutInputs;
 }
 
-export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
-  const router = useRouter();
-  const { mutate, isLoading } = api.workout.create.useMutation({
-    onSettled: () => {
-      router.push('/');
-    },
-  });
+export const WorkoutForm = ({ exerciseData, initialState }: WorkoutFormProps) => {
+  const { setWorkoutFormState } = useStore();
 
+  // Initialize the form with the default values
   const form = useForm<CreateWorkoutInputs>({
     resolver: zodResolver(createWorkoutSchema),
-    defaultValues: {
-      exerciseId: exerciseData.id,
-      status: 'started',
-      sets: [{ reps: 0, value: 0, rpe: 1 }],
-      insights: [{}],
-    },
+    defaultValues: initialState,
   });
 
-  const [selectedInsights, setSelectedInsights] = useState<SelectedInsights>({});
+  const [selectedInsights, setSelectedInsights] = useState<SelectedInsights>(initialState.insights[0] || {});
 
   const onSubmit = (values: CreateWorkoutInputs) => {
-    mutate(values);
+    setWorkoutFormState(values.exerciseId, values);
   };
   const onError = (errors: any) => console.log(errors);
+
+  // When the exercise changes, submit the previous form values to the store
+  useEffect(() => {
+    return () => {
+      // const values = form.getValues();
+      // if (values.status !== 'completed') {
+      //   form.setValue('status', 'started');
+      // }
+      onSubmit(form.getValues())
+    };
+  }, [exerciseData.id]);
 
   return (
     <FormProvider {...form}>
@@ -70,47 +75,17 @@ export const WorkoutForm = ({exerciseData}: WorkoutFormProps) => {
             />
           </Tabs.Content>
         </Tabs>
-        <div className='flex flex-col-reverse justify-center gap-3 w-full sm:w-30 sm:flex-row sm:space-x-2'>
-          <Link
-            className={buttonVariants({variant: 'outline'})}
-            href="/"
-          >
-            Exit
-          </Link>
+        <div className='flex justify-center w-full sm:w-30'>
           <Button
             type="button"
             variant="secondary"
             className='flex items-center justify-center'
             onClick={() => {
-              form.setValue('status', 'started');
-              form.handleSubmit(onSubmit, onError)();
-            }}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              </>
-            ) : (
-              <>Save</>
-            )}
-          </Button>
-          <Button
-            type="button"
-            className='flex items-center justify-center'
-            onClick={() => {
               form.setValue('status', 'completed');
               form.handleSubmit(onSubmit, onError)();
             }}
-            disabled={isLoading}
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              </>
-            ) : (
-              <>Finish</>
-            )}
+            Save
           </Button>
         </div>
       </Form>

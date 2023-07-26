@@ -10,16 +10,15 @@ const Exercise: NextPage = () => {
   const { data: exercise, isLoading } = api.exercise.getById.useQuery(exerciseId);
 
   if (!exercise) return (
-    <Header header='No Exercise Found' />
+    <Header>No Exercise Found</Header>
   );
 
   return (
     <div className='flex flex-col gap-16'>
       <div className='flex gap-6 items-center'>
-        <Header
-          isLoading={isLoading}
-          header={exercise.name}
-        />
+        <Header isLoading={isLoading}>
+          {exercise.name}
+        </Header>
       </div>
       <span>Details:</span>
     </div>

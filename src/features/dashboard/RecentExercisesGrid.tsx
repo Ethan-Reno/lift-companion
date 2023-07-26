@@ -6,6 +6,7 @@ import { getExerciseChartData } from '../data-explorer/getExerciseChartData';
 import { Dumbbell, LineChartIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { Exercise } from '../../schemas/ExerciseSchema';
+import { useStore } from '../../store/store';
 
 export enum SORT_TYPE {
   MOST_RECENT = 'Most Recent',
@@ -17,6 +18,7 @@ export const RecentExercisesGrid = () => {
   const [ xAxisType, setXAxisType ] = useState<X_AXIS_TYPE>(X_AXIS_TYPE.NUMBER);
   const [ yAxisType, setYAxisType ] = useState<Y_AXIS_TYPE>(Y_AXIS_TYPE.TOTAL_VALUE);
   const [ sortType, setSortType ] = useState<SORT_TYPE>(SORT_TYPE.MOST_RECENT);
+  const { setInitialExerciseId } = useStore();
   const axes = {
     x: xAxisType,
     y: yAxisType,
@@ -83,7 +85,7 @@ export const RecentExercisesGrid = () => {
                     <DropdownMenu.Label className="text-lowContrast-foreground">Actions</DropdownMenu.Label>
                     <DropdownMenu.Separator />
                     <DropdownMenu.Item className='p-2'>
-                      <Link href={`/workout/${exercise.id}`} className='flex items-center'>
+                      <Link href='/workout' onClick={() => setInitialExerciseId(exercise.id)} className='flex items-center'>
                         <Dumbbell className="mr-2 h-3.5 w-3.5 text-primary" />
                         Start Workout
                         <span className="sr-only">View details</span>
