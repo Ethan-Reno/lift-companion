@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { api } from '../../utils/api';
-import { useRouter } from 'next/router';
+import React, { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { CreateWorkoutInputs, createWorkoutSchema } from '../../schemas/WorkoutSchema';
-import { Button, Form, FormProvider, Separator, Tabs, buttonVariants } from 'good-nice-ui';
-import { Loader2 } from 'lucide-react';
-import Link from 'next/link';
+import { Form, FormProvider, Separator, Tabs } from 'good-nice-ui';
 import { SetsFormSection } from './SetsFormSection';
 import { InsightsFormSection, SelectedInsights } from './InsightsFormSection';
 import { Exercise } from '../../schemas/ExerciseSchema';
 import { useStore } from '../../store/store';
-import { init } from 'next/dist/compiled/@vercel/og/satori';
 
 interface WorkoutFormProps {
   exerciseData: Exercise;
   initialState: CreateWorkoutInputs;
 }
 
-export const WorkoutForm = ({ exerciseData, initialState }: WorkoutFormProps) => {
+export const WorkoutForm = ({
+  exerciseData,
+  initialState,
+}: WorkoutFormProps) => {
   const { setWorkoutFormState } = useStore();
 
-  // Initialize the form with the default values
   const form = useForm<CreateWorkoutInputs>({
     resolver: zodResolver(createWorkoutSchema),
     defaultValues: initialState,
@@ -34,16 +31,17 @@ export const WorkoutForm = ({ exerciseData, initialState }: WorkoutFormProps) =>
   };
   const onError = (errors: any) => console.log(errors);
 
-  // When the exercise changes, submit the previous form values to the store
+  const values = form.watch();
+
+  // Save a copy of the form's current values in a ref
+  const prevValues = useRef(values);
+  // Only update the state when the form values have actually changed
   useEffect(() => {
-    return () => {
-      // const values = form.getValues();
-      // if (values.status !== 'completed') {
-      //   form.setValue('status', 'started');
-      // }
-      onSubmit(form.getValues())
-    };
-  }, [exerciseData.id]);
+    if (JSON.stringify(prevValues.current) !== JSON.stringify(values)) {
+      onSubmit(values);
+      prevValues.current = values;
+    }
+  }, [values]);
 
   return (
     <FormProvider {...form}>
@@ -75,19 +73,6 @@ export const WorkoutForm = ({ exerciseData, initialState }: WorkoutFormProps) =>
             />
           </Tabs.Content>
         </Tabs>
-        <div className='flex justify-center w-full sm:w-30'>
-          <Button
-            type="button"
-            variant="secondary"
-            className='flex items-center justify-center'
-            onClick={() => {
-              form.setValue('status', 'completed');
-              form.handleSubmit(onSubmit, onError)();
-            }}
-          >
-            Save
-          </Button>
-        </div>
       </Form>
     </FormProvider>
   );

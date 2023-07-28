@@ -7,6 +7,7 @@ import { Dumbbell, LineChartIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { Exercise } from '../../schemas/ExerciseSchema';
 import { useStore } from '../../store/store';
+import { WORKOUT_STATUS } from '../../schemas/WorkoutSchema';
 
 export enum SORT_TYPE {
   MOST_RECENT = 'Most Recent',
@@ -27,7 +28,7 @@ export const RecentExercisesGrid = () => {
   const exercisesWithCompletedWorkouts = (exercises: Exercise[]) => {
     // Filter exercises to only include those with at least one completed workout
     return exercises.filter(exercise =>
-      exercise.workouts?.some(workout => workout.status === 'completed')
+      exercise.workouts?.some(workout => workout.status === WORKOUT_STATUS.enum.completed)
     );
   }
 

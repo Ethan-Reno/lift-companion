@@ -1,5 +1,5 @@
 import { createTRPCRouter, protectedProcedure } from '../trpc';
-import { createWorkoutSchema } from '../../../schemas/WorkoutSchema';
+import { WORKOUT_STATUS, createWorkoutSchema } from '../../../schemas/WorkoutSchema';
 
 export const workoutRouter = createTRPCRouter({
   create: protectedProcedure
@@ -27,7 +27,7 @@ export const workoutRouter = createTRPCRouter({
       // Fetch all completed workouts, include the related Exercise for each Workout
       return await ctx.prisma.workout.findMany({
         where: {
-          status: 'completed',
+          status: WORKOUT_STATUS.enum.completed,
         },
         orderBy: {
           createdAt: 'desc',
