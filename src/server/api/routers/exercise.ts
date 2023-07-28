@@ -1,5 +1,5 @@
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { createExerciseSchema, deleteExerciseSchema, getExerciseByIdSchema, updateExerciseSchema } from "../../../schemas/ExerciseSchema";
+import { EXERCISE_STATUS, createExerciseSchema, deleteExerciseSchema, getExerciseByIdSchema, updateExerciseSchema } from "../../../schemas/ExerciseSchema";
 
 export const exerciseRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -52,7 +52,7 @@ export const exerciseRouter = createTRPCRouter({
             name: input.name,
             description: input.description,
             measurement: input.measurement,
-            status: 'inactive',
+            status: EXERCISE_STATUS.enum.inactive,
           },
         });
       } catch (error) {
@@ -68,7 +68,7 @@ export const exerciseRouter = createTRPCRouter({
             id: input,
           },
           data: {
-            status: 'deleted',
+            status: EXERCISE_STATUS.enum.deleted,
           },
         });
       } catch (error) {

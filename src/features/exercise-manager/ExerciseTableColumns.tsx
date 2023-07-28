@@ -1,5 +1,5 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { ExerciseStatusEnum, type Exercise, MeasurementEnum } from "../../schemas/ExerciseSchema";
+import { ExerciseStatusEnum, type Exercise, MeasurementEnum, EXERCISE_STATUS } from "../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
 import { Badge, Skeleton } from "good-nice-ui";
@@ -73,7 +73,7 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
     cell: ({ row }) => {
       const status: ExerciseStatusEnum = row.getValue("status");
       return (
-        <Badge className='capitalize' variant={status === 'inactive' ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
+        <Badge className='capitalize' variant={status === EXERCISE_STATUS.enum.inactive ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
       );
     },
   },

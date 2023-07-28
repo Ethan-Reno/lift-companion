@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Dialog, DropdownMenu } from "good-nice-ui";
-import { Exercise } from "../../schemas/ExerciseSchema";
+import { EXERCISE_STATUS, Exercise } from "../../schemas/ExerciseSchema";
 import { Dumbbell, LineChart, MoreHorizontal, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import { UpdateExerciseDialog } from "../../components/Dialogs/UpdateExerciseDialog";
@@ -71,7 +71,7 @@ export function ExerciseTableRowActions({
           </Dialog.Trigger>
           <Dialog.Trigger
             asChild
-            onClick={(): void => setDialogType(status === 'deleted' ? 'hardDelete' : 'softDelete')}
+            onClick={(): void => setDialogType(status === EXERCISE_STATUS.enum.deleted ? 'hardDelete' : 'softDelete')}
           >
             <DropdownMenu.Item className='p-2'>
               <Trash className="mr-2 h-3.5 w-3.5 text-primary" />

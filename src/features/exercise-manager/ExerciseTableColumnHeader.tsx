@@ -3,6 +3,7 @@ import { ChevronsUpDown, Filter, SortAsc, SortDesc } from "lucide-react";
 import { Button, DropdownMenu } from "good-nice-ui";
 import { clsx } from "clsx";
 import { cn } from "../../utils/cn";
+import { EXERCISE_STATUS, MEASUREMENT } from "../../schemas/ExerciseSchema";
 
 interface ExerciseTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -118,9 +119,9 @@ export function ExerciseTableColumnHeader<TData, TValue>({
     case 'name':
       return sortDropdown;
     case 'measurement':
-      return filterDropdown(['weight', 'distance', 'time']);
+      return filterDropdown(Object.values(MEASUREMENT.enum));
     case 'status':
-      return filterDropdown(['inactive', 'active', 'deleted']);
+      return filterDropdown(Object.values(EXERCISE_STATUS.enum));
     default:
       return <div className={clsx(className)}>{title}</div>
   }

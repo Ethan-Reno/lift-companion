@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { Button, Dialog, DropdownMenu, Form, Label, Popover, ScrollArea, Select, XIcon } from 'good-nice-ui';
-import { Info, PlusIcon } from 'lucide-react';
-import { CreateWorkoutInputs, InsightValueEnum } from '../../schemas/WorkoutSchema';
+import { Button, Dialog, DropdownMenu, Form, Select, XIcon } from 'good-nice-ui';
+import { PlusIcon } from 'lucide-react';
+import { CreateWorkoutInputs, INSIGHT_VALUE, InsightValueEnum } from '../../schemas/WorkoutSchema';
 import { toTitleCase } from '../../utils/toTitleCase';
 
+// Defining insights manually as a constant array to allow string interpolation in the solution below.
+// This avoids managing dynamic types that TypeScript struggles to infer or validate for this case.
+// Note: Keep this in sync with Prisma/Zod schema to maintain type accuracy and safety.
 const insights = ['mood', 'sleepQuality', 'energyLevel', 'warmupQuality'] as const;
-type InsightKeys = typeof insights[number]; // 'mood' | 'sleepQuality' | 'energyLevel' | 'warmupQuality'
+type InsightKeys = typeof insights[number];
 
 export type SelectedInsights = {
   [K in InsightKeys]?: InsightValueEnum | null;
@@ -30,8 +33,8 @@ export const InsightsFormSection = ({
         const { [insight]: removed, ...rest } = prev;
         return rest;
       } else {
-        form.setValue(`insights.0.${insight}`, 'average');
-        return { ...prev, [insight]: 'average' };
+        form.setValue(`insights.0.${insight}`, INSIGHT_VALUE.enum.average);
+        return { ...prev, [insight]: INSIGHT_VALUE.enum.average };
       }
     });
   };
@@ -40,9 +43,9 @@ export const InsightsFormSection = ({
     const insightsToAdd: SelectedInsights = {};
     insights.forEach((insight) => {
       if (!(insight in selectedInsights)) {
-        insightsToAdd[insight] = 'average';
+        insightsToAdd[insight] = INSIGHT_VALUE.enum.average;
         // Set the default value for the added insight directly in the form
-        form.setValue(`insights.0.${insight}`, 'average');
+        form.setValue(`insights.0.${insight}`, INSIGHT_VALUE.enum.average);
       }
     });
     setSelectedInsights(prev => ({ ...prev, ...insightsToAdd }));
@@ -77,21 +80,16 @@ export const InsightsFormSection = ({
                 control={form.control}
                 name={`insights.0.${insightKey}` as any}
                 render={({ field }) => (
-                  <Form.Item
-                    className="grow relative flex items-end gap-2 m-0"
-                  >
+                  <Form.Item className="grow relative flex items-end gap-2 m-0">
                     <Form.Label className="capitalize text-lowContrast-foreground mb-3 ml-5">{`${insightKey}:`}</Form.Label>
-                    <Select
-                      value={field.value}
-                      onValueChange={value => field.onChange(value)}
-                    >
+                    <Select value={field.value}  onValueChange={value => field.onChange(value)}>
                       <Select.Trigger className="mt-0">
                         <Select.Value />
                       </Select.Trigger>
-                      <Select.Content defaultValue='average'>
-                        <Select.Item value={'belowAverage'}>Below Average</Select.Item>
-                        <Select.Item value={'average'}>Average</Select.Item>
-                        <Select.Item value={'aboveAverage'}>Above Average</Select.Item>
+                      <Select.Content defaultValue={INSIGHT_VALUE.enum.average}>
+                        {Object.keys(INSIGHT_VALUE.enum).map((value) => (
+                          <Select.Item key={value} value={value}>{toTitleCase(value)}</Select.Item>
+                        ))}
                       </Select.Content>
                     </Select>
                     <Form.Message />

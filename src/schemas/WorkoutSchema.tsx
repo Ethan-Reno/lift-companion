@@ -1,15 +1,19 @@
 import { z } from 'zod';
 import { WorkoutStatus, InsightValue } from '@prisma/client';
 
-const insightSchema = z.object({
+const defaultFields = {
   id: z.string().cuid(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+};
+
+const insightSchema = z.object({
+  ...defaultFields,
   mood: z.nativeEnum(InsightValue).nullable(),
   sleepQuality: z.nativeEnum(InsightValue).nullable(),
   energyLevel: z.nativeEnum(InsightValue).nullable(),
   warmupQuality: z.nativeEnum(InsightValue).nullable(),
   workoutId: z.string().cuid(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
 });
 
 const insightInputSchema = z.object({
@@ -20,13 +24,11 @@ const insightInputSchema = z.object({
 });
 
 const setSchema = z.object({
-  id: z.string().cuid(),
+  ...defaultFields,
   reps: z.number(),
   value: z.number(),
   rpe: z.number(),
   workoutId: z.string().cuid(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
 });
 
 const setInputSchema = z.object({
@@ -36,28 +38,26 @@ const setInputSchema = z.object({
 });
 
 export const workoutSchema = z.object({
-  id: z.string().cuid(),
+  ...defaultFields,
   status: z.nativeEnum(WorkoutStatus),
   sets: z.array(setSchema),
   insights: z.array(insightSchema),
   exerciseId: z.string().cuid(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
 });
 
 export const createWorkoutSchema = z.object({
   status: z.nativeEnum(WorkoutStatus),
-  exerciseId: z.string().cuid(),
   sets: z.array(setInputSchema),
   insights: z.array(insightInputSchema),
+  exerciseId: z.string().cuid(),
 });
 
 export const updateWorkoutSchema = z.object({
   id: z.string().cuid(),
   status: z.nativeEnum(WorkoutStatus),
-  exerciseId: z.string().cuid(),
   sets: z.array(setSchema),
   insights: z.array(insightInputSchema),
+  exerciseId: z.string().cuid(),
 });
 
 export const deleteWorkoutSchema = z.string().cuid();
@@ -73,7 +73,8 @@ export type UpdateWorkoutInputs = z.infer<typeof updateWorkoutSchema>;
 export type DeleteWorkoutInputs = z.infer<typeof deleteWorkoutSchema>;
 
 // Enum definitions
-const insightValue = z.nativeEnum(InsightValue);
-export type InsightValueEnum = z.infer<typeof insightValue>;
-const workoutStatus = z.nativeEnum(WorkoutStatus);
-export type WorkoutStatusEnum = z.infer<typeof workoutStatus>;
+export const INSIGHT_KEYS = Object.keys(insightSchema.omit({id: true, updatedAt: true, createdAt: true, workoutId: true}).shape);
+export const INSIGHT_VALUE = z.nativeEnum(InsightValue);
+export type InsightValueEnum = z.infer<typeof INSIGHT_VALUE>;
+export const WORKOUT_STATUS = z.nativeEnum(WorkoutStatus);
+export type WorkoutStatusEnum = z.infer<typeof WORKOUT_STATUS>;

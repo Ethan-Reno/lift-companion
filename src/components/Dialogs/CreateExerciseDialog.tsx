@@ -9,7 +9,7 @@ import {
 } from 'good-nice-ui'; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateExerciseInputs, createExerciseSchema } from '../../schemas/ExerciseSchema';
+import { CreateExerciseInputs, MEASUREMENT, createExerciseSchema } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
@@ -42,8 +42,8 @@ export const CreateExerciseDialog = () => {
       defaultValues: submittedValues || {
         name: "",
         description: "",
-        measurement: "weight",
-        // status is handled at the RPC level
+        measurement: MEASUREMENT.enum.weight,
+        // status is handled at the RPC level for now
       },
     });
     
@@ -88,16 +88,18 @@ export const CreateExerciseDialog = () => {
               <Form.Item>
                 <Form.Label>Measurement</Form.Label>
                 <div className='flex items-center gap-2'>
-                  <Select onValueChange={() => field.onChange} defaultValue="weight">
+                  <Select onValueChange={() => field.onChange} defaultValue={MEASUREMENT.enum.weight}>
                     <Form.Control>
-                      <Select.Trigger>
-                        <Select.Value placeholder="Pick a measurement" />
+                      <Select.Trigger className='capitalize'>
+                        <Select.Value />
                       </Select.Trigger>
                     </Form.Control>
                     <Select.Content>
-                      <Select.Item value="weight">Weight</Select.Item>
-                      <Select.Item value="distance">Distance</Select.Item>
-                      <Select.Item value="time">Time</Select.Item>
+                      {Object.keys(MEASUREMENT.enum).map(measurement => (
+                        <Select.Item key={measurement} value={measurement} className="capitalize">
+                          {measurement}
+                        </Select.Item>
+                      ))}
                     </Select.Content>
                   </Select>
                   <span className="whitespace-nowrap">x Reps</span>

@@ -123,9 +123,7 @@ const Workout = () => {
             </Tabs.Content>
           ))}
       </Tabs>
-      <Button
-        onClick={() => handleSubmit()}
-      >
+      <Button onClick={() => handleSubmit()}>
         Submit Workouts
       </Button>
     </div>

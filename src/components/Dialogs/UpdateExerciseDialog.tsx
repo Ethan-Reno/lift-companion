@@ -9,7 +9,7 @@ import {
 } from 'good-nice-ui'; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Exercise, UpdateExerciseInputs, updateExerciseSchema } from '../../schemas/ExerciseSchema';
+import { Exercise, UpdateExerciseInputs, updateExerciseSchema, ExerciseStatusEnum, EXERCISE_STATUS, MEASUREMENT } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
@@ -108,7 +108,7 @@ export const UpdateExerciseDialog = ({
               </Form.Item>
             )}
           />
-          {status === 'inactive' && (
+          {status === EXERCISE_STATUS.enum.inactive && (
             <Form.Field
               control={form.control}
               name="measurement"
@@ -118,14 +118,16 @@ export const UpdateExerciseDialog = ({
                   <div className='flex items-center gap-2'>
                     <Select onValueChange={() => field.onChange} defaultValue={currentExercise.measurement}>
                       <Form.Control>
-                        <Select.Trigger>
+                        <Select.Trigger className='capitalize'>
                           <Select.Value/>
                         </Select.Trigger>
                       </Form.Control>
                       <Select.Content>
-                        <Select.Item value="weight">Weight</Select.Item>
-                        <Select.Item value="distance">Distance</Select.Item>
-                        <Select.Item value="time">Time</Select.Item>
+                        {Object.keys(MEASUREMENT.enum).map(measurement => (
+                          <Select.Item key={measurement} value={measurement} className="capitalize">
+                            {measurement}
+                          </Select.Item>
+                        ))}
                       </Select.Content>
                     </Select>
                     <span className="whitespace-nowrap">x Reps</span>
@@ -169,7 +171,7 @@ export const UpdateExerciseDialog = ({
       <Dialog.Header>
         <Dialog.Title>Update Exercise</Dialog.Title>
       </Dialog.Header>
-      {status !== 'inactive' && (
+      {status !== EXERCISE_STATUS.enum.inactive && (
         <Dialog.Description>
           The measurement type can't be updated because this exercise already has saved data.
         </Dialog.Description>
