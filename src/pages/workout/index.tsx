@@ -1,10 +1,10 @@
-import React, { useState, useEffect, use, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { api } from '../../utils/api';
 import { useStore } from '../../store/store';
 import { Header } from '../../components';
 import { WorkoutForm } from '../../features/workout-helper/WorkoutForm';
 import { Exercise } from '../../schemas/ExerciseSchema';
-import { Button, Checkbox, Dialog, Skeleton, Tabs } from 'good-nice-ui';
+import { Button, Dialog, Skeleton, Tabs } from 'good-nice-ui';
 import { CreateWorkoutInputs, WORKOUT_STATUS } from '../../schemas/WorkoutSchema';
 import { AddExercisesDropdown } from '../../features/workout-helper/AddExercisesDropdown.component';
 
@@ -16,12 +16,15 @@ const Workout = () => {
     clearWorkoutFormStateForId
   } = useStore();
   const { data: exercises, isLoading } = api.exercise.getAll.useQuery(); // don't show add more button until loaded
+
   const { mutate } = api.workout.create.useMutation({
     onSuccess: (data, variables) => {
       clearWorkoutFormStateForId(variables.exerciseId);
     },
   });
+
   const initialExercise = exercises?.find((exercise) => exercise.id === initialExerciseId);
+
   const [selectedExercises, setSelectedExercises] = useState<Exercise[]>(() => {
     // Fetch all persisted exercises
     const persistedExerciseIds = Object.keys(workoutFormStates);
@@ -31,7 +34,7 @@ const Workout = () => {
     
     // Include initialExercise if defined
     if (initialExercise) {
-      // Only add the initial exercise if it is not already being persisted, otherwise fallback to persisted version
+      // Only add the initial exercise if it is not already being persisted, otherwise prioritize the persisted version
       if (!persistedExercises.some((exercise) => exercise.id === initialExercise.id)) {
         return [initialExercise, ...persistedExercises];
       }
@@ -39,9 +42,9 @@ const Workout = () => {
   
     return persistedExercises;
   });
-  const [workoutsToSubmit, setWorkoutsToSubmit] = useState<CreateWorkoutInputs[]>([]);
+
+  // If we have any persisted workout form states, ask the user if they want to continue those
   const [showPersistInterrupt, setShowPersistInterrupt] = useState(() => {
-    // If we have any persisted workout form states, ask the user if they want to continue those
     return Object.keys(workoutFormStates).length > 0;
   });
 
@@ -55,35 +58,46 @@ const Workout = () => {
     return workoutFormStates[id] || { ...defaultFormValues, exerciseId: id };
   }, [workoutFormStates]);
 
+  const [activeTab, setActiveTab] = useState<string>('');
+
+  useEffect(() => {
+    if (initialExerciseId) {
+      setActiveTab(initialExerciseId);
+    } else if (selectedExercises[0]) {
+      setActiveTab(selectedExercises[0].id);
+    } else {
+      setActiveTab('');
+    }
+  }, []);
+
+  const handleTabChange = useCallback((value: string) => {
+    setActiveTab(value);
+  }, []);
+
   const toggleExerciseSelection = useCallback((exercise: Exercise) => {
     setSelectedExercises(prevExercises => {
       const isSelected = prevExercises.some(selected => selected.id === exercise.id);
       if (isSelected) {
-        return prevExercises.filter(selected => selected.id !== exercise.id);
+        // Remove the exercise
+        const updatedExercises = prevExercises.filter(selected => selected.id !== exercise.id);
+        clearWorkoutFormStateForId(exercise.id);
+  
+        // If the exercise being removed is the current tab, switch to the first tab
+        if (exercise.id === activeTab && updatedExercises[0]) {
+          setActiveTab(updatedExercises[0].id);
+        }
+  
+        return updatedExercises;
       } else {
-        return [...prevExercises, exercise];
+        // Add the exercise and switch to this tab
+        const updatedExercises = [...prevExercises, exercise];
+        setActiveTab(exercise.id);
+        return updatedExercises;
       }
     });
-    setDefaultTabFromLastSelected();
-  }, [setSelectedExercises]);
+  }, [setSelectedExercises, initialExerciseId, activeTab]);
 
-
-  const [defaultTab, setDefaultTab] = useState<string>('');
-
-  const setDefaultTabFromLastSelected = () => {
-    const lastSelectedExercise = selectedExercises[selectedExercises.length - 1];
-    if (lastSelectedExercise) {
-      setDefaultTab(lastSelectedExercise.id);
-    } else if (initialExerciseId) {
-      setDefaultTab(initialExerciseId);
-    } else {
-      setDefaultTab('');
-    }
-  };
-
-  useEffect(() => {
-    setDefaultTabFromLastSelected();
-  }, [selectedExercises]);
+  const activeExercise = selectedExercises.find((exercise) => exercise.id === activeTab);
 
   const handleSubmit = () => {
     if (workoutFormStates) {
@@ -95,29 +109,32 @@ const Workout = () => {
 
   if (showPersistInterrupt) {
     return (
-      <div>
+      <div className='flex flex-col gap-6 justify-center items-center'>
         Continue previously started workout?
-        <div>
+        <div className="flex gap-2">
           <Button
+            variant="outline"
+            onClick={() => {
+              setShowPersistInterrupt(false);
+            }}
+          >
+            Yes
+          </Button>
+          <Button
+            variant="outline"
             onClick={() => {
               // Clear persisted workout form states
               clearWorkoutFormState();
               if (initialExercise) {
                 setSelectedExercises([initialExercise]);
               } else {
-                setSelectedExercises([]); // Clear all selected exercises if no initialExerciseId
+                // Clear all selected exercises if there is no initialExerciseId
+                setSelectedExercises([]); 
               }
               setShowPersistInterrupt(false);
             }}
           >
             No
-          </Button>
-          <Button
-            onClick={() => {
-              setShowPersistInterrupt(false);
-            }}
-          >
-            Yes
           </Button>
         </div>
       </div>
@@ -135,8 +152,14 @@ const Workout = () => {
           toggleExerciseSelection={toggleExerciseSelection}
         />
       }
-      <Tabs defaultValue={defaultTab} key={defaultTab}>
-        <Tabs.List className='w-full border-b bg-surface rounded-t-md'>
+      <Tabs
+        defaultValue={initialExerciseId || selectedExercises[0]?.id || ''}
+        value={activeTab}
+        onValueChange={handleTabChange}
+        key={activeTab}
+        className=''
+      >
+        <Tabs.List className=''>
           {selectedExercises.map((exercise: Exercise) => (
             <Tabs.Trigger
               key={exercise.id}
@@ -147,15 +170,16 @@ const Workout = () => {
             </Tabs.Trigger>
           ))}
         </Tabs.List>
-          {selectedExercises.map((exercise: Exercise) => (
-            <Tabs.Content
-              key={exercise.id}
-              value={exercise.id}
-              className='w-full'
-            >
-              <WorkoutForm exerciseData={exercise} initialState={getIntialFormState(exercise.id)}/>
-            </Tabs.Content>
-          ))}
+        {/* <h1>{activeExercise?.name}</h1> */}
+        {selectedExercises.map((exercise: Exercise) => (
+          <Tabs.Content
+            key={exercise.id}
+            value={exercise.id}
+            className='w-full'
+          >
+            <WorkoutForm exerciseData={exercise} initialState={getIntialFormState(exercise.id)}/>
+          </Tabs.Content>
+        ))}
       </Tabs>
       <Dialog>
         <Dialog.Trigger asChild>
