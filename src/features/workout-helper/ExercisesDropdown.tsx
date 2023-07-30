@@ -1,20 +1,19 @@
-import { Button, CheckIcon, Checkbox, Command, Popover } from 'good-nice-ui';
+import { Button, Checkbox, Command, Popover } from 'good-nice-ui';
 import React from 'react';
 import { Exercise } from '../../schemas/ExerciseSchema';
-import { cn } from '../../utils/cn';
 import { Plus } from 'lucide-react';
 
-export interface AddExercisesDropdownProps {
+export interface ExercisesDropdownProps {
   exercises: Exercise[];
   selectedExercises: Exercise[];
   toggleExerciseSelection: (exercise: Exercise) => void;
 }
 
-export const AddExercisesDropdown = ({
+export const ExercisesDropdown = ({
   exercises,
   selectedExercises,
   toggleExerciseSelection,
-}: AddExercisesDropdownProps) => {
+}: ExercisesDropdownProps) => {
   return (
     <Popover>
       <Popover.Trigger asChild>
