@@ -16,10 +16,10 @@ export const Header = ({ children, isLoading, className }: HeaderProps) => {
     <div className={cn('flex gap-6 items-center', className)}>
       <Button
         variant='outline'
-        size='sm'
+        size='icon'
         onClick={() => router.back()}
       >
-        <ArrowBigLeft className='h-4 w-4'/>
+        <ArrowBigLeft className='h-5 w-5'/>
       </Button>
       {isLoading ? (
           <Skeleton className='w-32 h-6' />

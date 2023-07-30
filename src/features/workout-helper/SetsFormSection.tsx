@@ -136,7 +136,7 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
           onClick={() => append({ reps: 0, value: 0, rpe: 0 })}
         >
           <PlusIcon size={18} className='mr-2' />
-          Add
+          Add Set
         </Button>
       </div>
     </div>

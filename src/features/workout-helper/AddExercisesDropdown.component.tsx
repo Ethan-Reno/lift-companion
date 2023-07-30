@@ -1,7 +1,8 @@
-import { Button, CheckIcon, Command, Popover } from 'good-nice-ui';
+import { Button, CheckIcon, Checkbox, Command, Popover } from 'good-nice-ui';
 import React from 'react';
 import { Exercise } from '../../schemas/ExerciseSchema';
 import { cn } from '../../utils/cn';
+import { Plus } from 'lucide-react';
 
 export interface AddExercisesDropdownProps {
   exercises: Exercise[];
@@ -17,11 +18,11 @@ export const AddExercisesDropdown = ({
   return (
     <Popover>
       <Popover.Trigger asChild>
-        <Button>
-          Add Exercise
+        <Button variant="outline" size='icon'>
+          <Plus className='h-5 w-5' />
         </Button>
       </Popover.Trigger>
-      <Popover.Content className="w-[300px] p-0" align="start">
+      <Popover.Content className="w-[300px] p-0" align='end'>
         <Command>
           <Command.Input placeholder="Search..." />
           <Command.List>
@@ -33,17 +34,9 @@ export const AddExercisesDropdown = ({
                   <Command.Item
                     key={exercise.id}
                     onSelect={() => toggleExerciseSelection(exercise)}
+                    className='flex gap-2 p-3'
                   >
-                    <div
-                      className={cn(
-                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
-                        isSelected
-                          ? "bg-primary text-primary-foreground"
-                          : "opacity-50 [&_svg]:invisible"
-                      )}
-                    >
-                      <CheckIcon size={16} />
-                    </div>
+                    <Checkbox checked={isSelected} />
                     {exercise.name}
                   </Command.Item>
                 );

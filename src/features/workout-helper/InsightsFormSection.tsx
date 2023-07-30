@@ -60,7 +60,7 @@ export const InsightsFormSection = ({
       {Object.keys(selectedInsights).length === 0 ? (
         <p className='pt-6 px-5 text-muted-foreground'>Enrich your data by adding insights to your workouts. We will look for relationships between these insights and your progress over time.</p>
       ) : (
-        <div className="flex flex-col gap-4 pt-12">
+        <div className="flex flex-col gap-4 pt-6">
           {/* <div className='flex gap-2 absolute top-6 right-6 ml-2  items-center'>
             <Label className='capitalize text-lowContrast-foreground'>Workout Insights</Label>
             <Popover>
@@ -117,40 +117,42 @@ export const InsightsFormSection = ({
           ))}
         </div>
       )}
-      <DropdownMenu>
-        <DropdownMenu.Trigger asChild>
-          <Button
-            type="button"
-            size="sm"
-            variant='link'
-            className='w-fit self-center'
-          >
-            <PlusIcon size={18} className='mr-2' />
-            Add
-          </Button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
-          <DropdownMenu.Label className="text-lowContrast-foreground">Insights</DropdownMenu.Label>
-          <DropdownMenu.Separator />
-          <DropdownMenu.CheckboxItem
-            className='p-2 pl-8'
-            checked={allInsightsAdded}
-            onClick={addAllInsights}
-          >
-            All
-          </DropdownMenu.CheckboxItem>
-          {insights.map((insight) => (
-            <DropdownMenu.CheckboxItem
-              key={insight}
-              className='p-2 pl-8'
-              checked={insight in selectedInsights}
-              onClick={() => toggleInsight(insight)}
+      {!allInsightsAdded &&
+        <DropdownMenu>
+          <DropdownMenu.Trigger asChild>
+            <Button
+              type="button"
+              size="sm"
+              variant='link'
+              className='w-fit self-center'
             >
-              {toTitleCase(insight)}
+              <PlusIcon size={18} className='mr-2' />
+              Add Insight
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Label className="text-lowContrast-foreground">Insights</DropdownMenu.Label>
+            <DropdownMenu.Separator />
+            <DropdownMenu.CheckboxItem
+              className='p-2 pl-8'
+              checked={allInsightsAdded}
+              onClick={addAllInsights}
+            >
+              All
             </DropdownMenu.CheckboxItem>
-          ))}
-        </DropdownMenu.Content>
-      </DropdownMenu>
+            {insights.map((insight) => (
+              <DropdownMenu.CheckboxItem
+                key={insight}
+                className='p-2 pl-8'
+                checked={insight in selectedInsights}
+                onClick={() => toggleInsight(insight)}
+              >
+                {toTitleCase(insight)}
+              </DropdownMenu.CheckboxItem>
+            ))}
+          </DropdownMenu.Content>
+        </DropdownMenu>
+      }
     </div>
   );
 };

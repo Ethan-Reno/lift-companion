@@ -35,7 +35,7 @@ export const RecentExercisesGrid = () => {
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex items-center justify-between'>
-        <div className=''>Dashboard</div>
+        <div className='text-xl text-muted-foreground'>Recent Progress</div>
         <Select
           onValueChange={(value) => setSortType(value as SORT_TYPE)}
           defaultValue={sortType}

@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { CreateWorkoutInputs, createWorkoutSchema } from '../../schemas/WorkoutSchema';
-import { Form, FormProvider, Separator, Tabs } from 'good-nice-ui';
+import { Button, Form, FormProvider, Separator, Tabs } from 'good-nice-ui';
 import { SetsFormSection } from './SetsFormSection';
 import { InsightsFormSection, SelectedInsights } from './InsightsFormSection';
 import { Exercise } from '../../schemas/ExerciseSchema';
 import { useStore } from '../../store/store';
+import { api } from '../../utils/api';
+import { Loader2 } from 'lucide-react';
 
 interface WorkoutFormProps {
   exerciseData: Exercise;
@@ -17,28 +19,30 @@ export const WorkoutForm = ({
   exerciseData,
   initialState,
 }: WorkoutFormProps) => {
-  const { setWorkoutFormState } = useStore();
+  const { setWorkoutFormState, clearWorkoutFormStateForId } = useStore();
+  const { mutate, isLoading } = api.workout.create.useMutation({
+    onSuccess: (data, variables) => {
+      clearWorkoutFormStateForId(variables.exerciseId);
+    },
+  });
+  const [selectedInsights, setSelectedInsights] = useState<SelectedInsights>(initialState.insights[0] || {});
 
   const form = useForm<CreateWorkoutInputs>({
     resolver: zodResolver(createWorkoutSchema),
     defaultValues: initialState,
   });
-
-  const [selectedInsights, setSelectedInsights] = useState<SelectedInsights>(initialState.insights[0] || {});
-
-  const onSubmit = (values: CreateWorkoutInputs) => {
-    setWorkoutFormState(values.exerciseId, values);
+  const values: CreateWorkoutInputs = form.watch();
+  const onSubmit = () => {
+    mutate(values);
   };
   const onError = (errors: any) => console.log(errors);
 
-  const values = form.watch();
-
   // Save a copy of the form's current values in a ref
   const prevValues = useRef(values);
-  // Only update the state when the form values have actually changed
+  // Only update the form state when the form values have actually changed
   useEffect(() => {
     if (JSON.stringify(prevValues.current) !== JSON.stringify(values)) {
-      onSubmit(values);
+      setWorkoutFormState(values.exerciseId, values);
       prevValues.current = values;
     }
   }, [values]);
@@ -72,6 +76,23 @@ export const WorkoutForm = ({
               setSelectedInsights={setSelectedInsights}
             />
           </Tabs.Content>
+          <div>
+          <Button
+              variant='secondary'
+              type='submit'
+              disabled={isLoading}
+              className='mb-6'
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Processing
+                </>
+              ) : (
+                <>Submit</>
+              )}
+            </Button>
+          </div>
         </Tabs>
       </Form>
     </FormProvider>
