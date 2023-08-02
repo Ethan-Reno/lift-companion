@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { CreateWorkoutInputs, createWorkoutSchema } from '../../schemas/WorkoutSchema';
+import { CreateWorkoutInputs, WORKOUT_STATUS, createWorkoutSchema } from '../../schemas/WorkoutSchema';
 import { Button, Form, FormProvider, Separator, Tabs } from 'good-nice-ui';
 import { SetsFormSection } from './SetsFormSection';
 import { InsightsFormSection, SelectedInsights } from './InsightsFormSection';
@@ -11,25 +11,34 @@ import { api } from '../../utils/api';
 import { Loader2 } from 'lucide-react';
 
 interface WorkoutFormProps {
-  exerciseData: Exercise;
-  initialState: CreateWorkoutInputs;
+  exercise: Exercise;
 }
 
 export const WorkoutForm = ({
-  exerciseData,
-  initialState,
+  exercise,
 }: WorkoutFormProps) => {
-  const { setWorkoutFormState, clearWorkoutFormStateForId } = useStore();
+  const { workoutFormStates, setWorkoutFormState, selectedExercises, setSelectedExercises, clearWorkoutFormStateForId } = useStore();
   const { mutate, isLoading } = api.workout.create.useMutation({
     onSuccess: (data, variables) => {
       clearWorkoutFormStateForId(variables.exerciseId);
+      setSelectedExercises(selectedExercises.filter(exercise => exercise.id !== variables.exerciseId));
     },
   });
-  const [selectedInsights, setSelectedInsights] = useState<SelectedInsights>(initialState.insights[0] || {});
+
+  // Define default values for the workout form
+  const defaultFormValues = {
+    status: WORKOUT_STATUS.enum.started,
+    sets: [{ reps: 0, value: 0, rpe: 1 }],
+    insights: [{}],
+  };
+  // Use the persisted form state if it exists, otherwise use the default values
+  const initialFormState = workoutFormStates[exercise.id] || { ...defaultFormValues, exerciseId: exercise.id };
+
+  const [selectedInsights, setSelectedInsights] = useState<SelectedInsights>(initialFormState.insights[0] || {});
 
   const form = useForm<CreateWorkoutInputs>({
     resolver: zodResolver(createWorkoutSchema),
-    defaultValues: initialState,
+    defaultValues: initialFormState,
   });
   const values: CreateWorkoutInputs = form.watch();
   const onSubmit = () => {
@@ -66,7 +75,7 @@ export const WorkoutForm = ({
           <Tabs.Content className='w-full' value="sets">
             <SetsFormSection
               form={form}
-              measurement={exerciseData.measurement}
+              measurement={exercise.measurement}
             />
           </Tabs.Content>
           <Tabs.Content className='w-full' value="insights">

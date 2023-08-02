@@ -16,7 +16,7 @@ export function ExerciseTableRowActions({
 }: ExerciseTableRowActionsProps) {
   const [dialogType, setDialogType] = React.useState<string>('');
   const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false);
-  const { setInitialExerciseId } = useStore();
+  const { selectedExercises, setSelectedExercises } = useStore();
   const { id, status } = data;
 
   const getDialogContent = () => {
@@ -30,6 +30,10 @@ export function ExerciseTableRowActions({
       default:
         return null;
     }
+  };
+
+  const setInitialExercise = (exercise: Exercise) => {
+    setSelectedExercises([exercise, ...selectedExercises.filter(selectedExercise => selectedExercise.id !== exercise.id)]);
   };
 
   return (
@@ -49,7 +53,7 @@ export function ExerciseTableRowActions({
           <DropdownMenu.Label className="text-lowContrast-foreground">Actions</DropdownMenu.Label>
           <DropdownMenu.Separator />
           <DropdownMenu.Item className='p-2'>
-            <Link href='/workout' onClick={() => setInitialExerciseId(id)} className='flex items-center'>
+            <Link href='/workout' onClick={() => setInitialExercise(data)} className='flex items-center'>
               <Dumbbell className="mr-2 h-3.5 w-3.5 text-primary" />
               Start Workout
               <span className="sr-only">View details</span>

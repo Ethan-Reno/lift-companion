@@ -8,14 +8,12 @@ import { Dumbbell, LogOut, Menu, Moon, Settings, Sun } from 'lucide-react';
 import logo from '../../public/barbell.png';
 import { cn } from '../utils/cn';
 import { useRouter } from 'next/router';
-import { useStore } from '../store/store';
 
 export const NavMenu = () => {
   const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
   const router = useRouter();
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
-  const { setInitialExerciseId } = useStore();
   const mobileMenuOverlay = (
     <div className='fixed top-16 left-0 w-screen h-screen bg-background z-50'>
       <div className="flex flex-col gap-8 text-2xl items-center pt-8">
@@ -27,10 +25,7 @@ export const NavMenu = () => {
         </Link>
         <Link
           href='/exercises'
-          onClick={() => {
-            setInitialExerciseId('');
-            setIsMenuOpen(false);
-          }}
+          onClick={() => {setIsMenuOpen(false)}}
         >
           Start Workout
         </Link>
@@ -97,10 +92,7 @@ export const NavMenu = () => {
                   router.pathname === '/workout' && 'text-foreground underline'
                 )}
                 href='/workout'
-                onClick={() => {
-                  setInitialExerciseId('');
-                  setIsMenuOpen(false);
-                }}
+                onClick={() => {setIsMenuOpen(false)}}
               >
                 Workout
               </Link>

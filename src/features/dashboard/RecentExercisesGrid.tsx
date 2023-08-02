@@ -19,7 +19,7 @@ export const RecentExercisesGrid = () => {
   const [ xAxisType, setXAxisType ] = useState<X_AXIS_TYPE>(X_AXIS_TYPE.NUMBER);
   const [ yAxisType, setYAxisType ] = useState<Y_AXIS_TYPE>(Y_AXIS_TYPE.TOTAL_VALUE);
   const [ sortType, setSortType ] = useState<SORT_TYPE>(SORT_TYPE.MOST_RECENT);
-  const { setInitialExerciseId } = useStore();
+  const { selectedExercises, setSelectedExercises } = useStore();
   const axes = {
     x: xAxisType,
     y: yAxisType,
@@ -31,6 +31,10 @@ export const RecentExercisesGrid = () => {
       exercise.workouts?.some(workout => workout.status === WORKOUT_STATUS.enum.completed)
     );
   }
+
+  const setInitialExercise = (exercise: Exercise) => {
+    setSelectedExercises([exercise, ...selectedExercises.filter(selectedExercise => selectedExercise.id !== exercise.id)]);
+  };
 
   return (
     <div className='flex flex-col gap-4'>
@@ -86,7 +90,7 @@ export const RecentExercisesGrid = () => {
                     <DropdownMenu.Label className="text-lowContrast-foreground">Actions</DropdownMenu.Label>
                     <DropdownMenu.Separator />
                     <DropdownMenu.Item className='p-2'>
-                      <Link href='/workout' onClick={() => setInitialExerciseId(exercise.id)} className='flex items-center'>
+                      <Link href='/workout' onClick={() => setInitialExercise(exercise)} className='flex items-center'>
                         <Dumbbell className="mr-2 h-3.5 w-3.5 text-primary" />
                         Start Workout
                         <span className="sr-only">View details</span>
