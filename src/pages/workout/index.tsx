@@ -11,11 +11,11 @@ const Workout = () => {
   const {
     selectedExercises,
     setSelectedExercises,
-    workoutFormStates,
-    clearWorkoutFormState,
+    workoutFormState,
+    setWorkoutFormState,
   } = useStore();
   const { data: exercises, isLoading } = api.exercise.getAll.useQuery();
-  const [showPersistInterrupt, setShowPersistInterrupt] = useState(Object.keys(workoutFormStates).length > 0);
+  const [showPersistInterrupt, setShowPersistInterrupt] = useState(Object.keys(workoutFormState).length > 0);
   const [activeTab, setActiveTab] = useState<string>(selectedExercises[0]?.id || '');
   const activeExercise = selectedExercises.find((exercise) => exercise.id === activeTab);
 
@@ -60,8 +60,7 @@ const Workout = () => {
           <Button
             variant="outline"
             onClick={() => {
-              // Clear persisted workout form states
-              clearWorkoutFormState();
+              setWorkoutFormState({});
               setShowPersistInterrupt(false);
             }}
           >

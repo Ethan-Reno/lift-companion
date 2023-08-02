@@ -7,12 +7,13 @@ import { Exercise } from '../schemas/ExerciseSchema';
 interface AppState {
   shouldRefetch: boolean;
   setShouldRefetch: (shouldRefetch: boolean) => void;
-  workoutFormStates: Record<string, CreateWorkoutInputs>;  // Map of exercise IDs to form states
-  setWorkoutFormState: (id: string, formState: CreateWorkoutInputs) => void;
+  workoutFormState: Record<string, CreateWorkoutInputs>;  // Map of exercise IDs to form states
+  setWorkoutFormState: (
+    formState: Record<string, CreateWorkoutInputs> |
+    ((currentFormStates: Record<string, CreateWorkoutInputs>) => Record<string, CreateWorkoutInputs>)
+  ) => void;
   selectedExercises: Exercise[];
   setSelectedExercises: (selectedExercises: Exercise[]) => void;
-  clearWorkoutFormState: () => void;
-  clearWorkoutFormStateForId: (id: string) => void;
 };
 
 export const useStore = create<AppState>()(
@@ -20,20 +21,16 @@ export const useStore = create<AppState>()(
     (set) => ({
       shouldRefetch: false,
       setShouldRefetch: (shouldRefetch) => set({ shouldRefetch }),
-      workoutFormStates: {},
-      setWorkoutFormState: (id, formState) => set((state) => ({
-        workoutFormStates: {
-          ...state.workoutFormStates,
-          [id]: formState,
+      workoutFormState: {},
+      setWorkoutFormState: (formState) => set((state) => {
+        if (typeof formState === 'function') {
+          return { workoutFormState: formState(state.workoutFormState) };
         }
-      })),
+
+        return { workoutFormState: formState };
+      }),
       selectedExercises: [],
       setSelectedExercises: (selectedExercises) => set({ selectedExercises: [...selectedExercises] }),
-      clearWorkoutFormState: () => set({ workoutFormStates: {} }),
-      clearWorkoutFormStateForId: (id: string) => set((state) => {
-        const { [id]: removed, ...rest } = state.workoutFormStates;
-        return { workoutFormStates: rest };
-      }),
     }),
     {
       name: 'lift-companion-storage',

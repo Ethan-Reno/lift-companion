@@ -14,13 +14,19 @@ interface WorkoutFormProps {
   exercise: Exercise;
 }
 
-export const WorkoutForm = ({
-  exercise,
-}: WorkoutFormProps) => {
-  const { workoutFormStates, setWorkoutFormState, selectedExercises, setSelectedExercises, clearWorkoutFormStateForId } = useStore();
+export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
+  const {
+    workoutFormState,
+    setWorkoutFormState,
+    selectedExercises,
+    setSelectedExercises
+  } = useStore();
   const { mutate, isLoading } = api.workout.create.useMutation({
     onSuccess: (data, variables) => {
-      clearWorkoutFormStateForId(variables.exerciseId);
+      setWorkoutFormState((prevState) => {
+        const { [variables.exerciseId]: removed, ...rest } = prevState;
+        return rest;
+      });
       setSelectedExercises(selectedExercises.filter(exercise => exercise.id !== variables.exerciseId));
     },
   });
@@ -31,8 +37,8 @@ export const WorkoutForm = ({
     sets: [{ reps: 0, value: 0, rpe: 1 }],
     insights: [{}],
   };
-  // Use the persisted form state if it exists, otherwise use the default values
-  const initialFormState = workoutFormStates[exercise.id] || { ...defaultFormValues, exerciseId: exercise.id };
+  // Use the existing form state if it exists, otherwise use the default values
+  const initialFormState = workoutFormState[exercise.id] || { ...defaultFormValues, exerciseId: exercise.id };
 
   const [selectedInsights, setSelectedInsights] = useState<SelectedInsights>(initialFormState.insights[0] || {});
 
@@ -46,15 +52,20 @@ export const WorkoutForm = ({
   };
   const onError = (errors: any) => console.log(errors);
 
-  // Save a copy of the form's current values in a ref
-  const prevValues = useRef(values);
-  // Only update the form state when the form values have actually changed
-  useEffect(() => {
-    if (JSON.stringify(prevValues.current) !== JSON.stringify(values)) {
-      setWorkoutFormState(values.exerciseId, values);
-      prevValues.current = values;
-    }
-  }, [values]);
+// Save a copy of the form's current values in a ref
+const prevValues = useRef(values);
+// Only update the form state when the form values have actually changed
+useEffect(() => {
+  if (JSON.stringify(prevValues.current) !== JSON.stringify(values)) {
+    setWorkoutFormState((prevState) => {
+      return {
+        ...prevState,
+        [values.exerciseId]: values  // update the state for this exerciseId
+      }
+    });
+    prevValues.current = values;
+  }
+}, [values]);
 
   return (
     <FormProvider {...form}>
