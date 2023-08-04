@@ -89,14 +89,14 @@ export const RecentExercisesGrid = () => {
                   <DropdownMenu.Content align='end'>
                     <DropdownMenu.Label className="text-lowContrast-foreground">Actions</DropdownMenu.Label>
                     <DropdownMenu.Separator />
-                    <DropdownMenu.Item className='p-2'>
+                    <DropdownMenu.Item>
                       <Link href='/workout' onClick={() => setInitialExercise(exercise)} className='flex items-center'>
                         <Dumbbell className="mr-2 h-3.5 w-3.5 text-primary" />
                         Start Workout
                         <span className="sr-only">View details</span>
                       </Link>
                     </DropdownMenu.Item>
-                    <DropdownMenu.Item className='p-2'>
+                    <DropdownMenu.Item>
                       <Link href={`/exercises/${exercise.id}`} className='flex items-center'>
                         <LineChartIcon className="mr-2 h-3.5 w-3.5 text-primary" />
                         View Data

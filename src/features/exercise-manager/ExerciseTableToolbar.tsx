@@ -67,7 +67,7 @@ export function ExerciseTableToolbar<TData>({
                 return (
                   <DropdownMenu.CheckboxItem
                     key={column.id}
-                    className="capitalize p-2 pl-8"
+                    className="capitalize"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >

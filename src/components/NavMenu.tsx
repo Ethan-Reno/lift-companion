@@ -116,16 +116,19 @@ export const NavMenu = () => {
                 <DropdownMenu.Content className="min-w-fit" align='end'>
                   <DropdownMenu.Label className="text-lowContrast-foreground">Menu</DropdownMenu.Label>
                   <DropdownMenu.Separator />
-                  <DropdownMenu.Item className='p-2' onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-                    {theme === 'dark' ? <Moon className="pr-2"/> : <Sun className="pr-2"/>}
+                  <DropdownMenu.Item onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+                    {theme === 'dark'
+                      ? <Moon className="mr-2 h-3.5 w-3.5 text-foreground" />
+                      : <Sun className="mr-2 h-3.5 w-3.5 text-foreground"/>
+                    }
                     Theme
                   </DropdownMenu.Item>
-                  <DropdownMenu.Item className='p-2'>
-                    <Settings className="pr-2" />
+                  <DropdownMenu.Item disabled>
+                    <Settings className="mr-2 h-3.5 w-3.5 text-lowContrast-foreground" />
                     Settings
                   </DropdownMenu.Item>
-                  <DropdownMenu.Item className='p-2' onSelect={() => signOut()}>
-                    <LogOut className="pr-2" />
+                  <DropdownMenu.Item onSelect={() => signOut()}>
+                    <LogOut className="mr-2 h-3.5 w-3.5 text-destructive" />
                     Logout
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>

@@ -1466,24 +1466,19 @@ chownr@^1.1.1:
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.4.tgz#6fc9d7b42d32a583596337666e7d08084da2cc6b"
   integrity sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==
 
-class-variance-authority@^0.6.0:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/class-variance-authority/-/class-variance-authority-0.6.1.tgz#9482856c1496d33c21ef19e65b5d255460aa8039"
-  integrity sha512-eurOEGc7YVx3majOrOb099PNKgO3KnKSApOprXI4BTq6bcfbqbQXPN2u+rPPmIJ2di23bMwhk0SxCCthBmszEQ==
+class-variance-authority@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/class-variance-authority/-/class-variance-authority-0.7.0.tgz#1c3134d634d80271b1837452b06d821915954522"
+  integrity sha512-jFI8IQw4hczaL4ALINxqLEXQbWcNjoSkloa4IaufXCJr6QawJyw7tuRysRsrE8w2p/4gGaxKIt/hX3qz/IbD1A==
   dependencies:
-    clsx "1.2.1"
+    clsx "2.0.0"
 
 client-only@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
   integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
 
-clsx@1.2.1, clsx@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
-  integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
-
-clsx@^2.0.0:
+clsx@2.0.0, clsx@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.0.0.tgz#12658f3fd98fafe62075595a5c30e43d18f3d00b"
   integrity sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==
@@ -2308,10 +2303,10 @@ globby@^13.1.3:
     merge2 "^1.4.1"
     slash "^4.0.0"
 
-good-nice-ui@0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/good-nice-ui/-/good-nice-ui-0.5.5.tgz#a241a6ff6210c5e7427120b386ad7c01ae462267"
-  integrity sha512-GpgC/PQHllmBUL3VDXrO7NTqH5EGdsvFs9iWJX5biKabVmb69qtxCBksiJeBFHw9YIPAGHZsx9mb7/Nhc1R+Cg==
+good-nice-ui@0.5.8:
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/good-nice-ui/-/good-nice-ui-0.5.8.tgz#c116a70ba191d7eb0acd69007f6c0a3d0109a9ff"
+  integrity sha512-1XTe/+eurUDk17MNKY7hY260qc3N8wDkXr46fcighG8T/xcvWWkMq0zMqZVmNvJeW4mI7ZKfV8jLfrjNSOILYw==
   dependencies:
     "@radix-ui/react-accordion" "^1.1.2"
     "@radix-ui/react-aspect-ratio" "^1.0.3"
@@ -2332,11 +2327,11 @@ good-nice-ui@0.5.5:
     "@radix-ui/react-toast" "^1.1.4"
     "@radix-ui/react-tooltip" "^1.0.5"
     "@radix-ui/react-visually-hidden" "^1.0.1"
-    class-variance-authority "^0.6.0"
-    clsx "^1.2.1"
+    class-variance-authority "^0.7.0"
+    clsx "^2.0.0"
     cmdk "^0.2.0"
-    react-hook-form "^7.44.3"
-    tailwind-merge "^1.13.0"
+    react-hook-form "^7.45.2"
+    tailwind-merge "^1.14.0"
 
 gopd@^1.0.1:
   version "1.0.1"
@@ -3337,6 +3332,11 @@ react-hook-form@^7.44.3:
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.45.1.tgz#e352c7f4dbc7540f0756abbb4dcfd1122fecc9bb"
   integrity sha512-6dWoFJwycbuFfw/iKMcl+RdAOAOHDiF11KWYhNDRN/OkUt+Di5qsZHwA0OwsVnu9y135gkHpTw9DJA+WzCeR9w==
 
+react-hook-form@^7.45.2:
+  version "7.45.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.45.2.tgz#c757f3d5e633ccb186443d57c10fc511df35721a"
+  integrity sha512-9s45OdTaKN+4NSTbXVqeDITd/nwIg++nxJGL8+OD5uf1DxvhsXQ641kaYHk5K28cpIOTYm71O/fYk7rFaygb3A==
+
 react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -3757,7 +3757,7 @@ synckit@^0.8.5:
     "@pkgr/utils" "^2.3.1"
     tslib "^2.5.0"
 
-tailwind-merge@^1.13.0:
+tailwind-merge@^1.14.0:
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.14.0.tgz#e677f55d864edc6794562c63f5001f45093cdb8b"
   integrity sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==

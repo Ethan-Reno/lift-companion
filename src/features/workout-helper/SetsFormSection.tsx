@@ -116,7 +116,7 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
                 </Button>
               </Dialog.Trigger>
               <Dialog.Content>
-                <Dialog.Header>Delete Set</Dialog.Header>
+                <Dialog.Title>Delete Set</Dialog.Title>
                 <Dialog.Description>
                   <p className="text-lowContrast-foreground">Are you sure you want to delete this set?</p>
                 </Dialog.Description>

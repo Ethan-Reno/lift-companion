@@ -40,11 +40,11 @@ export function ExerciseTableColumnHeader<TData, TValue>({
       <DropdownMenu.Content align="start">
         <DropdownMenu.Label className="text-lowContrast-foreground">Sort</DropdownMenu.Label>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item className='p-2' onClick={() => column.toggleSorting(false)}>
+        <DropdownMenu.Item onClick={() => column.toggleSorting(false)}>
           <SortAsc className="mr-2 h-3.5 w-3.5 text-primary" />
           Asc
         </DropdownMenu.Item>
-        <DropdownMenu.Item className='p-2' onClick={() => column.toggleSorting(true)}>
+        <DropdownMenu.Item onClick={() => column.toggleSorting(true)}>
           <SortDesc className="mr-2 h-3.5 w-3.5 text-primary" />
           Desc
         </DropdownMenu.Item>
@@ -53,7 +53,7 @@ export function ExerciseTableColumnHeader<TData, TValue>({
             <DropdownMenu.Separator />
             <DropdownMenu.Item
               onSelect={() => column.clearSorting()}
-              className="justify-center text-center p-2"
+              className="justify-center text-center"
             >
               Clear sorting
             </DropdownMenu.Item>
@@ -105,7 +105,7 @@ export function ExerciseTableColumnHeader<TData, TValue>({
             <DropdownMenu.Separator />
             <DropdownMenu.Item
               onSelect={() => column.setFilterValue(undefined)}
-              className="justify-center text-center p-2"
+              className="justify-center text-center"
             >
               Clear filter
             </DropdownMenu.Item>

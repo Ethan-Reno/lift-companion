@@ -134,7 +134,6 @@ export const InsightsFormSection = ({
             <DropdownMenu.Label className="text-lowContrast-foreground">Insights</DropdownMenu.Label>
             <DropdownMenu.Separator />
             <DropdownMenu.CheckboxItem
-              className='p-2 pl-8'
               checked={allInsightsAdded}
               onClick={addAllInsights}
             >
@@ -143,7 +142,6 @@ export const InsightsFormSection = ({
             {insights.map((insight) => (
               <DropdownMenu.CheckboxItem
                 key={insight}
-                className='p-2 pl-8'
                 checked={insight in selectedInsights}
                 onClick={() => toggleInsight(insight)}
               >

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { CreateWorkoutInputs, WORKOUT_STATUS, createWorkoutSchema } from '../../schemas/WorkoutSchema';
-import { Button, Form, FormProvider, Separator, Tabs } from 'good-nice-ui';
+import { Button, Dialog, Form, FormProvider, Separator, Tabs } from 'good-nice-ui';
 import { SetsFormSection } from './SetsFormSection';
 import { InsightsFormSection, SelectedInsights } from './InsightsFormSection';
 import { Exercise } from '../../schemas/ExerciseSchema';
@@ -30,6 +30,7 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
       setSelectedExercises(selectedExercises.filter(exercise => exercise.id !== variables.exerciseId));
     },
   });
+  const [isSubmitDialogOpen, setIsSubmitDialogOpen] = useState(false);
 
   // Define default values for the workout form
   const defaultFormValues = {
@@ -96,22 +97,65 @@ useEffect(() => {
               setSelectedInsights={setSelectedInsights}
             />
           </Tabs.Content>
-          <div>
-          <Button
-              variant='secondary'
-              type='submit'
-              disabled={isLoading}
-              className='mb-6'
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing
-                </>
-              ) : (
-                <>Submit</>
-              )}
-            </Button>
+          <div className='border-t w-full flex gap-2 p-2 justify-end'>
+          <Dialog>
+            <Dialog.Trigger asChild>
+              <Button
+                variant='outline'
+                className="border-destructive"
+                disabled={isLoading}
+              >
+                Clear Form
+              </Button>
+            </Dialog.Trigger>
+          </Dialog>
+          <Dialog open={isSubmitDialogOpen} onOpenChange={setIsSubmitDialogOpen}>
+            <Dialog.Trigger asChild>
+              <Button
+                variant='secondary'
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processing
+                  </>
+                ) : (
+                  <>Submit</>
+                )}
+              </Button>
+            </Dialog.Trigger>
+            <Dialog.Content className='bg-background'>
+              <Dialog.Title>Submit Workout</Dialog.Title>
+              <Dialog.Description>
+                Are you sure you want to submit this workout?
+              </Dialog.Description>
+              <Dialog.Footer className="gap-y-4">
+                <Button
+                  variant="secondary"
+                  type="button"
+                  onClick={() => setIsSubmitDialogOpen(false)}
+                  disabled={isLoading}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type='submit'
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing
+                    </>
+                  ) : (
+                    <>Submit</>
+                  )}
+                </Button>
+              </Dialog.Footer>
+            </Dialog.Content>
+          </Dialog>
+
           </div>
         </Tabs>
       </Form>
