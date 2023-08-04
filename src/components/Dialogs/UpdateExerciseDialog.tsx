@@ -168,9 +168,7 @@ export const UpdateExerciseDialog = ({
 
   return (
     <Dialog.Content className="sm:max-w-[425px]">
-      <Dialog.Header>
-        <Dialog.Title>Update Exercise</Dialog.Title>
-      </Dialog.Header>
+      <Dialog.Title>Update Exercise</Dialog.Title>
       {status !== EXERCISE_STATUS.enum.inactive && (
         <Dialog.Description>
           The measurement type can't be updated because this exercise already has saved data.

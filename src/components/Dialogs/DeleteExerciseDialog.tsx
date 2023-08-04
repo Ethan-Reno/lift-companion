@@ -38,18 +38,16 @@ export const DeleteExerciseDialog = ({ id, deleteType, setIsOpen }: DeleteExerci
 
   return (
     <Dialog.Content className="sm:max-w-[425px]">
-      <Dialog.Header>
-        <Dialog.Title>Delete Exercise?</Dialog.Title>
-        {isHardDelete ? (
-          <Dialog.Description>
-            Are you sure? This will delete permanently delete the exercise and all associated data.
-          </Dialog.Description>
-        ) : (
-          <Dialog.Description>
-            This will delete the exercise, but your data will still be visible in your workout history.
-          </Dialog.Description>
-        )}
-      </Dialog.Header>
+      <Dialog.Title>Delete Exercise?</Dialog.Title>
+      {isHardDelete ? (
+        <Dialog.Description>
+          Are you sure? This will delete permanently delete the exercise and all associated data.
+        </Dialog.Description>
+      ) : (
+        <Dialog.Description>
+          This will delete the exercise, but your data will still be visible in your workout history.
+        </Dialog.Description>
+      )}
       <Dialog.Footer className='gap-y-4'>
         <Button
           variant="secondary"

@@ -143,9 +143,9 @@ export const CreateExerciseDialog = () => {
         <Button onClick={() => setIsOpen(true)}>Create New</Button>
       </Dialog.Trigger>
       <Dialog.Content className="sm:max-w-[425px]">
-        <Dialog.Header>
+        <Dialog.Title>
           <Dialog.Title>Create Exercise</Dialog.Title>
-        </Dialog.Header>
+        </Dialog.Title>
         <CreateExerciseForm />
       </Dialog.Content>
     </Dialog>

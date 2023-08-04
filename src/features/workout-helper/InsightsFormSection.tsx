@@ -103,7 +103,7 @@ export const InsightsFormSection = ({
                   </Button>
                 </Dialog.Trigger>
                 <Dialog.Content>
-                  <Dialog.Header>Delete Insight</Dialog.Header>
+                  <Dialog.Title>Delete Insight</Dialog.Title>
                   <Dialog.Description>
                     <p className="text-lowContrast-foreground">Are you sure you want to delete this insight?</p>
                   </Dialog.Description>
