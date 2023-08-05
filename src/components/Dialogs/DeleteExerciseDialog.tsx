@@ -5,24 +5,16 @@ import { Loader2 } from 'lucide-react';
 import { useStore } from '../../store/store';
 import { useToast } from '../../hooks/useToast';
 
-export enum DELETE_TYPE {
-  SOFT_DELETE = 'softDelete',
-  HARD_DELETE = 'hardDelete',
-}
-
 export interface DeleteExerciseDialogProps {
   id: string;
-  deleteType: DELETE_TYPE;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const DeleteExerciseDialog = ({ id, deleteType, setIsOpen }: DeleteExerciseDialogProps) => {
+export const DeleteExerciseDialog = ({ id, setIsOpen }: DeleteExerciseDialogProps) => {
   const { toast } = useToast();
   const { setShouldRefetch } = useStore();
-  const isHardDelete = deleteType === DELETE_TYPE.HARD_DELETE;
-  const deleteRouter = isHardDelete ? api.exercise.hardDelete : api.exercise.softDelete;
 
-  const { mutate, isLoading } = deleteRouter.useMutation({
+  const { mutate, isLoading } = api.exercise.delete.useMutation({
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
@@ -39,15 +31,9 @@ export const DeleteExerciseDialog = ({ id, deleteType, setIsOpen }: DeleteExerci
   return (
     <Dialog.Content className="sm:max-w-[425px]">
       <Dialog.Title>Delete Exercise?</Dialog.Title>
-      {isHardDelete ? (
-        <Dialog.Description>
-          Are you sure? This will delete permanently delete the exercise and all associated data.
-        </Dialog.Description>
-      ) : (
-        <Dialog.Description>
-          This will delete the exercise, but your data will still be visible in your workout history.
-        </Dialog.Description>
-      )}
+      <Dialog.Description>
+        Are you sure? This will delete permanently delete the exercise and all associated data.
+      </Dialog.Description>
       <Dialog.Footer className='gap-y-4'>
         <Button
           variant="secondary"

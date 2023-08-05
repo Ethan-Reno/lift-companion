@@ -9,7 +9,7 @@ import {
 } from 'good-nice-ui'; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Exercise, UpdateExerciseInputs, updateExerciseSchema, ExerciseStatusEnum, EXERCISE_STATUS, MEASUREMENT } from '../../schemas/ExerciseSchema';
+import { Exercise, UpdateExerciseInputs, updateExerciseSchema, EXERCISE_STATUS, MEASUREMENT } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
@@ -108,35 +108,34 @@ export const UpdateExerciseDialog = ({
               </Form.Item>
             )}
           />
-          {status === EXERCISE_STATUS.enum.inactive && (
-            <Form.Field
-              control={form.control}
-              name="measurement"
-              render={({ field }) => (
-                <Form.Item>
-                  <Form.Label>Measurement</Form.Label>
-                  <div className='flex items-center gap-2'>
-                    <Select onValueChange={() => field.onChange} defaultValue={currentExercise.measurement}>
-                      <Form.Control>
-                        <Select.Trigger className='capitalize'>
-                          <Select.Value/>
-                        </Select.Trigger>
-                      </Form.Control>
-                      <Select.Content>
-                        {Object.keys(MEASUREMENT.enum).map(measurement => (
-                          <Select.Item key={measurement} value={measurement} className="capitalize">
-                            {measurement}
-                          </Select.Item>
-                        ))}
-                      </Select.Content>
-                    </Select>
-                    <span className="whitespace-nowrap">x Reps</span>
-                  </div>
-                  <Form.Message/>
-                </Form.Item>
-              )}
-            />
-          )}
+          {/* TODO: Only allow measurement editing on exercises without completed workouts */}
+          <Form.Field
+            control={form.control}
+            name="measurement"
+            render={({ field }) => (
+              <Form.Item>
+                <Form.Label>Measurement</Form.Label>
+                <div className='flex items-center gap-2'>
+                  <Select onValueChange={() => field.onChange} defaultValue={currentExercise.measurement}>
+                    <Form.Control>
+                      <Select.Trigger className='capitalize'>
+                        <Select.Value/>
+                      </Select.Trigger>
+                    </Form.Control>
+                    <Select.Content>
+                      {Object.keys(MEASUREMENT.enum).map(measurement => (
+                        <Select.Item key={measurement} value={measurement} className="capitalize">
+                          {measurement}
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select>
+                  <span className="whitespace-nowrap">x Reps</span>
+                </div>
+                <Form.Message/>
+              </Form.Item>
+            )}
+          />
           <Dialog.Footer className='gap-y-4'>
             <Button
               variant="secondary"
@@ -169,11 +168,10 @@ export const UpdateExerciseDialog = ({
   return (
     <Dialog.Content className="sm:max-w-[425px]">
       <Dialog.Title>Update Exercise</Dialog.Title>
-      {status !== EXERCISE_STATUS.enum.inactive && (
+      {/* TODO prevent measurement updates on exercises with completed workouts */}
         <Dialog.Description>
           The measurement type can't be updated because this exercise already has saved data.
         </Dialog.Description>
-      )}
       <UpdateExerciseForm />
     </Dialog.Content>
   );

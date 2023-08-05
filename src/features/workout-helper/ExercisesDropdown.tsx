@@ -49,20 +49,22 @@ export const ExercisesDropdown = ({
               {exercises.map((exercise: Exercise) => {
                 const isSelected = selectedExercises.some(selectedExercise => selectedExercise.id === exercise.id);
                 return (
-                  <Command.Item
-                    key={exercise.id}
-                    onSelect={() => toggleExerciseSelection(exercise)}
-                    className='flex gap-2 p-3'
-                  >
-                    <Checkbox checked={isSelected} />
-                    {exercise.name}
-                  </Command.Item>
+                  <div className='relative'>
+                    <Command.Item
+                      key={exercise.id}
+                      onSelect={() => toggleExerciseSelection(exercise)}
+                      className='p-3 pl-9'
+                    >
+                      {exercise.name}
+                    </Command.Item>
+                    <Checkbox checked={isSelected} className='absolute top-3.5 left-3' />
+                  </div>
                 );
               })}
             </Command.Group>
           </Command.List>
         </Command>
-        <div className="w-full gap-2 flex border-t p-2">
+        {selectedExercises.length > 0 && <div className="w-full gap-2 flex border-t p-2">
           {/* <Button
             variant="outline"
             className="border-lowContrast-foreground bg-transparent w-1/2"
@@ -76,9 +78,10 @@ export const ExercisesDropdown = ({
             className='border-destructive bg-transparent w-full'
             onClick={() => setSelectedExercises([])}
           >
-            Clear all
+            Deselect all
           </Button>
         </div>
+      }
       </Popover.Content>
     </Popover>
   )

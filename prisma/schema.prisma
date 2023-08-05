@@ -46,6 +46,8 @@ model VerificationToken {
 
 model User {
     id            String      @id @default(cuid())
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
     name          String?
     email         String?     @unique
     emailVerified DateTime?
@@ -54,15 +56,16 @@ model User {
     sessions      Session[]
     settings      Settings[]
     exercises     Exercise[]
+    metrics       Metric[]
 }
 
 model Settings {
     id               String      @id @default(cuid())
+    createdAt        DateTime    @default(now())
+    updatedAt        DateTime    @updatedAt
     unit             String      @default("metric")
     dashboardDisplay String      @default("recent")
     formula1RM       String      @default("brzycki")
-    createdAt        DateTime    @default(now())
-    updatedAt        DateTime    @updatedAt
     user             User        @relation(fields: [userId], references: [id])
     userId           String
 }
@@ -75,64 +78,65 @@ enum Measurement {
 
 enum ExerciseStatus {
     active
-    inactive
-    deleted
+    archived
 }
 
 model Exercise {
-    id           String         @id @default(cuid())
-    status       ExerciseStatus @default(inactive)
-    name         String         @db.VarChar(100)
-    description  String         @db.VarChar(100)
-    measurement  Measurement    @default(weight)
-    createdAt    DateTime       @default(now())
-    updatedAt    DateTime       @updatedAt
-    user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String          @id @default(cuid())
+    createdAt    DateTime        @default(now())
+    updatedAt    DateTime        @updatedAt
+    status       ExerciseStatus  @default(active)
+    name         String          @db.VarChar(100)
+    description  String          @db.VarChar(100)
+    measurement  Measurement     @default(weight)
+    user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId       String
     workouts     Workout[]
 }
 
-enum WorkoutStatus {
-    started
-    completed
-}
-
 model Set {
     id          String    @id @default(cuid())
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
     reps        Int
     value       Int
     rpe         Int
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
     workout     Workout   @relation(fields: [workoutId], references: [id], onDelete: Cascade)
     workoutId   String
 }
 
-enum InsightValue {
-    belowAverage
-    average
-    aboveAverage
+model Metric {
+    id             String           @id @default(cuid())
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    name           String           @db.VarChar(100)
+    label1         String           @db.VarChar(20) @default("Bad")
+    label2         String           @db.VarChar(20) @default("Fine")
+    label3         String           @db.VarChar(20) @default("Average")
+    label4         String           @db.VarChar(20) @default("Good")
+    label5         String           @db.VarChar(20) @default("Great")
+    user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId         String
+    workoutMetrics WorkoutMetric[]
 }
 
-model Insight {
-    id            String         @id @default(cuid())
-    mood          InsightValue?
-    sleepQuality  InsightValue?
-    warmupQuality InsightValue?
-    energyLevel   InsightValue?
-    createdAt     DateTime       @default(now())
-    updatedAt     DateTime       @updatedAt
-    workout       Workout        @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+model WorkoutMetric {
+    id            String     @id @default(cuid())
+    createdAt     DateTime   @default(now())
+    updatedAt     DateTime   @updatedAt
+    value         Int        @default(3)
+    metric        Metric     @relation(fields: [metricId], references: [id], onDelete: Cascade)
+    metricId      String
+    workout       Workout    @relation(fields: [workoutId], references: [id], onDelete: Cascade)
     workoutId     String
 }
 
 model Workout {
-    id           String        @id @default(cuid())
-    status       WorkoutStatus @default(started)
-    sets         Set[]
-    insights     Insight[]
-    createdAt    DateTime      @default(now())
-    updatedAt    DateTime      @updatedAt
-    exercise     Exercise      @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
-    exerciseId   String
+    id              String           @id @default(cuid())
+    createdAt       DateTime         @default(now())
+    updatedAt       DateTime         @updatedAt
+    sets            Set[]
+    workoutMetrics  WorkoutMetric[]
+    exercise        Exercise         @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+    exerciseId      String
 }

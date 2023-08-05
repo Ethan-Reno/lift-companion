@@ -12,7 +12,7 @@ export const exerciseRouter = createTRPCRouter({
           workouts: {
             include: {
               sets: true,
-              insights: true,
+              workoutMetrics: true,
             },
           },
         },
@@ -52,14 +52,14 @@ export const exerciseRouter = createTRPCRouter({
             name: input.name,
             description: input.description,
             measurement: input.measurement,
-            status: EXERCISE_STATUS.enum.inactive,
+            status: EXERCISE_STATUS.enum.active,
           },
         });
       } catch (error) {
         console.log(error);
       }
     }),
-  softDelete: protectedProcedure
+  archive: protectedProcedure
     .input(deleteExerciseSchema)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -68,7 +68,7 @@ export const exerciseRouter = createTRPCRouter({
             id: input,
           },
           data: {
-            status: EXERCISE_STATUS.enum.deleted,
+            status: EXERCISE_STATUS.enum.archived,
           },
         });
       } catch (error) {
@@ -76,20 +76,20 @@ export const exerciseRouter = createTRPCRouter({
       }
     }
   ),
-  hardDelete: protectedProcedure
-  .input(deleteExerciseSchema)
-  .mutation(async ({ ctx, input }) => {
-    try {
-      await ctx.prisma.exercise.delete({
-        where: {
-          id: input,
-        },
-      });
-    } catch (error) {
-      console.log(error);
+  delete: protectedProcedure
+    .input(deleteExerciseSchema)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.exercise.delete({
+          where: {
+            id: input,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
-),
+  ),
   update: protectedProcedure
     .input(updateExerciseSchema)
     .mutation(async ({ ctx, input }) => {

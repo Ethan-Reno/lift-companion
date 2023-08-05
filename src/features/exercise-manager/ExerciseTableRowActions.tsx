@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Dialog, DropdownMenu } from "good-nice-ui";
 import { EXERCISE_STATUS, Exercise } from "../../schemas/ExerciseSchema";
-import { Dumbbell, LineChart, MoreHorizontal, Pen, Trash } from "lucide-react";
+import { Archive, Dumbbell, LineChart, MoreHorizontal, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import { UpdateExerciseDialog } from "../../components/Dialogs/UpdateExerciseDialog";
-import { DELETE_TYPE, DeleteExerciseDialog } from "../../components/Dialogs/DeleteExerciseDialog";
+import { DeleteExerciseDialog } from "../../components/Dialogs/DeleteExerciseDialog";
 import { useStore } from "../../store/store";
 
 interface ExerciseTableRowActionsProps {
@@ -23,10 +23,8 @@ export function ExerciseTableRowActions({
     switch (dialogType) {
       case 'update':
         return <UpdateExerciseDialog data={data} setIsOpen={setIsDialogOpen} />;
-      case 'softDelete':
-        return <DeleteExerciseDialog id={id} deleteType={DELETE_TYPE.SOFT_DELETE} setIsOpen={setIsDialogOpen} />;
-      case 'hardDelete':
-        return <DeleteExerciseDialog id={id} deleteType={DELETE_TYPE.HARD_DELETE} setIsOpen={setIsDialogOpen} />;
+      case 'delete':
+        return <DeleteExerciseDialog id={id} setIsOpen={setIsDialogOpen} />;
       default:
         return null;
     }
@@ -73,9 +71,16 @@ export function ExerciseTableRowActions({
               <span className="sr-only">Edit exercise</span>
             </DropdownMenu.Item>
           </Dialog.Trigger>
+          <Dialog.Trigger asChild onClick={(): void => setDialogType('archive')}>
+            <DropdownMenu.Item>
+              <Archive className="mr-2 h-3.5 w-3.5 text-primary" />
+              Archive
+              <span className="sr-only">Edit exercise</span>
+            </DropdownMenu.Item>
+          </Dialog.Trigger>
           <Dialog.Trigger
             asChild
-            onClick={(): void => setDialogType(status === EXERCISE_STATUS.enum.deleted ? 'hardDelete' : 'softDelete')}
+            onClick={(): void => setDialogType('delete')}
           >
             <DropdownMenu.Item>
               <Trash className="mr-2 h-3.5 w-3.5 text-primary" />

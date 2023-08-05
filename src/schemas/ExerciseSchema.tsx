@@ -8,30 +8,31 @@ const defaultFields = {
   updatedAt: z.date(),
 };
 
-export const exerciseSchema = z.object({
-  ...defaultFields,
+export const exerciseInputSchema = {
   name: z.string(),
   description: z.string(),
   measurement: z.nativeEnum(Measurement),
+};
+
+export const exerciseSchema = z.object({
+  ...defaultFields,
+  ...exerciseInputSchema,
   status: z.nativeEnum(ExerciseStatus),
   workouts: z.array(workoutSchema).optional(),
 });
 
-export const getExerciseByIdSchema = z.string().cuid();
-
 export const createExerciseSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.nativeEnum(Measurement),
+  ...exerciseInputSchema,
+  // userId coming from tRPC context
 });
 
 export const updateExerciseSchema = z.object({
+  ...exerciseInputSchema,
   id: z.string().cuid(),
-  name: z.string().min(1, { message: 'Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  measurement: z.nativeEnum(Measurement),
 });
 
+
+export const getExerciseByIdSchema = z.string().cuid();
 export const deleteExerciseSchema = z.string().cuid();
 
 // Type definitions

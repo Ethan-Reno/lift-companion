@@ -6,7 +6,7 @@ import { WorkoutForm } from '../../features/workout-helper/WorkoutForm';
 import { Exercise } from '../../schemas/ExerciseSchema';
 import { Alert, Button, ChevronDownIcon, DropdownMenu, Skeleton } from 'good-nice-ui';
 import { ExercisesDropdown } from '../../features/workout-helper/ExercisesDropdown';
-import { AlertCircle, Settings } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 const Workout = () => {
   const {

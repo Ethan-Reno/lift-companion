@@ -7,7 +7,7 @@ import { Dumbbell, LineChartIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { Exercise } from '../../schemas/ExerciseSchema';
 import { useStore } from '../../store/store';
-import { WORKOUT_STATUS } from '../../schemas/WorkoutSchema';
+import { CreateMetricDialog } from '../../components/Dialogs/CreateMetricDialog';
 
 export enum SORT_TYPE {
   MOST_RECENT = 'Most Recent',
@@ -27,9 +27,7 @@ export const RecentExercisesGrid = () => {
 
   const exercisesWithCompletedWorkouts = (exercises: Exercise[]) => {
     // Filter exercises to only include those with at least one completed workout
-    return exercises.filter(exercise =>
-      exercise.workouts?.some(workout => workout.status === WORKOUT_STATUS.enum.completed)
-    );
+    return exercises.filter(exercise => exercise.workouts && exercise.workouts.length > 0);
   }
 
   const setInitialExercise = (exercise: Exercise) => {
@@ -54,6 +52,7 @@ export const RecentExercisesGrid = () => {
             </Select.Item>
           </Select.Content>
         </Select>
+        <CreateMetricDialog />
       </div>
       <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
         {isLoading && (

@@ -1,12 +1,14 @@
 import React from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { Button, Dialog, Form, Input, Popover, Select, Separator, XIcon } from 'good-nice-ui';
-import { Info, PlusIcon } from 'lucide-react';
+import { Info, MinusIcon, PlusIcon } from 'lucide-react';
 import { CreateWorkoutInputs } from '../../schemas/WorkoutSchema';
+import { useStore } from '../../store/store';
 
 interface SetsFormSectionProps {
   form: UseFormReturn<CreateWorkoutInputs>;
   measurement: string;
+  // clearSetValues: (exerciseId: string) => void;
 }
 
 export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => {
@@ -14,6 +16,7 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
     control: form.control,
     name: 'sets',
   });
+  const { workoutFormState, setWorkoutFormState } = useStore();
 
   return (
     <div className="flex flex-col pt-12 pb-5 px-3 gap-3" id='setContainer'>
@@ -128,16 +131,32 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
             </Dialog>
           </Form.FieldSet>
         ))}
-        <Button
-          type="button"
-          variant='link'
-          className='w-fit self-center'
-          size='sm'
-          onClick={() => append({ reps: 0, value: 0, rpe: 0 })}
-        >
-          <PlusIcon size={18} className='mr-2' />
-          Add Set
-        </Button>
+        <div className='flex justify-between'>
+          <Button
+            type="button"
+            variant='link'
+            className='w-fit self-center text-foreground decoration-primary'
+            size='sm'
+            onClick={() => append({ reps: 0, value: 0, rpe: 0 })}
+          >
+            <PlusIcon size={18} className='mr-2 text-primary' />
+            Add Set
+          </Button>
+          <Button
+            type="button"
+            variant='link'
+            className='w-fit self-center text-foreground decoration-destructive'
+            size='sm'
+            onClick={() => {
+              remove()
+              // Remove all sets from the current workout from the workoutFormState
+              // clearSetValues();
+            }}
+          >
+            <MinusIcon size={18} className='mr-2 text-destructive' />
+            Clear All
+          </Button>
+        </div>
       </div>
     </div>
   );
