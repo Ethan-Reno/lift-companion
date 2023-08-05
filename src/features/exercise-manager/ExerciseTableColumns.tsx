@@ -73,7 +73,7 @@ export const exerciseColumns: ColumnDef<Exercise>[] = [
     cell: ({ row }) => {
       const status: ExerciseStatusEnum = row.getValue("status");
       return (
-        <Badge className='capitalize' variant={status === EXERCISE_STATUS.enum.inactive ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
+        <Badge className='capitalize' variant={status === EXERCISE_STATUS.enum.archived ? 'destructive' : 'default'}>{row.getValue("status")}</Badge>
       );
     },
   },
