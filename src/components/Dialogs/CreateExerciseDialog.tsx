@@ -144,7 +144,7 @@ export const CreateExerciseDialog = () => {
       </Dialog.Trigger>
       <Dialog.Content className="sm:max-w-[425px]">
         <Dialog.Title>
-          <Dialog.Title>Create Exercise</Dialog.Title>
+          Create Exercise
         </Dialog.Title>
         <CreateExerciseForm />
       </Dialog.Content>
