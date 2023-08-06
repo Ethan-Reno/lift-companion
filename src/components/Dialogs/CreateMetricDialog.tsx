@@ -15,14 +15,12 @@ import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
 import { useToast } from '../../hooks/useToast';
 import { SCALE } from '../../schemas/MetricSchema';
-import { CreateMetricOptionInputs } from '../../schemas/MetricOptionSchema';
 
 export const CreateMetricDialog = () => {
   const { toast } = useToast();
   const [ isOpen, setIsOpen ] = useState(false);
   const { setShouldRefetch } = useStore();
   const [ submittedValues, setSubmittedValues ] = useState<CreateMetricInputs | null>(null);
-  const [ metricOptions, setMetricOptions ] = useState<CreateMetricOptionInputs[]>([]);
 
   const { mutate, isLoading } = api.metric.create.useMutation({
     onSettled: () => {
@@ -49,6 +47,7 @@ export const CreateMetricDialog = () => {
       },
     });
     const values: CreateMetricInputs = form.watch();
+    const isNumericScale = values.scale === SCALE.enum.ratio || values.scale === SCALE.enum.interval;
 
     const { fields, append, remove } = useFieldArray({
       control: form.control,
@@ -59,30 +58,6 @@ export const CreateMetricDialog = () => {
       setSubmittedValues(values);
       mutate(values);
     };
-
-    const deriveOptionDefaults = () => {
-      switch (values.scale) {
-        case SCALE.enum.ordinal:
-        case SCALE.enum.interval:
-          return {
-            label: "",
-            value: values.options.length + 1,
-          }
-        case SCALE.enum.ratio:
-          return {
-            label: "",
-            value: 0,
-          }
-        case SCALE.enum.nominal:
-        default:
-          return {
-            label: "",
-            value: undefined,
-          }
-      }
-    };
-
-    console.log(values);
 
     return (
       <FormProvider {...form}>
@@ -125,7 +100,6 @@ export const CreateMetricDialog = () => {
               </Form.Item>
             )}
           />
-          {/* Options Field */}
           {fields.map((field, index) => (
             <div key={field.id}>
               <Form.Field
@@ -141,8 +115,7 @@ export const CreateMetricDialog = () => {
                   </Form.Item>
                 )}
               />
-              {/* Show the value only if we need a numerical representation for ratio */}
-              {values.scale === SCALE.enum.ratio && (
+              {isNumericScale && (
                 <Form.Field
                   control={form.control}
                   name={`options.${index}.value`}
@@ -162,12 +135,19 @@ export const CreateMetricDialog = () => {
                   )}
                 />
               )}
-              {/* Button to remove this option */}
               <Button onClick={() => remove(index)}>Remove Option</Button>
             </div>
           ))}
           <Dialog.Footer className="gap-y-4">
-            <Button type="button" onClick={() => append(deriveOptionDefaults())}>Add Option</Button>
+            <Button
+              type="button"
+              onClick={() => append({
+                label: "",
+                value: isNumericScale ? 0 : values.options.length + 1,
+              })}
+            >
+              Add Option
+            </Button>
             <Button
               variant="secondary"
               type="button"

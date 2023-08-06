@@ -8,7 +8,7 @@ const defaultFields = {
 
 export const metricOptionInputSchema = {
   label: z.string(),
-  value: z.number().optional().nullable(),
+  value: z.number(),
 };
 
 export const metricOptionSchema = z.object({

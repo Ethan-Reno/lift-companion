@@ -110,7 +110,7 @@ model MetricOption {
     createdAt       DateTime        @default(now())
     updatedAt       DateTime        @updatedAt
     label           String          @db.VarChar(100)
-    value           Float?          // For non-nominal scales
+    value           Int
     metric          Metric          @relation(fields: [metricId], references: [id], onDelete: Cascade)
     metricId        String
     workoutMetrics  WorkoutMetric[]

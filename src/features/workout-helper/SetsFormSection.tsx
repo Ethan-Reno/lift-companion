@@ -78,10 +78,8 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
                         <Popover.Trigger>
                           <Info className="h-4 w-4 text-primary hover:text-primary-hover" />
                         </Popover.Trigger>
-                        <Popover.Content>
-                          <p className="text-lowContrast-foreground">
-                            RPE stands for Rate of Perceived Exertion. It is a way of measuring how hard you are working, using a scale of 1-10.
-                          </p>
+                        <Popover.Content className="text-lowContrast-foreground">
+                          RPE stands for Rate of Perceived Exertion. It is a way of measuring how hard you are working on a scale of 1-10.
                         </Popover.Content>
                       </Popover>
                     </div>
