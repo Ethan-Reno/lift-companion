@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { createWorkoutMetricSchema, workoutMetricSchema } from './WorkoutMetricSchema';
+import { workoutMetricInputSchema, workoutMetricSchema } from './WorkoutMetricSchema';
 import { setInputSchema, setSchema } from './SetSchema';
 
 const defaultFields = {
@@ -22,7 +22,7 @@ export const workoutSchema = z.object({
 
 export const createWorkoutSchema = z.object({
   sets: z.array(z.object(setInputSchema)),
-  workoutMetrics: z.array(createWorkoutMetricSchema).optional(),
+  workoutMetrics: z.array(z.object(workoutMetricInputSchema)).optional(),
   exerciseId: z.string().cuid(),
 });
 

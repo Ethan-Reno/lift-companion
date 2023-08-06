@@ -49,9 +49,8 @@ export const ExercisesDropdown = ({
               {exercises.map((exercise: Exercise) => {
                 const isSelected = selectedExercises.some(selectedExercise => selectedExercise.id === exercise.id);
                 return (
-                  <div className='relative'>
+                  <div className='relative' key={exercise.id}>
                     <Command.Item
-                      key={exercise.id}
                       onSelect={() => toggleExerciseSelection(exercise)}
                       className='p-3 pl-9'
                     >

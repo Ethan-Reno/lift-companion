@@ -8,6 +8,9 @@ export const metricRouter = createTRPCRouter({
         where: {
           userId: ctx.session.user.id,
         },
+        include: {
+          options: true,
+        },
         orderBy: {
           updatedAt: "desc",
         },
@@ -28,11 +31,10 @@ export const metricRouter = createTRPCRouter({
               },
             },
             name: input.name,
-            label1: input.label1,
-            label2: input.label2,
-            label3: input.label3,
-            label4: input.label4,
-            label5: input.label5,
+            scale: input.scale,
+            options: {
+              create: input.options,
+            },
           },
         });
       } catch (error) {
@@ -63,11 +65,7 @@ export const metricRouter = createTRPCRouter({
           },
           data: {
             name: input.name,
-            label1: input.label1,
-            label2: input.label2,
-            label3: input.label3,
-            label4: input.label4,
-            label5: input.label5,
+            scale: input.scale,
           },
         });
       } catch (error) {

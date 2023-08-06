@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { workoutMetricSchema } from './WorkoutMetricSchema';
+import { Scale } from '@prisma/client';
+import { metricOptionInputSchema, metricOptionSchema } from './MetricOptionSchema';
 
 const defaultFields = {
   id: z.string().cuid(),
@@ -9,26 +10,19 @@ const defaultFields = {
 
 export const metricInputSchema = {
   name: z.string(),
-  label1: z.string(),
-  label2: z.string(),
-  label3: z.string(),
-  label4: z.string(),
-  label5: z.string(),
+  scale: z.nativeEnum(Scale),
+  options: z.array(metricOptionSchema),
 }
 
 export const metricSchema = z.object({
   ...defaultFields,
   ...metricInputSchema,
-  workoutMetrics: z.array(workoutMetricSchema).optional(),
 });
 
 export const createMetricSchema = z.object({
   name: z.string(),
-  label1: z.string().optional(),
-  label2: z.string().optional(),
-  label3: z.string().optional(),
-  label4: z.string().optional(),
-  label5: z.string().optional(),
+  scale: z.nativeEnum(Scale),
+  options: z.array(z.object(metricOptionInputSchema)),
   // userId coming trom tRPC context
 });
 
@@ -44,3 +38,7 @@ export type Metric = z.infer<typeof metricSchema>;
 export type CreateMetricInputs = z.infer<typeof createMetricSchema>;
 export type UpdateMetricInputs = z.infer<typeof updateMetricSchema>;
 export type DeleteMetricInputs = z.infer<typeof deleteMetricSchema>;
+
+// Enum definitions
+export const SCALE = z.nativeEnum(Scale);
+export type ScaleEnum = z.infer<typeof SCALE>;

@@ -7,24 +7,21 @@ const defaultFields = {
 };
 
 export const workoutMetricInputSchema = {
-  // value: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
-  value: z.number(),
+  metricOptionId: z.string().cuid(),
 };
 
 export const workoutMetricSchema = z.object({
   ...defaultFields,
   ...workoutMetricInputSchema,
   workoutId: z.string().cuid(),
-  metricId: z.string().cuid(),
 });
 
 export const createWorkoutMetricSchema = z.object({
-  ...workoutMetricInputSchema,
-  metricId: z.string().cuid(),
+  workoutId: z.string().cuid(),
+  metricOptionId: z.string().cuid(),
 });
 
 export const updateWorkoutMetricSchema = z.object({
-  ...workoutMetricInputSchema,
   id: z.string().cuid(),
 });
 

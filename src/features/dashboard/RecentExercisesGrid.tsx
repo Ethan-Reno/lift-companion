@@ -7,7 +7,6 @@ import { Dumbbell, LineChartIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import { Exercise } from '../../schemas/ExerciseSchema';
 import { useStore } from '../../store/store';
-import { CreateMetricDialog } from '../../components/Dialogs/CreateMetricDialog';
 
 export enum SORT_TYPE {
   MOST_RECENT = 'Most Recent',
@@ -15,7 +14,7 @@ export enum SORT_TYPE {
 }
 
 export const RecentExercisesGrid = () => {
-  const { data, isLoading } = api.exercise.getAll.useQuery();
+  const { data: exercises, isLoading } = api.exercise.getAll.useQuery();
   const [ xAxisType, setXAxisType ] = useState<X_AXIS_TYPE>(X_AXIS_TYPE.NUMBER);
   const [ yAxisType, setYAxisType ] = useState<Y_AXIS_TYPE>(Y_AXIS_TYPE.TOTAL_VALUE);
   const [ sortType, setSortType ] = useState<SORT_TYPE>(SORT_TYPE.MOST_RECENT);
@@ -52,7 +51,6 @@ export const RecentExercisesGrid = () => {
             </Select.Item>
           </Select.Content>
         </Select>
-        <CreateMetricDialog />
       </div>
       <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
         {isLoading && (
@@ -69,9 +67,9 @@ export const RecentExercisesGrid = () => {
             ))}
           </>
         )}
-        {data && exercisesWithCompletedWorkouts(data).map((exercise) => {
+        {exercises && exercisesWithCompletedWorkouts(exercises).map((exercise) => {
           return (
-            <Card className='border-muted shadow-md dark:border-transparent' key={exercise.id}>
+            <Card className='border shadow-md' key={exercise.id}>
               <Card.Header className='flex flex-row items-center justify-between p-3'>
                 <Card.Title className='capitalize text-muted-foreground text-lg'>{exercise.name}</Card.Title>
                 <DropdownMenu>
@@ -80,9 +78,10 @@ export const RecentExercisesGrid = () => {
                       variant="outline"
                       size="icon"
                       className="data-[state=open]:bg-muted"
+                      aria-labelledby="sr-only"
                     >
                       <MoreHorizontal className="h-5 w-5" />
-                      <span className="sr-only">Open menu</span>
+                      <span className="sr-only" id="sr only">Open menu</span>
                     </Button>
                   </DropdownMenu.Trigger>
                   <DropdownMenu.Content align='end'>

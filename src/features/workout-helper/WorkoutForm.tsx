@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { CreateWorkoutInputs, createWorkoutSchema } from '../../schemas/WorkoutSchema';
-import { Button, Dialog, Form, FormProvider, Separator, Tabs } from 'good-nice-ui';
+import { Button, Form, FormProvider, Separator, Tabs } from 'good-nice-ui';
 import { SetsFormSection } from './SetsFormSection';
 import { Exercise } from '../../schemas/ExerciseSchema';
 import { useStore } from '../../store/store';
@@ -30,7 +30,8 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
       setSelectedExercises(selectedExercises.filter(exercise => exercise.id !== variables.exerciseId));
     },
   });
-  const [isSubmitDialogOpen, setIsSubmitDialogOpen] = useState(false);
+  const { data: metrics } = api.metric.getAll.useQuery();
+  console.log('workoutFormState:', workoutFormState);
 
   // Define default values for the workout form
   const defaultFormValues = {
@@ -44,27 +45,27 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
     resolver: zodResolver(createWorkoutSchema),
     defaultValues: initialFormState,
   });
+
   const values: CreateWorkoutInputs = form.watch();
-  console.log(values);
   const onSubmit = () => {
     mutate(values);
   };
   const onError = (errors: any) => console.log('errors:',errors);
-
-// Save a copy of the form's current values in a ref
-const prevValues = useRef(values);
-// Only update the form state when the form values have actually changed
-useEffect(() => {
-  if (JSON.stringify(prevValues.current) !== JSON.stringify(values)) {
-    setWorkoutFormState((prevState) => {
-      return {
-        ...prevState,
-        [values.exerciseId]: values  // update the state for this exerciseId
-      }
-    });
-    prevValues.current = values;
-  }
-}, [values]);
+  
+  // Save a copy of the form's current values in a ref
+  const prevValues = useRef(values);
+  // Only update the form state when the form values have actually changed
+  useEffect(() => {
+    if (JSON.stringify(prevValues.current) !== JSON.stringify(values)) {
+      setWorkoutFormState((prevState) => {
+        return {
+          ...prevState,
+          [values.exerciseId]: values  // update the state for this exerciseId
+        }
+      });
+      prevValues.current = values;
+    }
+  }, [values]);
 
   return (
     <FormProvider {...form}>
@@ -86,75 +87,33 @@ useEffect(() => {
             <SetsFormSection
               form={form}
               measurement={exercise.measurement}
-              // clearSetValues={}
             />
           </Tabs.Content>
           <Tabs.Content className='w-full' value="metrics">
-            <MetricsFormSection
-              form={form}
-            />
-          </Tabs.Content>
-          <Button
-            type='submit'
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing
-              </>
-            ) : (
-              <>Submit</>
+            {metrics && (
+              <MetricsFormSection
+                form={form}
+                metrics={metrics}
+              />
             )}
-          </Button>
-          {/* <div className='border-t w-full flex gap-2 p-2 justify-end'>
-            <Dialog open={isSubmitDialogOpen} onOpenChange={setIsSubmitDialogOpen}>
-              <Dialog.Trigger asChild>
-                <Button
-                  variant='secondary'
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing
-                    </>
-                  ) : (
-                    <>Submit</>
-                  )}
-                </Button>
-              </Dialog.Trigger>
-              <Dialog.Content className='bg-background'>
-                <Dialog.Title>Submit Workout</Dialog.Title>
-                <Dialog.Description>
-                  Are you sure you want to submit this workout?
-                </Dialog.Description>
-                <Dialog.Footer className="gap-y-4">
-                  <Button
-                    variant="secondary"
-                    type="button"
-                    onClick={() => setIsSubmitDialogOpen(false)}
-                    disabled={isLoading}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    type='submit'
-                    disabled={isLoading}
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Processing
-                      </>
-                    ) : (
-                      <>Submit</>
-                    )}
-                  </Button>
-                </Dialog.Footer>
-              </Dialog.Content>
-            </Dialog>
-          </div> */}
+          </Tabs.Content>
+          <div className='border-t p-3 flex w-full'>
+            <Button
+              type='submit'
+              variant='secondary'
+              className='self-end'
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Processing
+                </>
+              ) : (
+                <>Submit</>
+              )}
+            </Button>
+          </div>
         </Tabs>
       </Form>
     </FormProvider>

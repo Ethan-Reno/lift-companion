@@ -23,6 +23,9 @@ export const NavMenu = () => {
         <Link href='/exercises' onClick={() => setIsMenuOpen(false)}>
           Exercises
         </Link>
+        <Link href='/metrics' onClick={() => setIsMenuOpen(false)}>
+          Metrics
+        </Link>
         <Link
           href='/exercises'
           onClick={() => {setIsMenuOpen(false)}}
@@ -85,6 +88,15 @@ export const NavMenu = () => {
                 href='/exercises'
               >
                 Exercises
+              </Link>
+              <Link
+                className={cn(
+                  'text-lowContrast-foreground hover:text-foreground text-sm transition-colors',
+                  router.pathname === '/metrics' && 'text-foreground underline'
+                )}
+                href='/metrics'
+              >
+                Metrics
               </Link>
               <Link
                 className={cn(

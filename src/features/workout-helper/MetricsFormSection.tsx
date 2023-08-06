@@ -2,29 +2,37 @@ import React, { useState } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { CreateWorkoutInputs } from '../../schemas/WorkoutSchema';
 import { Button, Dialog, XIcon, Form, Select, Popover, Command, Checkbox } from 'good-nice-ui';
-import { Plus } from 'lucide-react';
+import { MinusIcon, Plus } from 'lucide-react';
 import { Metric } from '../../schemas/MetricSchema';
-import { api } from '../../utils/api';
 
 export interface MetricsFormSectionProps {
   form: UseFormReturn<CreateWorkoutInputs>;
+  metrics: Metric[];
 }
 
-export const MetricsFormSection = ({ form }: MetricsFormSectionProps) => {
+export const MetricsFormSection = ({
+  form,
+  metrics,
+}: MetricsFormSectionProps) => {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'workoutMetrics',
   });
-  const { data: metrics, isLoading } = api.metric.getAll.useQuery();
-  
-  const toggleMetricsSelection = (toggledMetric: Metric) => {
-    const fieldIndex = fields.findIndex(field => field.metricId === toggledMetric.id);
-    if (fieldIndex !== -1) {
-      remove(fieldIndex);
+  const [isClearMetricsDialogOpen, setIsClearMetricsDialogOpen] = useState(false);
+
+  const toggleMetricsSelection = (toggledMetric: Metric, isSelected: boolean) => {
+    if (isSelected) {
+      remove(
+        fields.findIndex((field) =>
+          toggledMetric.options.some((option) => option.id === field.metricOptionId)
+        )
+      );
     } else {
-      append({ metricId: toggledMetric.id, value: 3 });
+      append({ metricOptionId: toggledMetric.options[0]!.id });
     }
   };
+
+  console.log('fields', fields);
 
   return (
     <div className="flex flex-col relative pb-5 px-3 gap-6" id='metricsContainer'>
@@ -35,30 +43,31 @@ export const MetricsFormSection = ({ form }: MetricsFormSectionProps) => {
       ) : (
         <div className="flex flex-col gap-4 pt-6">
           {fields.map((item, index) => {
-            if (isLoading) return <div>Loading...</div>;
-            const metric = metrics?.find(metric => metric.id === item.metricId);
+            const metric = metrics.find((metric) =>
+              metric.options.some((option) => option.id === item.metricOptionId)
+            );
             if (metric) {
               return (
                 <div className='flex gap-2 items-end' key={item.id}>
                   <Form.Field
                     control={form.control}
-                    name={`workoutMetrics[${index}].value` as any}
+                    name={`workoutMetrics[${index}].metricOptionId` as any}
                     render={({ field }) => (
                       <Form.Item className="grow relative flex items-end gap-2 m-0">
-                        <Form.Label className="capitalize text-lowContrast-foreground mb-3 ml-5">{`${metric?.name}:`}</Form.Label>
-                        <Select
-                          defaultValue='3'
-                          onValueChange={(value) => field.onChange(parseInt(value))}
-                        >
+                        <Form.Label className="capitalize text-lowContrast-foreground mb-3 ml-5 w-2/5">{`${metric.name}:`}</Form.Label>
+                        <Select defaultValue={item.metricOptionId} onValueChange={(value) => field.onChange(value)}>
                           <Select.Trigger className="mt-0 capitalize">
                             <Select.Value />
                           </Select.Trigger>
                           <Select.Content className='capitalize'>
-                            <Select.Item value='1'>{metric?.label1}</Select.Item>
-                            <Select.Item value='2'>{metric?.label2}</Select.Item>
-                            <Select.Item value='3'>{metric?.label3}</Select.Item>
-                            <Select.Item value='4'>{metric?.label4}</Select.Item>
-                            <Select.Item value='5'>{metric?.label5}</Select.Item>
+                            {metric.options.map(option => (
+                              <Select.Item
+                                key={option.id}
+                                value={option.id}
+                              >
+                                {option.label}
+                              </Select.Item>
+                            ))}
                           </Select.Content>
                         </Select>
                         <Form.Message />
@@ -88,62 +97,85 @@ export const MetricsFormSection = ({ form }: MetricsFormSectionProps) => {
           })}
         </div>
       )}
-      <Popover>
-        <Popover.Trigger asChild>
-          <Button
-            type="button"
-            variant='link'
-            className='w-fit self-center text-foreground decoration-primary'
-            size='sm'
-          >
-          <Plus size={18} className='mr-2 text-primary' />
-            Add Metric
-          </Button>
-        </Popover.Trigger>
-        <Popover.Content className="w-[300px] p-0" align='end'>
-          <Command>
-            <Command.Input placeholder="Search..." />
-            <Command.List>
-              <Command.Empty>No results found.</Command.Empty>
-              <Command.Group>
-                {metrics?.map((metric: Metric) => {
-                  const isSelected = fields.some(field => field.metricId === metric.id);
-                  return (
-                    <div className='relative'>
-                      <Command.Item
-                        key={metric.id}
-                        onSelect={() => toggleMetricsSelection(metric)}
-                        className='p-3 pl-9'
-                      >
-                        {metric.name}
-                      </Command.Item>
-                      <Checkbox checked={isSelected} className='absolute top-3.5 left-3' />
-                    </div>
-                  );
-                })}
-              </Command.Group>
-            </Command.List>
-          </Command>
-          {fields.length > 0 && <div className="w-full gap-2 flex border-t p-2">
-            {/* <Button
-              variant="outline"
-              className="border-lowContrast-foreground bg-transparent w-1/2"
-            >
-              Add all
-            </Button> */}
-            {/* TODO: Move this into an alert dialog to confirm clearing */}
+      <div className='flex justify-center gap-6'>
+        <Popover>
+          <Popover.Trigger asChild>
             <Button
-              variant="outline"
+              type="button"
+              variant='outline'
+              className='w-fit self-center text-foreground'
               size='sm'
-              className='border-destructive bg-transparent w-full'
-              onClick={() => remove()}
             >
-              Deselect all
+              <Plus size={18} className='mr-2 text-primary' />
+              Add Metric
             </Button>
-          </div>
-        }
-        </Popover.Content>
-      </Popover>
+          </Popover.Trigger>
+          <Popover.Content className="w-[300px] p-0" align='end'>
+            <Command>
+              <Command.Input placeholder="Search..." />
+              <Command.List>
+                <Command.Empty>No results found.</Command.Empty>
+                <Command.Group>
+                  {metrics.map((metric: Metric) => {
+                    const isSelected = fields.some((field) =>
+                      metric.options.some((option) => option.id === field.metricOptionId)
+                    );
+                    return (
+                      <div className='relative' key={metric.id}>
+                        <Command.Item
+                          onSelect={() => toggleMetricsSelection(metric, isSelected)}
+                          className='p-3 pl-9'
+                        >
+                          {metric.name}
+                        </Command.Item>
+                        <Checkbox checked={isSelected} className='absolute top-3.5 left-3' />
+                      </div>
+                    );
+                  })}
+                </Command.Group>
+              </Command.List>
+            </Command>
+          </Popover.Content>
+        </Popover>
+        {fields.length > 0 && (
+          <Dialog open={isClearMetricsDialogOpen} onOpenChange={setIsClearMetricsDialogOpen}>
+            <Dialog.Trigger asChild>
+              <Button
+                type="button"
+                variant='outline'
+                className='w-fit self-center text-foreground'
+                size='sm'
+              >
+                <MinusIcon size={18} className='mr-2 text-destructive' />
+                Clear All
+              </Button>
+            </Dialog.Trigger>
+            <Dialog.Content>
+              <Dialog.Title>Clear All Metrics?</Dialog.Title>
+              <Dialog.Description className='text-lowContrast-foreground'>
+                Are you sure you want to clear all metrics? This will remove all of the data you have entered.
+              </Dialog.Description>
+              <Dialog.Footer>
+                <Button
+                  variant="secondary"
+                  onClick={() => setIsClearMetricsDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => {
+                    remove();
+                    setIsClearMetricsDialogOpen(false);
+                  }}
+                >
+                  Clear
+                </Button>
+              </Dialog.Footer>
+            </Dialog.Content>
+          </Dialog>
+        )}
+      </div>
     </div>
   );
 };

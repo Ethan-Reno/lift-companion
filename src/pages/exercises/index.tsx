@@ -37,11 +37,9 @@ const Exercises: NextPage = () => {
 
   return (
     <div className="flex flex-col gap-16">
-      <div className='self-start'>
-        <Header isLoading={isLoading}>
-          Exercise Manager
-        </Header>
-      </div>
+      <Header className='self-start' isLoading={isLoading}>
+        Exercise Manager
+      </Header>
       <ExerciseTable data={tableData} columns={tableColumns} />
     </div>
   );

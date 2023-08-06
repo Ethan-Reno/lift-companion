@@ -9,7 +9,7 @@ import {
 } from 'good-nice-ui'; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Exercise, UpdateExerciseInputs, updateExerciseSchema, EXERCISE_STATUS, MEASUREMENT } from '../../schemas/ExerciseSchema';
+import { Exercise, UpdateExerciseInputs, updateExerciseSchema, MEASUREMENT } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';

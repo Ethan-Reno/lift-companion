@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { Button, Dialog, Form, Input, Popover, Select, Separator, XIcon } from 'good-nice-ui';
 import { Info, MinusIcon, PlusIcon } from 'lucide-react';
@@ -8,7 +8,6 @@ import { useStore } from '../../store/store';
 interface SetsFormSectionProps {
   form: UseFormReturn<CreateWorkoutInputs>;
   measurement: string;
-  // clearSetValues: (exerciseId: string) => void;
 }
 
 export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => {
@@ -16,7 +15,8 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
     control: form.control,
     name: 'sets',
   });
-  const { workoutFormState, setWorkoutFormState } = useStore();
+  const [isRemoveSetDialogOpen, setIsRemoveSetDialogOpen] = useState(false);
+  const [isClearSetsDialogOpen, setIsClearSetsDialogOpen] = useState(false);
 
   return (
     <div className="flex flex-col pt-12 pb-5 px-3 gap-3" id='setContainer'>
@@ -95,16 +95,11 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
                         <Select.Value  />
                       </Select.Trigger>
                       <Select.Content>
-                        <Select.Item value="1">1</Select.Item>
-                        <Select.Item value="2">2</Select.Item>
-                        <Select.Item value="3">3</Select.Item>
-                        <Select.Item value="4">4</Select.Item>
-                        <Select.Item value="5">5</Select.Item>
-                        <Select.Item value="6">6</Select.Item>
-                        <Select.Item value="7">7</Select.Item>
-                        <Select.Item value="8">8</Select.Item>
-                        <Select.Item value="9">9</Select.Item>
-                        <Select.Item value="10">10</Select.Item>
+                        {Array.from({ length: 10 }, (_, index) => (
+                          <Select.Item value={String(index + 1)} key={index + 1}>
+                            {index + 1}
+                          </Select.Item>
+                        ))}
                       </Select.Content>
                     </Select>
                   </Form.Control>
@@ -112,7 +107,7 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
                 </Form.Item>
               )}
             />
-            <Dialog>
+            <Dialog open={isRemoveSetDialogOpen} onOpenChange={setIsRemoveSetDialogOpen}>
               <Dialog.Trigger asChild>
                 <Button type="button" variant="ghost" size="icon" className='min-w-[40px]'>
                   <XIcon size={22} className="text-red-500"/>
@@ -120,42 +115,69 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
               </Dialog.Trigger>
               <Dialog.Content>
                 <Dialog.Title>Delete Set</Dialog.Title>
-                <Dialog.Description>
-                  <p className="text-lowContrast-foreground">Are you sure you want to delete this set?</p>
+                <Dialog.Description className="text-lowContrast-foreground">
+                  Are you sure you want to delete this set?
                 </Dialog.Description>
                 <Dialog.Footer>
-                  <Button variant="secondary" onClick={() => console.log('test')}>Cancel</Button>
-                  <Button variant="destructive" onClick={() => remove(index)}>Delete</Button>
+                  <Button variant="secondary" onClick={() => setIsRemoveSetDialogOpen(false)}>Cancel</Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      remove(index);
+                      setIsRemoveSetDialogOpen(false);
+                    }}
+                  >
+                    Delete
+                  </Button>
                 </Dialog.Footer>
               </Dialog.Content>
             </Dialog>
           </Form.FieldSet>
         ))}
-        <div className='flex justify-between'>
+        <div className='flex justify-center gap-6'>
           <Button
             type="button"
-            variant='link'
-            className='w-fit self-center text-foreground decoration-primary'
+            variant='outline'
+            className='w-fit self-center text-foreground'
             size='sm'
-            onClick={() => append({ reps: 0, value: 0, rpe: 0 })}
+            onClick={() => append({ reps: 0, value: 0, rpe: 1 })}
           >
             <PlusIcon size={18} className='mr-2 text-primary' />
             Add Set
           </Button>
-          <Button
-            type="button"
-            variant='link'
-            className='w-fit self-center text-foreground decoration-destructive'
-            size='sm'
-            onClick={() => {
-              remove()
-              // Remove all sets from the current workout from the workoutFormState
-              // clearSetValues();
-            }}
-          >
-            <MinusIcon size={18} className='mr-2 text-destructive' />
-            Clear All
-          </Button>
+          {fields.length > 0 && (
+            <Dialog open={isClearSetsDialogOpen} onOpenChange={setIsClearSetsDialogOpen}>
+              <Dialog.Trigger asChild>
+                <Button
+                  type="button"
+                  variant='outline'
+                  className='w-fit self-center text-foreground'
+                  size='sm'
+                >
+                  <MinusIcon size={18} className='mr-2 text-destructive' />
+                  Clear All
+                </Button>
+              </Dialog.Trigger>
+              <Dialog.Content>
+                <Dialog.Title>Clear All Sets?</Dialog.Title>
+                <Dialog.Description className='text-lowContrast-foreground'>
+                  Are you sure you want to clear all sets? This will remove all of the data you have entered.
+                </Dialog.Description>
+                <Dialog.Footer>
+                  <Button variant="secondary" onClick={() => setIsClearSetsDialogOpen(false)}>Cancel</Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => {
+                      remove();
+                      setIsClearSetsDialogOpen(false);
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </Dialog.Footer>
+              </Dialog.Content>
+            </Dialog>
+          )}
         </div>
       </div>
     </div>

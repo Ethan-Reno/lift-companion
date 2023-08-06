@@ -18,6 +18,7 @@ export const Header = ({ children, isLoading, className }: HeaderProps) => {
         variant='outline'
         size='icon'
         onClick={() => router.back()}
+        className='shadow-md'
       >
         <ArrowBigLeft className='h-5 w-5'/>
       </Button>

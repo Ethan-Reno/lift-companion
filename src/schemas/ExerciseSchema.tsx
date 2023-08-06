@@ -31,7 +31,6 @@ export const updateExerciseSchema = z.object({
   id: z.string().cuid(),
 });
 
-
 export const getExerciseByIdSchema = z.string().cuid();
 export const deleteExerciseSchema = z.string().cuid();
 

@@ -105,30 +105,33 @@ model Set {
     workoutId   String
 }
 
-model Metric {
-    id             String           @id @default(cuid())
-    createdAt      DateTime         @default(now())
-    updatedAt      DateTime         @updatedAt
-    name           String           @db.VarChar(100)
-    label1         String           @db.VarChar(20) @default("Bad")
-    label2         String           @db.VarChar(20) @default("Fine")
-    label3         String           @db.VarChar(20) @default("Average")
-    label4         String           @db.VarChar(20) @default("Good")
-    label5         String           @db.VarChar(20) @default("Great")
-    user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId         String
-    workoutMetrics WorkoutMetric[]
+model MetricOption {
+    id              String          @id @default(cuid())
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+    label           String          @db.VarChar(100)
+    value           Float?          // For non-nominal scales
+    metric          Metric          @relation(fields: [metricId], references: [id], onDelete: Cascade)
+    metricId        String
+    workoutMetrics  WorkoutMetric[]
 }
 
-model WorkoutMetric {
-    id            String     @id @default(cuid())
-    createdAt     DateTime   @default(now())
-    updatedAt     DateTime   @updatedAt
-    value         Int        @default(3)
-    metric        Metric     @relation(fields: [metricId], references: [id], onDelete: Cascade)
-    metricId      String
-    workout       Workout    @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-    workoutId     String
+enum Scale {
+    nominal
+    ordinal
+    interval
+    ratio
+}
+
+model Metric {
+    id          String         @id @default(cuid())
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    name        String         @db.VarChar(100)
+    scale       Scale          @default(ordinal)
+    user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      String
+    options     MetricOption[]
 }
 
 model Workout {
@@ -139,4 +142,14 @@ model Workout {
     workoutMetrics  WorkoutMetric[]
     exercise        Exercise         @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
     exerciseId      String
+}
+
+model WorkoutMetric {
+    id              String        @id @default(cuid())
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+    metricOption    MetricOption  @relation(fields: [metricOptionId], references: [id], onDelete: Cascade)
+    metricOptionId  String
+    workout         Workout       @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+    workoutId       String
 }
