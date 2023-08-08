@@ -28,7 +28,10 @@ export const MetricsFormSection = ({
         )
       );
     } else {
-      append({ categoricalMetricId: toggledMetric.id, value: toggledMetric.options[0]!.value });
+      append({
+        categoricalMetricId: toggledMetric.id,
+        value: toggledMetric.options[0]!.value
+      });
     }
   };
 

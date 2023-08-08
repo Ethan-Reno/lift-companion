@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { CategoricalScale } from '@prisma/client';
-import { metricOptionInputSchema, metricOptionSchema } from './MetricOptionSchema';
+import { categoricalMetricOptionInputSchema, categoricalMetricOptionSchema } from './CategoricalMetricOptionSchema';
 
 const defaultFields = {
   id: z.string().cuid(),
@@ -12,7 +12,7 @@ export const categoricalMetricInputSchema = {
   name: z.string(),
   description: z.string(),
   scale: z.nativeEnum(CategoricalScale),
-  options: z.array(metricOptionSchema),
+  options: z.array(categoricalMetricOptionSchema),
 }
 
 export const metricSchema = z.object({
@@ -24,7 +24,7 @@ export const createCategoricalMetricSchema = z.object({
   name: z.string(),
   description: z.string(),
   scale: z.nativeEnum(CategoricalScale),
-  options: z.array(z.object(metricOptionInputSchema)),
+  options: z.array(z.object(categoricalMetricOptionInputSchema)),
   // userId coming trom tRPC context
 });
 
