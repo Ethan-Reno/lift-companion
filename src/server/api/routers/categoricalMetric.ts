@@ -1,10 +1,14 @@
-import { createMetricSchema, deleteMetricSchema, updateMetricSchema } from "../../../schemas/MetricSchema";
+import {
+  createCategoricalMetricSchema,
+  deleteCategoricalMetricSchema,
+  updateCategoricalMetricSchema
+} from "../../../schemas/CategoricalMetricSchema";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
-export const metricRouter = createTRPCRouter({
+export const categoricalMetricRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.metric.findMany({
+      return await ctx.prisma.categoricalMetric.findMany({
         where: {
           userId: ctx.session.user.id,
         },
@@ -20,10 +24,10 @@ export const metricRouter = createTRPCRouter({
     }
   }),
   create: protectedProcedure
-    .input(createMetricSchema)
+    .input(createCategoricalMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.metric.create({
+        await ctx.prisma.categoricalMetric.create({
           data: {
             user: {
               connect: {
@@ -31,6 +35,7 @@ export const metricRouter = createTRPCRouter({
               },
             },
             name: input.name,
+            description: input.description,
             scale: input.scale,
             options: {
               create: input.options,
@@ -42,10 +47,10 @@ export const metricRouter = createTRPCRouter({
       }
     }),
   delete: protectedProcedure
-    .input(deleteMetricSchema)
+    .input(deleteCategoricalMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.metric.delete({
+        await ctx.prisma.categoricalMetric.delete({
           where: {
             id: input,
           },
@@ -56,10 +61,10 @@ export const metricRouter = createTRPCRouter({
     }
   ),
   update: protectedProcedure
-    .input(updateMetricSchema)
+    .input(updateCategoricalMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.metric.update({
+        await ctx.prisma.categoricalMetric.update({
           where: {
             id: input.id,
           },

@@ -8,6 +8,7 @@ import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env/server.mjs";
 import { prisma } from "./db";
+import { api } from "../utils/api";
 
 /**
  * Module augmentation for `next-auth` types.
@@ -45,6 +46,36 @@ export const authOptions: NextAuthOptions = {
         // session.user.role = user.role; <-- put other properties on the session here
       }
       return session;
+    },
+  },
+  events: {
+    async signIn({ user, account, profile, isNewUser }) {
+      if (isNewUser) {
+        await prisma.categoricalMetric.create({
+          data: {
+            name: 'Sleep Quality',
+            description: 'Self-reported quality of previous night sleep',
+            scale: 'ordinal',
+            options: {
+              create: [
+                {
+                  label: 'Bad',
+                  value: 1,
+                },
+                {
+                  label: 'Average',
+                  value: 2,
+                },
+                {
+                  label: 'Good',
+                  value: 3,
+                },
+              ],
+            },
+            userId: user.id,
+          },
+        });
+      };
     },
   },
   adapter: PrismaAdapter(prisma),

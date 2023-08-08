@@ -3,16 +3,16 @@ import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { CreateWorkoutInputs } from '../../schemas/WorkoutSchema';
 import { Button, Dialog, XIcon, Form, Select, Popover, Command, Checkbox } from 'good-nice-ui';
 import { MinusIcon, Plus } from 'lucide-react';
-import { Metric } from '../../schemas/MetricSchema';
+import { CategoricalMetric } from '../../schemas/CategoricalMetricSchema';
 
 export interface MetricsFormSectionProps {
   form: UseFormReturn<CreateWorkoutInputs>;
-  metrics: Metric[];
+  categoricalMetrics: CategoricalMetric[];
 }
 
 export const MetricsFormSection = ({
   form,
-  metrics,
+  categoricalMetrics,
 }: MetricsFormSectionProps) => {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -20,15 +20,15 @@ export const MetricsFormSection = ({
   });
   const [isClearMetricsDialogOpen, setIsClearMetricsDialogOpen] = useState(false);
 
-  const toggleMetricsSelection = (toggledMetric: Metric, isSelected: boolean) => {
+  const toggleMetricsSelection = (toggledMetric: CategoricalMetric, isSelected: boolean) => {
     if (isSelected) {
       remove(
         fields.findIndex((field) =>
-          toggledMetric.options.some((option) => option.id === field.metricOptionId)
+          toggledMetric.options.some((option) => option.id === field.categoricalMetricId)
         )
       );
     } else {
-      append({ metricOptionId: toggledMetric.options[0]!.id });
+      append({ categoricalMetricId: toggledMetric.id, value: toggledMetric.options[0]!.value });
     }
   };
 
@@ -43,19 +43,21 @@ export const MetricsFormSection = ({
       ) : (
         <div className="flex flex-col gap-4 pt-6">
           {fields.map((item, index) => {
-            const metric = metrics.find((metric) =>
-              metric.options.some((option) => option.id === item.metricOptionId)
-            );
+            const metric = categoricalMetrics.find((metric) => metric.id === item.categoricalMetricId);
             if (metric) {
               return (
                 <div className='flex gap-2 items-end' key={item.id}>
                   <Form.Field
                     control={form.control}
-                    name={`workoutMetrics[${index}].metricOptionId` as any}
+                    name={`workoutMetrics[${index}].value` as any}
                     render={({ field }) => (
                       <Form.Item className="grow relative flex items-end gap-2 m-0">
-                        <Form.Label className="capitalize text-lowContrast-foreground mb-3 ml-5 w-2/5">{`${metric.name}:`}</Form.Label>
-                        <Select defaultValue={item.metricOptionId} onValueChange={(value) => field.onChange(value)}>
+                        <Form.Label
+                          className="capitalize text-lowContrast-foreground mb-3 ml-5 w-2/5"
+                        >
+                          {`${metric.name}:`}
+                        </Form.Label>
+                        <Select defaultValue={item.value.toString()} onValueChange={(value) => field.onChange(parseInt(value))}>
                           <Select.Trigger className="mt-0 capitalize">
                             <Select.Value />
                           </Select.Trigger>
@@ -63,7 +65,7 @@ export const MetricsFormSection = ({
                             {metric.options.map(option => (
                               <Select.Item
                                 key={option.id}
-                                value={option.id}
+                                value={option.value.toString()}
                               >
                                 {option.label}
                               </Select.Item>
@@ -116,10 +118,8 @@ export const MetricsFormSection = ({
               <Command.List>
                 <Command.Empty>No results found.</Command.Empty>
                 <Command.Group>
-                  {metrics.map((metric: Metric) => {
-                    const isSelected = fields.some((field) =>
-                      metric.options.some((option) => option.id === field.metricOptionId)
-                    );
+                  {categoricalMetrics.map((metric: CategoricalMetric) => {
+                    const isSelected = fields.some((field) => field.categoricalMetricId === metric.id);
                     return (
                       <div className='relative' key={metric.id}>
                         <Command.Item

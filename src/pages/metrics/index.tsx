@@ -5,7 +5,7 @@ import { CreateMetricDialog } from '../../components/Dialogs/CreateMetricDialog'
 import { useStore } from '../../store/store';
 
 const Metrics = () => {
-  const { data: metrics, isLoading, refetch } = api.metric.getAll.useQuery();
+  const { data: metrics, isLoading, refetch } = api.categoricalMetric.getAll.useQuery();
   const { shouldRefetch, setShouldRefetch } = useStore();
 
   useEffect(() => {

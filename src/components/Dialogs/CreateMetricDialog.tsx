@@ -9,20 +9,20 @@ import {
 } from 'good-nice-ui'; 
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateMetricInputs, createMetricSchema } from '../../schemas/MetricSchema';
+import { CreateCategoricalMetricInputs, createCategoricalMetricSchema } from '../../schemas/CategoricalMetricSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
 import { useToast } from '../../hooks/useToast';
-import { SCALE } from '../../schemas/MetricSchema';
+import { CATEGORICAL_SCALE } from '../../schemas/CategoricalMetricSchema';
 
 export const CreateMetricDialog = () => {
   const { toast } = useToast();
   const [ isOpen, setIsOpen ] = useState(false);
   const { setShouldRefetch } = useStore();
-  const [ submittedValues, setSubmittedValues ] = useState<CreateMetricInputs | null>(null);
+  const [ submittedValues, setSubmittedValues ] = useState<CreateCategoricalMetricInputs | null>(null);
 
-  const { mutate, isLoading } = api.metric.create.useMutation({
+  const { mutate, isLoading } = api.categoricalMetric.create.useMutation({
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
@@ -38,23 +38,24 @@ export const CreateMetricDialog = () => {
   });
   
   const CreateMetricForm = () => {
-    const form = useForm<CreateMetricInputs>({
-      resolver: zodResolver(createMetricSchema),
+    const form = useForm<CreateCategoricalMetricInputs>({
+      resolver: zodResolver(createCategoricalMetricSchema),
       defaultValues: submittedValues || {
-        name: "",
-        scale: SCALE.enum.ordinal,
+        name: '',
+        description: '',
+        scale: CATEGORICAL_SCALE.enum.ordinal,
         options: [],
       },
     });
-    const values: CreateMetricInputs = form.watch();
-    const isNumericScale = values.scale === SCALE.enum.ratio || values.scale === SCALE.enum.interval;
+    const values: CreateCategoricalMetricInputs = form.watch();
+    // const isNumericScale = values.scale === CATEGORICAL_SCALE.enum.ratio || values.scale === CATEGORICAL_SCALE.enum.interval;
 
     const { fields, append, remove } = useFieldArray({
       control: form.control,
       name: "options",
     });
     
-    const onSubmit = (values: CreateMetricInputs) => {
+    const onSubmit = (values: CreateCategoricalMetricInputs) => {
       setSubmittedValues(values);
       mutate(values);
     };
@@ -75,6 +76,19 @@ export const CreateMetricDialog = () => {
               </Form.Item>
             )}
           />
+          <Form.Field
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <Form.Item>
+                <Form.Label>Description</Form.Label>
+                <Form.Control>
+                  <Input {...field} />
+                </Form.Control>
+                <Form.Message />
+              </Form.Item>
+            )}
+          />
           {/* TODO add a popover with info about scales */}
           <Form.Field
             control={form.control}
@@ -82,14 +96,14 @@ export const CreateMetricDialog = () => {
             render={({ field }) => (
               <Form.Item>
                 <Form.Label>Scale</Form.Label>
-                  <Select onValueChange={(value) => field.onChange(value)} defaultValue={SCALE.enum.ordinal}>
+                  <Select onValueChange={(value) => field.onChange(value)} defaultValue={CATEGORICAL_SCALE.enum.ordinal}>
                     <Form.Control>
                       <Select.Trigger className='capitalize'>
                         <Select.Value />
                       </Select.Trigger>
                     </Form.Control>
                     <Select.Content>
-                      {Object.keys(SCALE.enum).map(scale => (
+                      {Object.keys(CATEGORICAL_SCALE.enum).map(scale => (
                         <Select.Item key={scale} value={scale} className="capitalize">
                           {scale}
                         </Select.Item>
@@ -115,7 +129,7 @@ export const CreateMetricDialog = () => {
                   </Form.Item>
                 )}
               />
-              {isNumericScale && (
+              {/* {isNumericScale && (
                 <Form.Field
                   control={form.control}
                   name={`options.${index}.value`}
@@ -134,7 +148,7 @@ export const CreateMetricDialog = () => {
                     </Form.Item>
                   )}
                 />
-              )}
+              )} */}
               <Button onClick={() => remove(index)}>Remove Option</Button>
             </div>
           ))}
@@ -143,7 +157,8 @@ export const CreateMetricDialog = () => {
               type="button"
               onClick={() => append({
                 label: "",
-                value: isNumericScale ? 0 : values.options.length + 1,
+                // value: isNumericScale ? 0 : values.options.length + 1,
+                value: values.options.length + 1,
               })}
             >
               Add Option

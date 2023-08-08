@@ -7,7 +7,8 @@ const defaultFields = {
 };
 
 export const workoutMetricInputSchema = {
-  metricOptionId: z.string().cuid(),
+  categoricalMetricId: z.string().cuid(),
+  value: z.number(),
 };
 
 export const workoutMetricSchema = z.object({
@@ -18,7 +19,7 @@ export const workoutMetricSchema = z.object({
 
 export const createWorkoutMetricSchema = z.object({
   workoutId: z.string().cuid(),
-  metricOptionId: z.string().cuid(),
+  categoricalMetricId: z.string().cuid(),
 });
 
 export const updateWorkoutMetricSchema = z.object({
