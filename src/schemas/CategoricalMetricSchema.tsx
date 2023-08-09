@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { CategoricalScale } from '@prisma/client';
-import { categoricalMetricOptionInputSchema, categoricalMetricOptionSchema } from './CategoricalMetricOptionSchema';
+import { categoricalMetricOptionInputSchema, categoricalMetricOptionSchema, updateCategoricalMetricOptionSchema } from './CategoricalMetricOptionSchema';
 
 const defaultFields = {
   id: z.string().cuid(),
@@ -15,7 +15,7 @@ export const categoricalMetricInputSchema = {
   options: z.array(categoricalMetricOptionSchema),
 }
 
-export const metricSchema = z.object({
+export const categoricalMetricSchema = z.object({
   ...defaultFields,
   ...categoricalMetricInputSchema,
 });
@@ -36,7 +36,7 @@ export const updateCategoricalMetricSchema = z.object({
 export const deleteCategoricalMetricSchema = z.string().cuid();
 
 // Type definitions
-export type CategoricalMetric = z.infer<typeof metricSchema>;
+export type CategoricalMetric = z.infer<typeof categoricalMetricSchema>;
 export type CreateCategoricalMetricInputs = z.infer<typeof createCategoricalMetricSchema>;
 export type UpdateCategoricalMetricInputs = z.infer<typeof updateCategoricalMetricSchema>;
 export type DeleteCategoricalMetricInputs = z.infer<typeof deleteCategoricalMetricSchema>;

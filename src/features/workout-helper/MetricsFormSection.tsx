@@ -52,7 +52,7 @@ export const MetricsFormSection = ({
                 <div className='flex gap-2 items-end' key={item.id}>
                   <Form.Field
                     control={form.control}
-                    name={`workoutMetrics[${index}].value` as any}
+                    name={`workoutMetrics.${index}.value` as const}
                     render={({ field }) => (
                       <Form.Item className="grow relative flex items-end gap-2 m-0">
                         <Form.Label

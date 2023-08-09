@@ -50,7 +50,7 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
   const onSubmit = () => {
     mutate(values);
   };
-  const onError = (errors: any) => console.log('errors:',errors);
+  const onError = (errors: any) => console.log('errors:', errors);
   
   // Save a copy of the form's current values in a ref
   const prevValues = useRef(values);

@@ -1,19 +1,16 @@
 import {
-  createCategoricalMetricSchema,
-  deleteCategoricalMetricSchema,
-  updateCategoricalMetricSchema
-} from "../../../schemas/CategoricalMetricSchema";
+  createContinuousMetricSchema,
+  deleteContinuousMetricSchema,
+  updateContinuousMetricSchema
+} from "../../../schemas/ContinuousMetricSchema";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
-export const categoricalMetricRouter = createTRPCRouter({
+export const continuousMetricRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.categoricalMetric.findMany({
+      return await ctx.prisma.continuousMetric.findMany({
         where: {
           userId: ctx.session.user.id,
-        },
-        include: {
-          options: true,
         },
         orderBy: {
           updatedAt: "desc",
@@ -24,10 +21,10 @@ export const categoricalMetricRouter = createTRPCRouter({
     }
   }),
   create: protectedProcedure
-    .input(createCategoricalMetricSchema)
+    .input(createContinuousMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.categoricalMetric.create({
+        await ctx.prisma.continuousMetric.create({
           data: {
             user: {
               connect: {
@@ -37,9 +34,9 @@ export const categoricalMetricRouter = createTRPCRouter({
             name: input.name,
             description: input.description,
             scale: input.scale,
-            options: {
-              create: input.options,
-            },
+            min: input.min,
+            max: input.max,
+            step: input.step,
           },
         });
       } catch (error) {
@@ -48,10 +45,10 @@ export const categoricalMetricRouter = createTRPCRouter({
     }
   ),
   delete: protectedProcedure
-    .input(deleteCategoricalMetricSchema)
+    .input(deleteContinuousMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.categoricalMetric.delete({
+        await ctx.prisma.continuousMetric.delete({
           where: {
             id: input,
           },
@@ -62,10 +59,10 @@ export const categoricalMetricRouter = createTRPCRouter({
     }
   ),
   update: protectedProcedure
-    .input(updateCategoricalMetricSchema)
+    .input(updateContinuousMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.categoricalMetric.update({
+        await ctx.prisma.continuousMetric.update({
           where: {
             id: input.id,
           },
@@ -73,10 +70,9 @@ export const categoricalMetricRouter = createTRPCRouter({
             name: input.name,
             description: input.description,
             scale: input.scale,
-            // TODO allow for updating options
-            // options: {
-            //   updateMany: input.options,
-            // },
+            min: input.min,
+            max: input.max,
+            step: input.step,
           },
         });
       } catch (error) {
