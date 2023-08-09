@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Header } from '../../components';
 import { api } from '../../utils/api';
-import { CreateMetricDialog } from '../../components/Dialogs/CreateMetricDialog';
+import { CreateMetricDialog } from '../../features/metric-manager/CreateMetricDialog';
 import { useStore } from '../../store/store';
 
 const Metrics = () => {

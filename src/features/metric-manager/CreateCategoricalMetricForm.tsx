@@ -16,7 +16,7 @@ import { useStore } from '../../store/store';
 import { useToast } from '../../hooks/useToast';
 import { CATEGORICAL_SCALE } from '../../schemas/CategoricalMetricSchema';
 
-export const CreateMetricDialog = () => {
+export const CreateCategoricalMetricDialog = () => {
   const { toast } = useToast();
   const [ isOpen, setIsOpen ] = useState(false);
   const { setShouldRefetch } = useStore();
@@ -37,7 +37,7 @@ export const CreateMetricDialog = () => {
     }
   });
   
-  const CreateMetricForm = () => {
+  const CreateCategoricalMetricForm = () => {
     const form = useForm<CreateCategoricalMetricInputs>({
       resolver: zodResolver(createCategoricalMetricSchema),
       defaultValues: submittedValues || {
@@ -48,7 +48,6 @@ export const CreateMetricDialog = () => {
       },
     });
     const values: CreateCategoricalMetricInputs = form.watch();
-    // const isNumericScale = values.scale === CATEGORICAL_SCALE.enum.ratio || values.scale === CATEGORICAL_SCALE.enum.interval;
 
     const { fields, append, remove } = useFieldArray({
       control: form.control,
@@ -63,57 +62,6 @@ export const CreateMetricDialog = () => {
     return (
       <FormProvider {...form}>
         <Form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <Form.Field
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <Form.Item>
-                <Form.Label>Name</Form.Label>
-                <Form.Control>
-                  <Input {...field} />
-                </Form.Control>
-                <Form.Message />
-              </Form.Item>
-            )}
-          />
-          <Form.Field
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <Form.Item>
-                <Form.Label>Description</Form.Label>
-                <Form.Control>
-                  <Input {...field} />
-                </Form.Control>
-                <Form.Message />
-              </Form.Item>
-            )}
-          />
-          {/* TODO add a popover with info about scales */}
-          <Form.Field
-            control={form.control}
-            name="scale"
-            render={({ field }) => (
-              <Form.Item>
-                <Form.Label>Scale</Form.Label>
-                  <Select onValueChange={(value) => field.onChange(value)} defaultValue={CATEGORICAL_SCALE.enum.ordinal}>
-                    <Form.Control>
-                      <Select.Trigger className='capitalize'>
-                        <Select.Value />
-                      </Select.Trigger>
-                    </Form.Control>
-                    <Select.Content>
-                      {Object.keys(CATEGORICAL_SCALE.enum).map(scale => (
-                        <Select.Item key={scale} value={scale} className="capitalize">
-                          {scale}
-                        </Select.Item>
-                      ))}
-                    </Select.Content>
-                  </Select>
-                <Form.Message />
-              </Form.Item>
-            )}
-          />
           {fields.map((field, index) => (
             <div key={field.id}>
               <Form.Field
@@ -129,26 +77,6 @@ export const CreateMetricDialog = () => {
                   </Form.Item>
                 )}
               />
-              {/* {isNumericScale && (
-                <Form.Field
-                  control={form.control}
-                  name={`options.${index}.value`}
-                  render={({ field }) => (
-                    <Form.Item>
-                      <Form.Label>Option Value</Form.Label>
-                      <Form.Control>
-                        <Input
-                          {...field}
-                          type="number"
-                          onFocus={(event) => event.target.select()}
-                          onChange={(e) => field.onChange(parseInt(e.target.value))}
-                        />
-                      </Form.Control>
-                      <Form.Message />
-                    </Form.Item>
-                  )}
-                />
-              )} */}
               <Button onClick={() => remove(index)}>Remove Option</Button>
             </div>
           ))}
@@ -157,7 +85,6 @@ export const CreateMetricDialog = () => {
               type="button"
               onClick={() => append({
                 label: "",
-                // value: isNumericScale ? 0 : values.options.length + 1,
                 value: values.options.length + 1,
               })}
             >
@@ -200,7 +127,7 @@ export const CreateMetricDialog = () => {
         <Dialog.Title>
           Create Metric
         </Dialog.Title>
-        <CreateMetricForm />
+        <CreateCategoricalMetricForm />
       </Dialog.Content>
     </Dialog>
   );
