@@ -1,13 +1,11 @@
 import { Button, Dialog, Form, Input, Label, Select, Tabs } from 'good-nice-ui';
 import React, { useState } from 'react';
-import { CONTINUOUS_SCALE } from '../../schemas/ContinuousMetricSchema';
-import { CATEGORICAL_SCALE } from '../../schemas/CategoricalMetricSchema';
+import { Scale } from '@prisma/client';
 import { FormProvider, useForm } from 'react-hook-form';
 
 export const CreateMetricDialog = () => {
   const [ isOpen, setIsOpen ] = useState(false);
   const [ activeTab, setActiveTab ] = useState('base');
-  const scales = {...CATEGORICAL_SCALE.enum, ...CONTINUOUS_SCALE.enum};
 
   const form = useForm({
     // resolver: zodResolver(createCategoricalMetricSchema),
@@ -59,14 +57,14 @@ export const CreateMetricDialog = () => {
           render={({ field }) => (
             <Form.Item>
               <Form.Label>Scale</Form.Label>
-                <Select onValueChange={(value) => field.onChange(value)} defaultValue={CATEGORICAL_SCALE.enum.ordinal}>
+                <Select onValueChange={(value) => field.onChange(value)} defaultValue={Scale.ordinal}>
                   <Form.Control>
                     <Select.Trigger className='capitalize'>
                       <Select.Value />
                     </Select.Trigger>
                   </Form.Control>
                   <Select.Content>
-                    {Object.keys(scales).map(scale => (
+                    {Object.keys(Scale).map(scale => (
                       <Select.Item key={scale} value={scale} className="capitalize">
                         {scale}
                       </Select.Item>

@@ -20,9 +20,9 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
   return (
     <div className="flex flex-col pt-12 pb-5 px-3 gap-3" id='setContainer'>
       <div className="flex relative flex-col gap-6">
-        <Form.FieldSet className='flex gap-2 items-end'>
+        <Form.FieldSet className="flex flex-col gap-4">
           {fields.map((item, index) => (
-            <div key={item.id}>
+            <div key={item.id} className='flex gap-2 items-end'>
               <span className="mb-2 ml-5 text-lowContrast-foreground">{`${index + 1}.`}</span>
               <Form.Field
                 control={form.control}

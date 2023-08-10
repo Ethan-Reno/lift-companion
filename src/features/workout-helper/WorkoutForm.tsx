@@ -30,8 +30,7 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
       setSelectedExercises(selectedExercises.filter(exercise => exercise.id !== variables.exerciseId));
     },
   });
-  const { data: categoricalMetrics } = api.categoricalMetric.getAll.useQuery();
-  console.log('workoutFormState:', workoutFormState);
+  const { data: metrics } = api.metric.getAll.useQuery();
 
   // Define default values for the workout form
   const defaultFormValues = {
@@ -90,10 +89,10 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
             />
           </Tabs.Content>
           <Tabs.Content className='w-full' value="metrics">
-            {categoricalMetrics && (
+            {metrics && (
               <MetricsFormSection
                 form={form}
-                categoricalMetrics={categoricalMetrics}
+                metrics={metrics}
               />
             )}
           </Tabs.Content>

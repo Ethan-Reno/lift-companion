@@ -56,8 +56,7 @@ model User {
     sessions      Session[]
     settings      Settings[]
     exercises     Exercise[]
-    categoricalMetrics       CategoricalMetric[]
-    continuousMetrics        ContinuousMetric[]
+    metrics       Metric[]
 }
 
 model Settings {
@@ -106,52 +105,37 @@ model Set {
     workoutId   String
 }
 
-enum CategoricalScale {
+enum Scale {
     nominal
     ordinal
-}
-
-enum ContinuousScale {
     interval
     ratio
 }
 
-model CategoricalMetric {
-    id              String                    @id @default(cuid())
-    createdAt       DateTime                  @default(now())
-    updatedAt       DateTime                  @updatedAt
-    name            String                    @db.VarChar(100)
-    description     String                    @db.VarChar(100)
-    scale           CategoricalScale          @default(ordinal)
-    user            User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId          String
-    options         CategoricalMetricOption[]
-    WorkoutMetrics  WorkoutMetric[]
-}
-
-model CategoricalMetricOption {
-    id                    String             @id @default(cuid())
-    createdAt             DateTime           @default(now())
-    updatedAt             DateTime           @updatedAt
-    label                 String             @db.VarChar(100)
-    value                 Int
-    categoricalMetric     CategoricalMetric  @relation(fields: [categoricalMetricId], references: [id], onDelete: Cascade)
-    categoricalMetricId   String
-}
-
-model ContinuousMetric {
+model Metric {
     id              String           @id @default(cuid())
     createdAt       DateTime         @default(now())
     updatedAt       DateTime         @updatedAt
     name            String           @db.VarChar(100)
     description     String           @db.VarChar(100)
-    scale           ContinuousScale  @default(ratio)
-    min             Int              @default(0)
-    max             Int
-    step            Int              @default(1)
+    scale           Scale            @default(ratio)
+    min             Int?
+    max             Int?
+    step            Int?             @default(1)
+    options         MetricOption[]
     user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId          String
-    WorkoutMetrics  WorkoutMetric[]
+    workoutMetrics  WorkoutMetric[]
+}
+
+model MetricOption {
+    id         String    @id @default(cuid())
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+    label      String    @db.VarChar(100)
+    value      Int
+    metric     Metric    @relation(fields: [metricId], references: [id], onDelete: Cascade)
+    metricId   String
 }
 
 model Workout {
@@ -169,10 +153,8 @@ model WorkoutMetric {
     createdAt            DateTime            @default(now())
     updatedAt            DateTime            @updatedAt
     value                Int
-    categoricalMetric    CategoricalMetric?  @relation(fields: [categoricalMetricId], references: [id], onDelete: Cascade)
-    categoricalMetricId  String?
-    continuousMetric     ContinuousMetric?   @relation(fields: [continuousMetricId], references: [id], onDelete: Cascade)
-    continuousMetricId   String?
+    metric               Metric             @relation(fields: [metricId], references: [id], onDelete: Cascade)
+    metricId             String
     workout              Workout             @relation(fields: [workoutId], references: [id], onDelete: Cascade)
     workoutId            String
 }

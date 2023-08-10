@@ -7,8 +7,7 @@ const defaultFields = {
 };
 
 export const workoutMetricInputSchema = {
-  categoricalMetricId: z.string().cuid().nullable().optional(),
-  continuousMetricId: z.string().cuid().nullable().optional(),
+  metricId: z.string().cuid(),
   value: z.number(),
 };
 

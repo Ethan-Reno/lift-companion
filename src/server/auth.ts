@@ -49,9 +49,9 @@ export const authOptions: NextAuthOptions = {
     },
   },
   events: {
-    async signIn({ user, account, profile, isNewUser }) {
+    async signIn({ user, isNewUser }) {
       if (isNewUser) {
-        await prisma.categoricalMetric.create({
+        await prisma.metric.create({
           data: {
             name: 'Sleep Quality',
             description: 'Self-reported quality of previous night sleep',

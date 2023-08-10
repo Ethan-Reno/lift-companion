@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { mountStoreDevtool } from 'simple-zustand-devtools';
 import { CreateWorkoutInputs } from "../schemas/WorkoutSchema";
 import { Exercise } from '../schemas/ExerciseSchema';
-import { CategoricalMetric } from '../schemas/CategoricalMetricSchema';
+import { Metric } from '../schemas/MetricSchema';
 
 interface AppState {
   shouldRefetch: boolean;
@@ -13,8 +13,8 @@ interface AppState {
     formState: Record<string, CreateWorkoutInputs> |
     ((currentFormStates: Record<string, CreateWorkoutInputs>) => Record<string, CreateWorkoutInputs>)
   ) => void;
-  selectedMetrics: CategoricalMetric[];
-  setSelectedMetrics: (selectedMetrics: CategoricalMetric[]) => void;
+  selectedMetrics: Metric[];
+  setSelectedMetrics: (selectedMetrics: Metric[]) => void;
   selectedExercises: Exercise[];
   setSelectedExercises: (selectedExercises: Exercise[]) => void;
 };
