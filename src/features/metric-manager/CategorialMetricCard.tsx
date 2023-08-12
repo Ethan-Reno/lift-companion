@@ -18,11 +18,11 @@ export const CategorialMetricCard = ({
         <Card.Description>{metric.description}</Card.Description>
       </Card.Header>
       <Card.Content>
-        <span className='capitalize'>{`${metric.scale} scale`}</span>
-        Preview:
+        {/* <span className='capitalize'>{`${metric.scale} scale`}</span> */}
+        Options:
         {hasOptions(metric) && (
           <Select defaultValue={metric.options[0]?.label} onValueChange={(value) => setSelectedOption(value)}>
-            <Select.Trigger className="mt-0 capitalize">
+            <Select.Trigger className="mt-0 capitalize bg-background">
               <Select.Value />
             </Select.Trigger>
             <Select.Content className='capitalize'>

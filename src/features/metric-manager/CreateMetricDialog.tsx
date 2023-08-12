@@ -2,23 +2,32 @@ import { Button, Dialog, Form, Input, Select, FormProvider } from 'good-nice-ui'
 import React, { useState } from 'react';
 import { Scale } from '@prisma/client';
 import { useForm } from 'react-hook-form';
-import { CreateNominalMetricForm } from './CreateNominalMetricForm';
+import { CreateCategoricalMetricForm } from './CreateCategoricalMetricForm';
 import { BaseMetricInputs, baseMetricInputsSchema } from '../../schemas/MetricSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export const CreateMetricDialog = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('base');
+  const [activeTab, setActiveTab] = useState('');
   const [submittedValues, setSubmittedValues] = useState<BaseMetricInputs | null>(null);
+  // create new useState where isOpen is default false, and setIsOpen should update setIsOpen to false, setSubmittedValues to null, and setActiveTab to ''
+  const [isOpen, setIsOpen] = useState(false);
+  const handleSetIsOpen = (value: boolean) => {
+    if (!value) {
+      setActiveTab('');
+      setSubmittedValues(null);
+    }
+    setIsOpen(value); 
+  };
+  const defaultValues = {
+    name: '',
+    description: '',
+    scale: Scale.nominal,
+  };
 
   const CreateMetricForm = () => {
     const form = useForm<BaseMetricInputs>({
       resolver: zodResolver(baseMetricInputsSchema),
-      defaultValues: submittedValues || {
-        name: '',
-        description: '',
-        scale: Scale.nominal,
-      },
+      defaultValues: submittedValues || defaultValues
     });
 
     const onSubmit = (values: BaseMetricInputs) => {
@@ -82,13 +91,13 @@ export const CreateMetricDialog = () => {
           />
           <Dialog.Footer className="gap-y-4">
             <Button
-              variant="secondary"
+              variant="outline"
               type="button"
               onClick={() => setIsOpen(false)}
             >
               Cancel
             </Button>
-            <Button type='submit'>
+            <Button variant="secondary" type='submit'>
               Next
             </Button>
           </Dialog.Footer>
@@ -100,26 +109,34 @@ export const CreateMetricDialog = () => {
   const displayTab = () => {
     switch (activeTab) {
       case Scale.nominal:
-        return <CreateNominalMetricForm setIsOpen={setIsOpen} setActiveTab={setActiveTab} baseValues={submittedValues!} />
-      case 'ordinal':
-        return <h1>Ordinal</h1>
+      case Scale.ordinal:
+        return (
+          <CreateCategoricalMetricForm
+            setIsOpen={handleSetIsOpen}
+            setActiveTab={setActiveTab}
+            baseValues={submittedValues!} // TODO remove !
+          />
+        );
       case 'interval':
         return <h1>Interval</h1>
       case 'ratio':
         return <h1>Ratio</h1>
-      case 'base':
+      case '':
       default:
         return <CreateMetricForm />;
     }
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    // TODO update setIsOpen to clear submitted values and setActive tab to ''
+    <Dialog open={isOpen} onOpenChange={handleSetIsOpen}> 
       <Dialog.Trigger asChild>
-        <Button className='w-fit' onClick={() => setIsOpen(true)}>Create New</Button>
+        <Button className="w-fit" onClick={() => setIsOpen(true)}>
+          Create New
+        </Button>
       </Dialog.Trigger>
-      <Dialog.Content className="sm:max-w-[425px]">
-        <Dialog.Title>
+      <Dialog.Content className="sm:max-w-[425px]" tabIndex={-1}>
+        <Dialog.Title className='pb-10'>
           Create Metric
         </Dialog.Title>
         {displayTab()}

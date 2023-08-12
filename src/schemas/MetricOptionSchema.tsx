@@ -7,7 +7,7 @@ const defaultFields = {
 };
 
 export const metricOptionInputSchema = {
-  label: z.string().min(1),
+  label: z.string().min(1, { message: 'Must include a label.' }),
   value: z.number(),
 };
 
