@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Dialog, DropdownMenu } from "good-nice-ui";
-import { EXERCISE_STATUS, Exercise } from "../../schemas/ExerciseSchema";
+import { Exercise } from "../../schemas/ExerciseSchema";
 import { Archive, Dumbbell, LineChart, MoreHorizontal, Pen, Trash } from "lucide-react";
 import Link from "next/link";
-import { UpdateExerciseDialog } from "../../components/Dialogs/UpdateExerciseDialog";
-import { DeleteExerciseDialog } from "../../components/Dialogs/DeleteExerciseDialog";
+import { UpdateExerciseDialog } from "./UpdateExerciseDialog";
+import { DeleteExerciseDialog } from "./DeleteExerciseDialog";
 import { useStore } from "../../store/store";
 
 interface ExerciseTableRowActionsProps {
@@ -17,7 +17,7 @@ export function ExerciseTableRowActions({
   const [dialogType, setDialogType] = React.useState<string>('');
   const [isDialogOpen, setIsDialogOpen] = React.useState<boolean>(false);
   const { selectedExercises, setSelectedExercises } = useStore();
-  const { id, status } = data;
+  const { id } = data;
 
   const getDialogContent = () => {
     switch (dialogType) {

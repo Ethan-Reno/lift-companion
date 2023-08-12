@@ -70,7 +70,7 @@ export const RecentExercisesGrid = () => {
         {exercises && exercisesWithCompletedWorkouts(exercises).map((exercise) => {
           return (
             <Card className='border shadow-md' key={exercise.id}>
-              <Card.Header className='flex flex-row items-center justify-between p-3'>
+              <Card.Header className='flex flex-row items-center justify-between pb-0 space-y-0'>
                 <Card.Title className='capitalize text-muted-foreground text-lg'>{exercise.name}</Card.Title>
                 <DropdownMenu>
                   <DropdownMenu.Trigger asChild>

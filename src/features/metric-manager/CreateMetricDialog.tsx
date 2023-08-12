@@ -116,7 +116,7 @@ export const CreateMetricDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger asChild>
-        <Button onClick={() => setIsOpen(true)}>Create New</Button>
+        <Button className='w-fit' onClick={() => setIsOpen(true)}>Create New</Button>
       </Dialog.Trigger>
       <Dialog.Content className="sm:max-w-[425px]">
         <Dialog.Title>

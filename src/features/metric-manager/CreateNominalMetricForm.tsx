@@ -20,7 +20,7 @@ export const CreateNominalMetricForm = ({
   setIsOpen,
   setActiveTab,
 }: CreateNominalMetricFormProps) => {
-  const [ submittedValues, setSubmittedValues ] = useState<CreateNominalMetricInputs | null>(null);
+  const [submittedValues, setSubmittedValues] = useState<CreateNominalMetricInputs | null>(null);
   const { setShouldRefetch } = useStore();
   const { toast } = useToast();
   const { mutate, isLoading } = api.metric.createNominal.useMutation({
