@@ -2312,10 +2312,10 @@ globby@^13.1.3:
     merge2 "^1.4.1"
     slash "^4.0.0"
 
-good-nice-ui@0.5.8:
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/good-nice-ui/-/good-nice-ui-0.5.8.tgz#c116a70ba191d7eb0acd69007f6c0a3d0109a9ff"
-  integrity sha512-1XTe/+eurUDk17MNKY7hY260qc3N8wDkXr46fcighG8T/xcvWWkMq0zMqZVmNvJeW4mI7ZKfV8jLfrjNSOILYw==
+good-nice-ui@0.5.9:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/good-nice-ui/-/good-nice-ui-0.5.9.tgz#6824a5c4ad5a38a4b0cef6eb101157c5c93fd5f3"
+  integrity sha512-BU1qhnpJUVika76PdNdm/MWZ2+z169FI7vWZV5sbCLIkJKaCEBSvUnYA7DbtV6SH3Xh2fX+YvMm4QBRmrPmLgw==
   dependencies:
     "@radix-ui/react-accordion" "^1.1.2"
     "@radix-ui/react-aspect-ratio" "^1.0.3"

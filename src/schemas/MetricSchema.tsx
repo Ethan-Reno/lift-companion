@@ -8,11 +8,17 @@ const defaultFields = {
   updatedAt: z.date(),
 };
 
+const baseMetricInputs = {
+  name: z.string().min(1),
+  description: z.string().min(1),
+  scale: z.nativeEnum(Scale),
+};
+
+export const baseMetricInputsSchema = z.object(baseMetricInputs);
+
 // Nominal Metrics
 export const nominalMetricInputSchema = {
-  name: z.string(),
-  description: z.string(),
-  scale: z.nativeEnum(Scale),
+  ...baseMetricInputs,
   options: z.array(metricOptionSchema),
 };
 
@@ -34,9 +40,7 @@ export const updateNominalMetricSchema = z.object({
 
 // Ordinal Metrics
 export const ordinalMetricInputSchema = {
-  name: z.string(),
-  description: z.string(),
-  scale: z.nativeEnum(Scale),
+  ...baseMetricInputs,
   options: z.array(metricOptionSchema),
 };
 
@@ -58,9 +62,7 @@ export const updateOrdinalMetricSchema = z.object({
 
 // Interval Metrics
 export const intervalMetricInputSchema = {
-  name: z.string(),
-  description: z.string(),
-  scale: z.nativeEnum(Scale),
+  ...baseMetricInputs,
   min: z.number().optional().nullable(),
   max: z.number().optional().nullable(),
   step: z.number().optional().nullable(),
@@ -84,9 +86,7 @@ export const updateIntervalMetricSchema = z.object({
 // Ratio Metrics
 export const ratioMetricInputSchema = {
   ...defaultFields,
-  name: z.string(),
-  description: z.string(),
-  scale: z.nativeEnum(Scale),
+  ...baseMetricInputs,
   max: z.number().optional().nullable(),
   step: z.number().optional().nullable(),
 };
@@ -109,6 +109,8 @@ export const deleteMetricSchema = z.string().cuid();
 
 
 // Type definitions
+export type BaseMetricInputs = z.infer<typeof baseMetricInputsSchema>;
+
 export type NominalMetric = z.infer<typeof nominalMetricSchema>;
 export type CreateNominalMetricInputs = z.infer<typeof createNominalMetricSchema>;
 export type UpdateNominalMetricInputs = z.infer<typeof updateNominalMetricSchema>;

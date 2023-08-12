@@ -1,88 +1,106 @@
-import { Button, Dialog, Form, Input, Label, Select, Tabs } from 'good-nice-ui';
+import { Button, Dialog, Form, Input, Select, FormProvider } from 'good-nice-ui';
 import React, { useState } from 'react';
 import { Scale } from '@prisma/client';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { CreateNominalMetricForm } from './CreateNominalMetricForm';
+import { BaseMetricInputs, baseMetricInputsSchema } from '../../schemas/MetricSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export const CreateMetricDialog = () => {
-  const [ isOpen, setIsOpen ] = useState(false);
-  const [ activeTab, setActiveTab ] = useState('base');
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('base');
+  const [submittedValues, setSubmittedValues] = useState<BaseMetricInputs | null>(null);
 
-  const form = useForm({
-    // resolver: zodResolver(createCategoricalMetricSchema),
-    defaultValues: {
-      name: '',
-      description: '',
-      scale: '',
-    },
-  });
-  const formValues = form.watch();
+  const CreateMetricForm = () => {
+    const form = useForm<BaseMetricInputs>({
+      resolver: zodResolver(baseMetricInputsSchema),
+      defaultValues: submittedValues || {
+        name: '',
+        description: '',
+        scale: Scale.nominal,
+      },
+    });
 
-  const onSubmit = (values: any) => {
-    console.log(values);
+    const onSubmit = (values: BaseMetricInputs) => {
+      setSubmittedValues(values);
+      setActiveTab(values.scale);
+    }
+
+    return (
+      <FormProvider {...form}>
+        <Form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <Form.Field
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <Form.Item>
+                <Form.Label>Name</Form.Label>
+                <Form.Control>
+                  <Input {...field} />
+                </Form.Control>
+                <Form.Message />
+              </Form.Item>
+            )}
+          />
+          <Form.Field
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <Form.Item>
+                <Form.Label>Description</Form.Label>
+                <Form.Control>
+                  <Input {...field} />
+                </Form.Control>
+                <Form.Message />
+              </Form.Item>
+            )}
+          />
+          {/* TODO add a popover with info about scales */}
+          <Form.Field
+            control={form.control}
+            name="scale"
+            render={({ field }) => (
+              <Form.Item>
+                <Form.Label>Scale</Form.Label>
+                  <Select value={form.getValues().scale} onValueChange={(value) => field.onChange(value)}>
+                    <Form.Control>
+                      <Select.Trigger className='capitalize'>
+                        <Select.Value />
+                      </Select.Trigger>
+                    </Form.Control>
+                    <Select.Content>
+                      {Object.keys(Scale).map(scale => (
+                        <Select.Item key={scale} value={scale} className="capitalize">
+                          {scale}
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select>
+                <Form.Message />
+              </Form.Item>
+            )}
+          />
+          <Dialog.Footer className="gap-y-4">
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={() => setIsOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button type='submit'>
+              Next
+            </Button>
+          </Dialog.Footer>
+        </Form>
+      </FormProvider>
+    )
   };
-
-  const CreateMetricForm = () => (
-    <FormProvider {...form}>
-      <Form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Form.Field
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <Form.Item>
-              <Form.Label>Name</Form.Label>
-              <Form.Control>
-                <Input {...field} />
-              </Form.Control>
-              <Form.Message />
-            </Form.Item>
-          )}
-        />
-        <Form.Field
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <Form.Item>
-              <Form.Label>Description</Form.Label>
-              <Form.Control>
-                <Input {...field} />
-              </Form.Control>
-              <Form.Message />
-            </Form.Item>
-          )}
-        />
-        {/* TODO add a popover with info about scales */}
-        <Form.Field
-          control={form.control}
-          name="scale"
-          render={({ field }) => (
-            <Form.Item>
-              <Form.Label>Scale</Form.Label>
-                <Select onValueChange={(value) => field.onChange(value)} defaultValue={Scale.ordinal}>
-                  <Form.Control>
-                    <Select.Trigger className='capitalize'>
-                      <Select.Value />
-                    </Select.Trigger>
-                  </Form.Control>
-                  <Select.Content>
-                    {Object.keys(Scale).map(scale => (
-                      <Select.Item key={scale} value={scale} className="capitalize">
-                        {scale}
-                      </Select.Item>
-                    ))}
-                  </Select.Content>
-                </Select>
-              <Form.Message />
-            </Form.Item>
-          )}
-        />
-      </Form>
-    </FormProvider>
-  );
 
   const displayTab = () => {
     switch (activeTab) {
-      case 'nominal':
-        return <h1>Nominal</h1>
+      case Scale.nominal:
+        return <CreateNominalMetricForm setIsOpen={setIsOpen} setActiveTab={setActiveTab} baseValues={submittedValues!} />
       case 'ordinal':
         return <h1>Ordinal</h1>
       case 'interval':
@@ -91,29 +109,7 @@ export const CreateMetricDialog = () => {
         return <h1>Ratio</h1>
       case 'base':
       default:
-        return (
-          <>
-            <CreateMetricForm />
-            <Dialog.Footer className="gap-y-4">
-              <Button
-                variant="secondary"
-                type="button"
-                onClick={() => setIsOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant='default'
-                type="submit"
-                onClick={() => {
-                  setActiveTab(formValues.scale)
-                }}
-              >
-                Next
-              </Button>
-            </Dialog.Footer>
-          </>
-        );
+        return <CreateMetricForm />;
     }
   }
 

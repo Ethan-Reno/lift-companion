@@ -7,7 +7,7 @@ const defaultFields = {
 };
 
 export const metricOptionInputSchema = {
-  label: z.string(),
+  label: z.string().min(1),
   value: z.number(),
 };
 

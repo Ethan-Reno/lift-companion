@@ -118,7 +118,6 @@ export const CreateExerciseDialog = () => {
               Cancel
             </Button>
             <Button
-              variant='default'
               type='submit'
               disabled={isLoading}
             >

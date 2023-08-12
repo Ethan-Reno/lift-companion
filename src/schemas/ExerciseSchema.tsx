@@ -9,8 +9,8 @@ const defaultFields = {
 };
 
 export const exerciseInputSchema = {
-  name: z.string(),
-  description: z.string(),
+  name: z.string().min(1),
+  description: z.string().min(1),
   measurement: z.nativeEnum(Measurement),
 };
 
