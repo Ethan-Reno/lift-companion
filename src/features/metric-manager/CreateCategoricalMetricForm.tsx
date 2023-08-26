@@ -24,7 +24,7 @@ export const CreateCategoricalMetricForm = ({
   const [submittedValues, setSubmittedValues] = useState<CreateNominalMetricInputs | CreateOrdinalMetricInputs | null>(null);
   const { setShouldRefetch } = useStore();
   const { toast } = useToast();
-  const { mutate, isLoading } = api.metric.createNominal.useMutation({
+  const { mutate, isLoading } = api.metric.createCategorical.useMutation({
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
@@ -62,8 +62,6 @@ export const CreateCategoricalMetricForm = ({
     control: form.control,
     name: "options",
   });
-
-  console.log(fields);
   
   const onSubmit = (values: CreateNominalMetricInputs | CreateOrdinalMetricInputs) => {
     setSubmittedValues(values);

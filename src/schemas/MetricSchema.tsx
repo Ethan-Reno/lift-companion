@@ -65,7 +65,7 @@ export const intervalMetricInputSchema = {
   ...baseMetricInputs,
   min: z.number().optional().nullable(),
   max: z.number().optional().nullable(),
-  step: z.number().optional().nullable(),
+  step: z.number().min(1, { message: 'Step must be greater than 0.'}),
 };
 
 export const intervalMetricSchema = z.object({
@@ -88,7 +88,7 @@ export const ratioMetricInputSchema = {
   ...defaultFields,
   ...baseMetricInputs,
   max: z.number().optional().nullable(),
-  step: z.number().optional().nullable(),
+  step: z.number().min(1, { message: 'Step must be greater than 0.'}),
 };
 
 export const ratioMetricSchema = z.object({

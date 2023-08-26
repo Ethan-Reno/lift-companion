@@ -12,7 +12,7 @@ const Home: NextPage = () => {
     if (theme === 'dark') {
       document.body.setAttribute('data-mode', 'dark')
     } else {
-      document.body.setAttribute('data-mode', '')
+      document.body.setAttribute('data-mode', 'light')
     }
   }, [theme])
   const { data: session } = useSession();

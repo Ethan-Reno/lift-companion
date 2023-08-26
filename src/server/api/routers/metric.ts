@@ -1,4 +1,4 @@
-import { createNominalMetricSchema, createOrdinalMetricSchema, deleteMetricSchema, updateNominalMetricSchema, updateOrdinalMetricSchema } from "../../../schemas/MetricSchema";
+import { createIntervalMetricSchema, createNominalMetricSchema, createOrdinalMetricSchema, deleteMetricSchema, updateNominalMetricSchema, updateOrdinalMetricSchema } from "../../../schemas/MetricSchema";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const metricRouter = createTRPCRouter({
@@ -20,7 +20,7 @@ export const metricRouter = createTRPCRouter({
     }
   }),
 
-  createNominal: protectedProcedure
+  createCategorical: protectedProcedure
     .input(createNominalMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -44,7 +44,7 @@ export const metricRouter = createTRPCRouter({
       }
     }
   ),
-  updateNominal: protectedProcedure
+  updateCategorical: protectedProcedure
     .input(updateNominalMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -67,8 +67,8 @@ export const metricRouter = createTRPCRouter({
       }
     }
   ),
-  createOrdinal: protectedProcedure
-    .input(createOrdinalMetricSchema)
+  createInterval: protectedProcedure
+    .input(createIntervalMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         await ctx.prisma.metric.create({
@@ -81,32 +81,9 @@ export const metricRouter = createTRPCRouter({
             name: input.name,
             description: input.description,
             scale: input.scale,
-            options: {
-              create: input.options,
-            },
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  ),
-  updateOrdinal: protectedProcedure
-    .input(updateOrdinalMetricSchema)
-    .mutation(async ({ ctx, input }) => {
-      try {
-        await ctx.prisma.metric.update({
-          where: {
-            id: input.id,
-          },
-          data: {
-            name: input.name,
-            description: input.description,
-            scale: input.scale,
-            // TODO allow for updating options
-            // options: {
-            //   updateMany: input.options,
-            // },
+            min: input.min,
+            max: input.max,
+            step: input.step,
           },
         });
       } catch (error) {

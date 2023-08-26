@@ -121,7 +121,7 @@ model Metric {
     scale           Scale            @default(ratio)
     min             Int?
     max             Int?
-    step            Int?             @default(1)
+    step            Int              @default(1)
     options         MetricOption[]
     user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId          String

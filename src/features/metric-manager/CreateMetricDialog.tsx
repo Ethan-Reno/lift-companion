@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { CreateCategoricalMetricForm } from './CreateCategoricalMetricForm';
 import { BaseMetricInputs, baseMetricInputsSchema } from '../../schemas/MetricSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CreateIntervalMetricForm } from './CreateIntervalMetricForm';
 
 export const CreateMetricDialog = () => {
   const [activeTab, setActiveTab] = useState('');
@@ -106,7 +107,7 @@ export const CreateMetricDialog = () => {
     )
   };
 
-  const displayTab = () => {
+  const displayTab = (baseValues: BaseMetricInputs) => {
     switch (activeTab) {
       case Scale.nominal:
       case Scale.ordinal:
@@ -114,11 +115,17 @@ export const CreateMetricDialog = () => {
           <CreateCategoricalMetricForm
             setIsOpen={handleSetIsOpen}
             setActiveTab={setActiveTab}
-            baseValues={submittedValues!} // TODO remove !
+            baseValues={baseValues}
           />
         );
       case 'interval':
-        return <h1>Interval</h1>
+        return (
+          <CreateIntervalMetricForm
+            setIsOpen={handleSetIsOpen}
+            setActiveTab={setActiveTab}
+            baseValues={baseValues}
+          />
+        );
       case 'ratio':
         return <h1>Ratio</h1>
       case '':
@@ -128,7 +135,6 @@ export const CreateMetricDialog = () => {
   }
 
   return (
-    // TODO update setIsOpen to clear submitted values and setActive tab to ''
     <Dialog open={isOpen} onOpenChange={handleSetIsOpen}> 
       <Dialog.Trigger asChild>
         <Button className="w-fit" onClick={() => setIsOpen(true)}>
@@ -139,7 +145,7 @@ export const CreateMetricDialog = () => {
         <Dialog.Title className='pb-10'>
           Create Metric
         </Dialog.Title>
-        {displayTab()}
+        {displayTab(submittedValues!)}
       </Dialog.Content>
     </Dialog>
   );
