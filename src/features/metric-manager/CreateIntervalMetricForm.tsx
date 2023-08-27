@@ -39,24 +39,23 @@ export const CreateIntervalMetricForm = ({
       })
     }
   });
-  
 
   const [sliderValue, setSliderValue] = useState(0);
-
+  const defaultValues = {
+    ...baseValues,
+    min: 0,
+    max: 100,
+    step: 1,
+  }
   const form = useForm<CreateIntervalMetricInputs>({
     resolver: zodResolver(createIntervalMetricSchema),
-    defaultValues: submittedValues || {
-      ...baseValues,
-      min: 0,
-      max: 100,
-      step: 1,
-    },
+    defaultValues: submittedValues || defaultValues,
   });
 
   useEffect(() => {
     const calculateZeroPercentage = () => {
-      const min = form.getValues().min;
-      const max = form.getValues().max;
+      const min = form.getValues().min || defaultValues.min;
+      const max = form.getValues().max || defaultValues.max;
       return (0 - min) / (max - min) * 100;
     }
     setZeroPercentage(calculateZeroPercentage());
@@ -66,12 +65,6 @@ export const CreateIntervalMetricForm = ({
     setSubmittedValues(values);
     mutate(values);
   };
-
-  // const getZeroPercentage = () => {
-  //   const min = form.getValues().min!;
-  //   const max = form.getValues().max!;
-  //   return (0 - min) / (max - min) * 100;
-  // }
   
   return (
     <FormProvider {...form}>
@@ -157,8 +150,8 @@ export const CreateIntervalMetricForm = ({
                 className='z-10'
                 value={[sliderValue]}
                 onValueChange={(value) => setSliderValue(value[0]!)}
-                min={form.getValues().min}
-                max={form.getValues().max}
+                min={form.getValues().min || defaultValues.min}
+                max={form.getValues().max || defaultValues.max}
                 step={form.getValues().step}
               />
               <Separator className={cn('absolute -top-2 h-6 w-0.5 -translate-x-1/2', `left-[${zeroPercentage}%]`)} />
