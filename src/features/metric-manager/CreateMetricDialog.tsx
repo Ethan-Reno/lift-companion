@@ -6,6 +6,7 @@ import { CreateCategoricalMetricForm } from './CreateCategoricalMetricForm';
 import { BaseMetricInputs, baseMetricInputsSchema } from '../../schemas/MetricSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateIntervalMetricForm } from './CreateIntervalMetricForm';
+import { CreateRatioMetricForm } from './CreateRatioMetricForm';
 
 export const CreateMetricDialog = () => {
   const [activeTab, setActiveTab] = useState('');
@@ -118,7 +119,7 @@ export const CreateMetricDialog = () => {
             baseValues={baseValues}
           />
         );
-      case 'interval':
+      case Scale.interval:
         return (
           <CreateIntervalMetricForm
             setIsOpen={handleSetIsOpen}
@@ -126,8 +127,14 @@ export const CreateMetricDialog = () => {
             baseValues={baseValues}
           />
         );
-      case 'ratio':
-        return <h1>Ratio</h1>
+      case Scale.ratio:
+        return (
+          <CreateRatioMetricForm
+            setIsOpen={handleSetIsOpen}
+            setActiveTab={setActiveTab}
+            baseValues={baseValues}
+          />
+        );
       case '':
       default:
         return <CreateMetricForm />;
@@ -141,11 +148,11 @@ export const CreateMetricDialog = () => {
           Create New
         </Button>
       </Dialog.Trigger>
-      <Dialog.Content className="sm:max-w-[425px]" tabIndex={-1}>
+      <Dialog.Content className="sm:max-w-[425px]">
         <Dialog.Title className='pb-10'>
           Create Metric
         </Dialog.Title>
-        {displayTab(submittedValues!)}
+        {displayTab(submittedValues || defaultValues)}
       </Dialog.Content>
     </Dialog>
   );

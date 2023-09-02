@@ -1,4 +1,4 @@
-import { createIntervalMetricSchema, createNominalMetricSchema, createOrdinalMetricSchema, deleteMetricSchema, updateNominalMetricSchema, updateOrdinalMetricSchema } from "../../../schemas/MetricSchema";
+import { createIntervalMetricSchema, createNominalMetricSchema, createOrdinalMetricSchema, createRatioMetricSchema, deleteMetricSchema, updateNominalMetricSchema, updateOrdinalMetricSchema } from "../../../schemas/MetricSchema";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const metricRouter = createTRPCRouter({
@@ -82,6 +82,30 @@ export const metricRouter = createTRPCRouter({
             description: input.description,
             scale: input.scale,
             min: input.min,
+            max: input.max,
+            step: input.step,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  ),
+
+  createRatio: protectedProcedure
+    .input(createRatioMetricSchema)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.metric.create({
+          data: {
+            user: {
+              connect: {
+                id: ctx.session.user.id,
+              },
+            },
+            name: input.name,
+            description: input.description,
+            scale: input.scale,
             max: input.max,
             step: input.step,
           },
