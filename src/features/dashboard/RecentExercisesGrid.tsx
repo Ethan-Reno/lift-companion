@@ -25,9 +25,16 @@ export const RecentExercisesGrid = () => {
   }
 
   const exercisesWithCompletedWorkouts = (exercises: Exercise[]) => {
-    // Filter exercises to only include those with at least one completed workout
-    return exercises.filter(exercise => exercise.workouts && exercise.workouts.length > 0);
-  }
+    return exercises
+      .filter(exercise => exercise.workouts && exercise.workouts.length > 0)
+      .sort((a, b) => {
+        const aWorkouts = a.workouts || [];
+        const bWorkouts = b.workouts || [];
+        const aLatestWorkoutDate = Math.max(...aWorkouts.map(w => new Date(w.createdAt).getTime()));
+        const bLatestWorkoutDate = Math.max(...bWorkouts.map(w => new Date(w.createdAt).getTime()));
+        return bLatestWorkoutDate - aLatestWorkoutDate;
+      });
+  };
 
   const setInitialExercise = (exercise: Exercise) => {
     setSelectedExercises([exercise, ...selectedExercises.filter(selectedExercise => selectedExercise.id !== exercise.id)]);
