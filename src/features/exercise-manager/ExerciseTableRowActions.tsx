@@ -4,7 +4,7 @@ import { Exercise } from "../../schemas/ExerciseSchema";
 import { Archive, Dumbbell, LineChart, MoreHorizontal, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import { UpdateExerciseDialog } from "./UpdateExerciseDialog";
-import { DeleteExerciseDialog } from "./DeleteExerciseDialog";
+import { DeleteDialog } from "../../components/DeleteDialog";
 import { useStore } from "../../store/store";
 
 interface ExerciseTableRowActionsProps {
@@ -24,7 +24,7 @@ export function ExerciseTableRowActions({
       case 'update':
         return <UpdateExerciseDialog data={data} setIsOpen={setIsDialogOpen} />;
       case 'delete':
-        return <DeleteExerciseDialog id={id} setIsOpen={setIsDialogOpen} />;
+        return <DeleteDialog id={id} setIsOpen={setIsDialogOpen} type='exercise' />;
       default:
         return null;
     }

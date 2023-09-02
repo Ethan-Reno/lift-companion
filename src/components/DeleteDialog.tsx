@@ -1,20 +1,39 @@
 import { Button, Dialog } from 'good-nice-ui';
 import React from 'react';
-import { api } from '../../utils/api';
+import { api } from '../utils/api';
 import { Loader2 } from 'lucide-react';
-import { useStore } from '../../store/store';
-import { useToast } from '../../hooks/useToast';
+import { useStore } from '../store/store';
+import { useToast } from '../hooks/useToast';
 
-export interface DeleteExerciseDialogProps {
+export interface DeleteDialogProps {
   id: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  type: 'exercise' | 'metric';
 }
 
-export const DeleteExerciseDialog = ({ id, setIsOpen }: DeleteExerciseDialogProps) => {
+interface ModalTypeValues {
+  mutation: any;
+  message: string;
+}
+
+export const DeleteDialog = ({ id, setIsOpen, type }: DeleteDialogProps) => {
   const { toast } = useToast();
   const { setShouldRefetch } = useStore();
 
-  const { mutate, isLoading } = api.exercise.delete.useMutation({
+  const values: { [k: string]: ModalTypeValues } = {
+    'exercise': {
+      mutation: api.exercise.delete.useMutation,
+      message: 'Are you sure? This will delete permanently delete the exercise and all associated data.'
+    },
+    'metric': {
+      mutation: api.metric.delete.useMutation,
+      message: 'Are you sure? This will delete permanently delete the metric.'
+    },
+  };
+
+  const modalType = values[type];
+
+  const { mutate, isLoading } = modalType?.mutation({
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
@@ -28,11 +47,15 @@ export const DeleteExerciseDialog = ({ id, setIsOpen }: DeleteExerciseDialogProp
     },
   });
 
+  if (!modalType) {
+    return null;
+  }
+
   return (
     <Dialog.Content className="sm:max-w-[425px]">
       <Dialog.Title>Delete Exercise?</Dialog.Title>
       <Dialog.Description>
-        Are you sure? This will delete permanently delete the exercise and all associated data.
+        {modalType.message}
       </Dialog.Description>
       <Dialog.Footer className='gap-y-4'>
         <Button

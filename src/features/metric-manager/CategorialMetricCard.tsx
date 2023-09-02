@@ -1,6 +1,8 @@
-import { Card, Select, Separator } from 'good-nice-ui';
+import { Button, Card, DropdownMenu, Select, Separator } from 'good-nice-ui';
 import React, { useState } from 'react';
 import { Metric, hasOptions } from '../../schemas/MetricSchema';
+import { MoreHorizontal } from 'lucide-react';
+import { MetricActions } from './MetricActions';
 
 export interface CategorialMetricCardProps {
   metric: Metric;
@@ -14,7 +16,10 @@ export const CategorialMetricCard = ({
   return (
     <Card className='w-full'>
       <Card.Header>
-        <Card.Title>{metric.name}</Card.Title>
+        <div className='flex flex-row items-center justify-between pb-0 space-y-0'>
+          <Card.Title>{metric.name}</Card.Title>
+          <MetricActions id={metric.id} />
+        </div>
         <Card.Description>{metric.description}</Card.Description>
       </Card.Header>
       <Card.Content>
