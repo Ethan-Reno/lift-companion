@@ -1,160 +1,158 @@
-// Prisma schema file: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-// Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String?  @db.Text
-    access_token      String?  @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String?  @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId       String
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  expires      DateTime
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-    @@unique([identifier, token])
+  @@unique([identifier, token])
 }
 
 model User {
-    id            String      @id @default(cuid())
-    createdAt     DateTime    @default(now())
-    updatedAt     DateTime    @updatedAt
-    name          String?
-    email         String?     @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    settings      Settings[]
-    exercises     Exercise[]
-    metrics       Metric[]
+  id            String     @id @default(cuid())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  name          String?
+  email         String?    @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  exercises     Exercise[]
+  metrics       Metric[]
+  sessions      Session[]
+  settings      Settings[]
 }
 
 model Settings {
-    id               String     @id @default(cuid())
-    createdAt        DateTime   @default(now())
-    updatedAt        DateTime   @updatedAt
-    unit             String     @default("metric")
-    dashboardDisplay String     @default("recent")
-    formula1RM       String     @default("brzycki")
-    user             User       @relation(fields: [userId], references: [id])
-    userId           String
-}
-
-enum Measurement {
-    weight
-    distance
-    time
-}
-
-enum ExerciseStatus {
-    active
-    archived
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  unit             String   @default("metric")
+  dashboardDisplay String   @default("recent")
+  formula1RM       String   @default("brzycki")
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
 }
 
 model Exercise {
-    id           String          @id @default(cuid())
-    createdAt    DateTime        @default(now())
-    updatedAt    DateTime        @updatedAt
-    status       ExerciseStatus  @default(active)
-    name         String          @db.VarChar(100)
-    description  String          @db.VarChar(100)
-    measurement  Measurement     @default(weight)
-    user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId       String
-    workouts     Workout[]
+  id          String         @id @default(cuid())
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  status      ExerciseStatus @default(active)
+  name        String         @db.VarChar(100)
+  description String         @db.VarChar(100)
+  measurement Measurement    @default(weight)
+  userId      String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workouts    Workout[]
 }
 
 model Set {
-    id          String    @id @default(cuid())
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
-    reps        Int
-    value       Int
-    rpe         Int
-    workout     Workout   @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-    workoutId   String
-}
-
-enum Scale {
-    nominal
-    ordinal
-    interval
-    ratio
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  reps      Int
+  value     Int
+  rpe       Int
+  orm       Int      @default(0)
+  workoutId String
+  workout   Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
 }
 
 model Metric {
-    id              String           @id @default(cuid())
-    createdAt       DateTime         @default(now())
-    updatedAt       DateTime         @updatedAt
-    name            String           @db.VarChar(100)
-    description     String           @db.VarChar(100)
-    scale           Scale            @default(ratio)
-    min             Int?
-    max             Int?
-    step            Int              @default(1)
-    options         MetricOption[]
-    user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId          String
-    workoutMetrics  WorkoutMetric[]
+  id             String          @id @default(cuid())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  name           String          @db.VarChar(100)
+  description    String          @db.VarChar(100)
+  scale          Scale           @default(ratio)
+  min            Int?
+  max            Int?
+  step           Int?            @default(1)
+  userId         String
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  options        MetricOption[]
+  workoutMetrics WorkoutMetric[]
 }
 
 model MetricOption {
-    id         String    @id @default(cuid())
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
-    label      String    @db.VarChar(100)
-    value      Int
-    metric     Metric    @relation(fields: [metricId], references: [id], onDelete: Cascade)
-    metricId   String
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  label     String   @db.VarChar(100)
+  value     Int
+  metricId  String
+  metric    Metric   @relation(fields: [metricId], references: [id], onDelete: Cascade)
 }
 
 model Workout {
-    id              String           @id @default(cuid())
-    createdAt       DateTime         @default(now())
-    updatedAt       DateTime         @updatedAt
-    sets            Set[]
-    workoutMetrics  WorkoutMetric[]
-    exercise        Exercise         @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
-    exerciseId      String
+  id             String          @id @default(cuid())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  exerciseId     String
+  sets           Set[]
+  exercise       Exercise        @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  workoutMetrics WorkoutMetric[]
 }
 
 model WorkoutMetric {
-    id                   String              @id @default(cuid())
-    createdAt            DateTime            @default(now())
-    updatedAt            DateTime            @updatedAt
-    value                Int
-    metric               Metric             @relation(fields: [metricId], references: [id], onDelete: Cascade)
-    metricId             String
-    workout              Workout             @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-    workoutId            String
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  value     Int
+  metricId  String
+  workoutId String
+  metric    Metric   @relation(fields: [metricId], references: [id], onDelete: Cascade)
+  workout   Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+}
+
+enum Measurement {
+  weight
+  distance
+  time
+}
+
+enum ExerciseStatus {
+  active
+  archived
+}
+
+enum Scale {
+  nominal
+  ordinal
+  interval
+  ratio
 }
