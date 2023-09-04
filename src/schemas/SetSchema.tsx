@@ -9,7 +9,10 @@ const defaultFields = {
 export const setInputSchema = {
   reps: z.number(),
   value: z.number(),
-  rpe: z.number(), // TODO make this optional
+  rpe: z.number(),
+  epley1rm: z.number(),
+  bryzcki1rm: z.number(),
+  wathan1rm: z.number(),
 };
 
 export const setSchema = z.object({

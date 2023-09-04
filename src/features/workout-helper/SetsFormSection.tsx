@@ -139,7 +139,14 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
             variant='outline'
             className='w-fit self-center text-foreground'
             size='sm'
-            onClick={() => append({ reps: 0, value: 0, rpe: 1 })}
+            onClick={() => append({ 
+              reps: 0,
+              value: 0,
+              rpe: 1,
+              epley1rm: 0,
+              bryzcki1rm: 0,
+              wathan1rm: 0,
+            })}
           >
             <PlusIcon size={18} className='mr-2 text-primary' />
             Add Set

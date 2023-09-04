@@ -9,6 +9,7 @@ import { useStore } from '../../store/store';
 import { api } from '../../utils/api';
 import { Loader2 } from 'lucide-react';
 import { MetricsFormSection } from './MetricsFormSection';
+import { calculate1rm } from '../../utils/calculate1rm';
 
 interface WorkoutFormProps {
   exercise: Exercise;
@@ -34,7 +35,14 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
 
   // Define default values for the workout form
   const defaultFormValues = {
-    sets: [{ reps: 0, value: 0, rpe: 1 }],
+    sets: [{ 
+      reps: 0,
+      value: 0,
+      rpe: 1,
+      epley1rm: 0,
+      bryzcki1rm: 0,
+      wathan1rm: 0,
+    }],
     workoutMetrics: [],
   };
   // Use the existing form state if it exists, otherwise use the default values
@@ -47,6 +55,13 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
 
   const values: CreateWorkoutInputs = form.watch();
   const onSubmit = () => {
+    // For each set, calculate the ORM with 
+    const sets = values.sets.map((set) => {
+      const oneRepMaxes = calculate1rm(set.value, set.reps);
+      return { ...set, oneRepMaxes };
+    });
+    // Update the form values with the calculated ORM
+    form.setValue('sets', sets);
     mutate(values);
   };
   const onError = (errors: any) => console.log('errors:', errors);
