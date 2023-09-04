@@ -144,8 +144,8 @@ export const SetsFormSection = ({ form, measurement }: SetsFormSectionProps) => 
               value: 0,
               rpe: 1,
               epley1rm: 0,
-              bryzcki1rm: 0,
-              wathan1rm: 0,
+              brzycki1rm: 0,
+              wathen1rm: 0,
             })}
           >
             <PlusIcon size={18} className='mr-2 text-primary' />

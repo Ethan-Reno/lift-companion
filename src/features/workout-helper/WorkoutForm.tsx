@@ -9,7 +9,7 @@ import { useStore } from '../../store/store';
 import { api } from '../../utils/api';
 import { Loader2 } from 'lucide-react';
 import { MetricsFormSection } from './MetricsFormSection';
-import { calculate1rm } from '../../utils/calculate1rm';
+import { calculateAll1rm } from '../../utils/calculate1rm';
 
 interface WorkoutFormProps {
   exercise: Exercise;
@@ -40,8 +40,8 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
       value: 0,
       rpe: 1,
       epley1rm: 0,
-      bryzcki1rm: 0,
-      wathan1rm: 0,
+      brzycki1rm: 0,
+      wathen1rm: 0,
     }],
     workoutMetrics: [],
   };
@@ -55,14 +55,18 @@ export const WorkoutForm = ({ exercise }: WorkoutFormProps) => {
 
   const values: CreateWorkoutInputs = form.watch();
   const onSubmit = () => {
-    // For each set, calculate the ORM with 
+    // Calculate 1RMs for each set
     const sets = values.sets.map((set) => {
-      const oneRepMaxes = calculate1rm(set.value, set.reps);
-      return { ...set, oneRepMaxes };
+      const { wathen1rm, epley1rm, brzycki1rm } = calculateAll1rm(set.value, set.reps);
+      return { 
+        ...set, 
+        wathen1rm,
+        epley1rm,
+        brzycki1rm,
+      };
     });
-    // Update the form values with the calculated ORM
-    form.setValue('sets', sets);
-    mutate(values);
+    const updatedValues = { ...values, sets };
+    mutate(updatedValues);
   };
   const onError = (errors: any) => console.log('errors:', errors);
   

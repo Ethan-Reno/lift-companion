@@ -88,8 +88,8 @@ model Set {
   value      Int
   rpe        Int
   epley1rm   Int
-  bryzcki1rm Int
-  wathan1rm  Int
+  brzycki1rm Int
+  wathen1rm  Int
   workoutId  String
   workout    Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
 }

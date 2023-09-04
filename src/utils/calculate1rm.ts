@@ -1,17 +1,25 @@
+export const calculateEpely1rm = (weight: number, reps: number): number => {
+  return Math.round(weight * (1 + 0.0333 * reps));
+};
+
+export const calculateBrzycki1rm = (weight: number, reps: number): number => {
+  return Math.round(weight * (36 / (37 - reps)));
+};
+
+export const calculateWathen1rm = (weight: number, reps: number): number => {
+  return Math.round(weight * 100) / (48.8 + 53.8 * Math.exp(-0.075 * reps));
+};
+
 export interface Calcutated1RMValues {
   epley1rm: number,
   brzycki1rm: number,
-  wathan1rm: number,
+  wathen1rm: number,
 }
 
-export const calculate1rm = (weight: number, reps: number): Calcutated1RMValues => {
-  const epley1rm = weight * (1 + 0.0333 * reps);
-  const brzycki1rm = weight * (36 / (37 - reps));
-  const wathan1rm = weight * (48.8 + 53.8 * Math.exp(-0.075 * reps));
-
+export const calculateAll1rm = (weight: number, reps: number): Calcutated1RMValues => {
   return {
-    epley1rm,
-    brzycki1rm,
-    wathan1rm,
+    epley1rm: calculateEpely1rm(weight, reps),
+    brzycki1rm: calculateBrzycki1rm(weight, reps),
+    wathen1rm: calculateWathen1rm(weight, reps),
   };
 };

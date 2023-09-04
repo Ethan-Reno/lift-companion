@@ -11,8 +11,8 @@ export const setInputSchema = {
   value: z.number(),
   rpe: z.number(),
   epley1rm: z.number(),
-  bryzcki1rm: z.number(),
-  wathan1rm: z.number(),
+  brzycki1rm: z.number(),
+  wathen1rm: z.number(),
 };
 
 export const setSchema = z.object({
