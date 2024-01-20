@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useEffect } from 'react';
-import { Header } from '../../../components';
-import { api } from '../../../utils/api';
-import { CreateMetricDialog } from '../../../features/metric-manager/CreateMetricDialog';
-import { useStore } from '../../../store/store';
-import { CategorialMetricCard } from '../../../features/metric-manager/CategorialMetricCard';
+import { Header } from '../../components';
+import { api } from '../../utils/api';
+import { CreateMetricDialog } from '../../features/metric-manager/CreateMetricDialog';
+import { useStore } from '../../store/store';
+import { CategorialMetricCard } from '../../features/metric-manager/CategorialMetricCard';
 import { Button, Input, XIcon } from 'good-nice-ui';
 
 const Metrics = () => {
