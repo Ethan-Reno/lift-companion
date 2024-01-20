@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "build": "next build",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start",
-    "analyze": "ANALYZE=true next build"
+    "start": "next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
@@ -28,7 +29,7 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
-    "good-nice-ui": "0.5.10",
+    "good-nice-ui": "^0.5.15",
     "lucide-react": "^0.274.0",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
@@ -36,7 +37,7 @@
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.46.0",
+    "react-hook-form": "^7.46.1",
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
