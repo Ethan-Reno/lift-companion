@@ -4,7 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 export const metricRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.metric.findMany({
+      return await ctx.db.metric.findMany({
         where: {
           userId: ctx.session.user.id,
         },
@@ -24,7 +24,7 @@ export const metricRouter = createTRPCRouter({
     .input(createNominalMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.metric.create({
+        await ctx.db.metric.create({
           data: {
             user: {
               connect: {
@@ -48,7 +48,7 @@ export const metricRouter = createTRPCRouter({
     .input(updateNominalMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.metric.update({
+        await ctx.db.metric.update({
           where: {
             id: input.id,
           },
@@ -71,7 +71,7 @@ export const metricRouter = createTRPCRouter({
     .input(createIntervalMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.metric.create({
+        await ctx.db.metric.create({
           data: {
             user: {
               connect: {
@@ -96,7 +96,7 @@ export const metricRouter = createTRPCRouter({
     .input(createRatioMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.metric.create({
+        await ctx.db.metric.create({
           data: {
             user: {
               connect: {
@@ -120,7 +120,7 @@ export const metricRouter = createTRPCRouter({
     .input(deleteMetricSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.metric.delete({
+        await ctx.db.metric.delete({
           where: {
             id: input,
           },

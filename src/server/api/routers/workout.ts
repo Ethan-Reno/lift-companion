@@ -6,7 +6,7 @@ export const workoutRouter = createTRPCRouter({
   .input(createWorkoutSchema)
   .mutation(async ({ ctx, input }) => {
     try {
-      await ctx.prisma.workout.create({
+      await ctx.db.workout.create({
         data: {
           exerciseId: input.exerciseId,
           workoutMetrics: {

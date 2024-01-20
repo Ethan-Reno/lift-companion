@@ -1,9 +1,11 @@
+import "good-nice-ui/dist/index.css";
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { Providers } from "./providers";
 import { NavMenu } from "~/components";
 
 const inter = Inter({
@@ -23,20 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider cookies={cookies().toString()}>
-          <main className={`flex flex-col font-sans min-h-screen relative`}>
-            <header className='sticky top-0 w-full border-b bg-background z-40'>
-              {/* <NavMenu /> */}
-              Test
-            </header>
-            <div id="Content" className="self-center px-4 py-8 w-full max-w-5xl">
-              {children}
-            </div>
-            {/* <Footer /> */}
-          </main>
-        </TRPCReactProvider>
+        <Providers>
+          <TRPCReactProvider cookies={cookies().toString()}>
+            {children}
+          </TRPCReactProvider>
+        </Providers>
       </body>
     </html>
   );

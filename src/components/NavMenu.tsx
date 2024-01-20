@@ -2,16 +2,19 @@
 
 import React, { useState } from 'react';
 import { Avatar, Button, ChevronDownIcon, DropdownMenu, Separator, XIcon } from 'good-nice-ui';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { Dumbbell, LogOut, Menu, Moon, Settings, Sun } from 'lucide-react';
 import { cn } from '../utils/cn';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
-export const NavMenu = () => {
+export interface NavMenuProps {
+  session: any;
+}
+
+export const NavMenu = ({ session }: NavMenuProps) => {
   const { theme, setTheme } = useTheme();
-  const { data: session } = useSession();
   const router = useRouter();
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
   const mobileMenuOverlay = (
@@ -119,7 +122,7 @@ export const NavMenu = () => {
                     )}
                   >
                     <Avatar className='h-8 w-8 ml-1'>
-                      <Avatar.Image src={session?.user.image!} alt='alt'/>
+                      <Avatar.Image src={session?.user.image} alt='alt'/>
                       <Avatar.Fallback>{session?.user.name?.charAt(0)!}</Avatar.Fallback>
                     </Avatar>
                     <ChevronDownIcon size={32} strokeWidth={1}/>

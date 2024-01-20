@@ -4,7 +4,7 @@ import { EXERCISE_STATUS, createExerciseSchema, deleteExerciseSchema, getExercis
 export const exerciseRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.exercise.findMany({
+      return await ctx.db.exercise.findMany({
         where: {
           userId: ctx.session.user.id,
         },
@@ -28,7 +28,7 @@ export const exerciseRouter = createTRPCRouter({
     .input(getExerciseByIdSchema)
     .query(async ({ ctx, input }) => {
     try {
-      return await ctx.prisma.exercise.findFirst({
+      return await ctx.db.exercise.findFirst({
         where: {
           id: input,
           userId: ctx.session.user.id,
@@ -42,7 +42,7 @@ export const exerciseRouter = createTRPCRouter({
     .input(createExerciseSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.exercise.create({
+        await ctx.db.exercise.create({
           data: {
             user: {
               connect: {
@@ -63,7 +63,7 @@ export const exerciseRouter = createTRPCRouter({
     .input(deleteExerciseSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.exercise.update({
+        await ctx.db.exercise.update({
           where: {
             id: input,
           },
@@ -80,7 +80,7 @@ export const exerciseRouter = createTRPCRouter({
     .input(deleteExerciseSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.exercise.delete({
+        await ctx.db.exercise.delete({
           where: {
             id: input,
           },
@@ -94,7 +94,7 @@ export const exerciseRouter = createTRPCRouter({
     .input(updateExerciseSchema)
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.exercise.update({
+        await ctx.db.exercise.update({
           where: {
             id: input.id,
           },
