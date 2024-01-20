@@ -1,8 +1,10 @@
+'use client'
+
 import React, { useState } from 'react';
-import { useFieldArray, UseFormReturn } from 'react-hook-form';
+import { useFieldArray, type UseFormReturn } from 'react-hook-form';
 import { Button, Dialog, Form, Input, Popover, Select, Separator, XIcon } from 'good-nice-ui';
 import { Info, MinusIcon, PlusIcon } from 'lucide-react';
-import { CreateWorkoutInputs } from '../../schemas/WorkoutSchema';
+import { type CreateWorkoutInputs } from '../../schemas/WorkoutSchema';
 
 interface SetsFormSectionProps {
   form: UseFormReturn<CreateWorkoutInputs>;

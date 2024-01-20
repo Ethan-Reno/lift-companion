@@ -1,8 +1,10 @@
+'use client'
+
 import { compareAsc } from "date-fns";
 import { X_AXIS_TYPE, Y_AXIS_TYPE } from "./LineChart";
-import { ChartData, ChartDataset } from "chart.js";
-import { Exercise } from "../../schemas/ExerciseSchema";
-import { Set } from "../../schemas/SetSchema";
+import { type ChartData, type ChartDataset } from "chart.js";
+import { type Exercise } from "../../schemas/ExerciseSchema";
+import { type Set } from "../../schemas/SetSchema";
 
 export const getExerciseChartData = (
   data: Exercise | Exercise[],

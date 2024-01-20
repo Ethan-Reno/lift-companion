@@ -1,19 +1,19 @@
+'use client'
+
 import React, { useState } from 'react';
 import {
   Button,
   Dialog,
   Form,
-  FormProvider,
   Input,
   Select,
 } from 'good-nice-ui'; 
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Exercise, UpdateExerciseInputs, updateExerciseSchema, MEASUREMENT } from '../../schemas/ExerciseSchema';
+import { type Exercise, type UpdateExerciseInputs, updateExerciseSchema, MEASUREMENT } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
-import { useToast } from '../../hooks/useToast';
 
 export interface UpdateExerciseDialogProps {
   data: Exercise;
@@ -26,11 +26,9 @@ export const UpdateExerciseDialog = ({
     name,
     description,
     measurement,
-    status,
   },
   setIsOpen,
 }: UpdateExerciseDialogProps) => {
-  const { toast } = useToast();
   const { setShouldRefetch } = useStore();
   const [ currentExercise, setCurrentExercise ] = useState({
     id,
@@ -43,11 +41,6 @@ export const UpdateExerciseDialog = ({
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
-      toast({
-        variant: 'default',
-        title: 'Success!',
-        description: `"${name}" was updated successfully.`,
-      })
     },
     onError: () => {
       // On error, revert back to original known data
@@ -57,11 +50,6 @@ export const UpdateExerciseDialog = ({
         description,
         measurement,
       });
-      toast({
-        title: 'Error!',
-        description: `Something went wrong. "${name}" was not updated.`,
-        variant: 'destructive',
-      })
     },
   });
   

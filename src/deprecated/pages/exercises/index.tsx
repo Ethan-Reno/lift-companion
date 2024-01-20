@@ -1,10 +1,12 @@
+'use client'
+
 import React, { useEffect, useMemo } from "react";
 import { type NextPage } from "next";
-import { api } from "../../utils/api";
-import { ExerciseTable } from "../../features/exercise-manager/ExerciseTable";
-import { exerciseColumns, getExerciseLoadingColumns } from "../../features/exercise-manager/ExerciseTableColumns";
-import { useStore } from "../../store/store";
-import { Header } from "../../components";
+import { api } from "../../../utils/api";
+import { ExerciseTable } from "../../../features/exercise-manager/ExerciseTable";
+import { exerciseColumns, getExerciseLoadingColumns } from "../../../features/exercise-manager/ExerciseTableColumns";
+import { useStore } from "../../../store/store";
+import { Header } from "../../../components";
 
 const Exercises: NextPage = () => {
   const { shouldRefetch, setShouldRefetch } = useStore();

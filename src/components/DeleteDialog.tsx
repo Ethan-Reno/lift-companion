@@ -1,9 +1,10 @@
+'use client'
+
 import { Button, Dialog } from 'good-nice-ui';
 import React from 'react';
 import { api } from '../utils/api';
 import { Loader2 } from 'lucide-react';
 import { useStore } from '../store/store';
-import { useToast } from '../hooks/useToast';
 
 export interface DeleteDialogProps {
   id: string;
@@ -17,10 +18,9 @@ interface ModalTypeValues {
 }
 
 export const DeleteDialog = ({ id, setIsOpen, type }: DeleteDialogProps) => {
-  const { toast } = useToast();
   const { setShouldRefetch } = useStore();
 
-  const values: { [k: string]: ModalTypeValues } = {
+  const values: Record<string, ModalTypeValues> = {
     'exercise': {
       mutation: api.exercise.delete.useMutation,
       message: 'Are you sure? This will delete permanently delete the exercise and all associated data.'
@@ -37,14 +37,7 @@ export const DeleteDialog = ({ id, setIsOpen, type }: DeleteDialogProps) => {
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
-    },
-    onError: () => {
-      toast({
-        title: 'Error!',
-        description: `Something went wrong. The exercise was not deleted.`,
-        variant: 'destructive',
-      })
-    },
+    }
   });
 
   if (!modalType) {

@@ -1,11 +1,13 @@
+'use client'
+
 import React, { useEffect, useRef, useState } from 'react';
-import { api } from '../../utils/api';
-import { useStore } from '../../store/store';
-import { Header } from '../../components';
-import { WorkoutForm } from '../../features/workout-helper/WorkoutForm';
-import { Exercise } from '../../schemas/ExerciseSchema';
+import { api } from '../../../utils/api';
+import { useStore } from '../../../store/store';
+import { Header } from '../../../components';
+import { WorkoutForm } from '../../../features/workout-helper/WorkoutForm';
+import { type Exercise } from '../../../schemas/ExerciseSchema';
 import { Alert, Button, ChevronDownIcon, DropdownMenu, Skeleton } from 'good-nice-ui';
-import { ExercisesDropdown } from '../../features/workout-helper/ExercisesDropdown';
+import { ExercisesDropdown } from '../../../features/workout-helper/ExercisesDropdown';
 import { AlertCircle } from 'lucide-react';
 
 const Workout = () => {

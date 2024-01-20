@@ -1,6 +1,8 @@
+'use client'
+
 import { Button, Checkbox, Command, Popover } from 'good-nice-ui';
 import React from 'react';
-import { Exercise } from '../../schemas/ExerciseSchema';
+import { type Exercise } from '../../schemas/ExerciseSchema';
 import { Plus } from 'lucide-react';
 import { useStore } from '../../store/store';
 

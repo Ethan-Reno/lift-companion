@@ -1,22 +1,21 @@
+'use client'
+
 import React, { useState } from 'react';
 import {
   Button,
   Dialog,
   Form,
-  FormProvider,
   Input,
   Select,
 } from 'good-nice-ui'; 
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateExerciseInputs, MEASUREMENT, createExerciseSchema } from '../../schemas/ExerciseSchema';
+import { type CreateExerciseInputs, MEASUREMENT, createExerciseSchema } from '../../schemas/ExerciseSchema';
 import { api } from '../../utils/api';
 import { Loader2 } from "lucide-react"
 import { useStore } from '../../store/store';
-import { useToast } from '../../hooks/useToast';
 
 export const CreateExerciseDialog = () => {
-  const { toast } = useToast();
   const [ isOpen, setIsOpen ] = useState(false);
   const { setShouldRefetch } = useStore();
   const [submittedValues, setSubmittedValues] = useState<CreateExerciseInputs | null>(null);
@@ -27,13 +26,6 @@ export const CreateExerciseDialog = () => {
       setShouldRefetch(true);
       setSubmittedValues(null);
     },
-    onError: (error) => {
-      toast({
-        title: 'Error!',
-        description: error.message,
-        variant: 'destructive',
-      })
-    }
   });
   
   const CreateExerciseForm = () => {

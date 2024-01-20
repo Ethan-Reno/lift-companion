@@ -1,6 +1,8 @@
+'use client'
+
 import React from "react";
 import { Button, Dialog, DropdownMenu } from "good-nice-ui";
-import { Exercise } from "../../schemas/ExerciseSchema";
+import { type Exercise } from "../../schemas/ExerciseSchema";
 import { Archive, Dumbbell, LineChart, MoreHorizontal, Pen, Trash } from "lucide-react";
 import Link from "next/link";
 import { UpdateExerciseDialog } from "./UpdateExerciseDialog";

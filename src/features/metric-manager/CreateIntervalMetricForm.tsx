@@ -1,12 +1,13 @@
-import { Button, Dialog, Form, FormProvider, Input, Separator, Slider } from 'good-nice-ui';
+'use client'
+
+import { Button, Dialog, Form, Input, Separator, Slider } from 'good-nice-ui';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { BaseMetricInputs, CreateIntervalMetricInputs, createIntervalMetricSchema } from '../../schemas/MetricSchema';
+import { useForm, FormProvider } from 'react-hook-form';
+import { type BaseMetricInputs, type CreateIntervalMetricInputs, createIntervalMetricSchema } from '../../schemas/MetricSchema';
 import { useStore } from '../../store/store';
 import { api } from '../../utils/api';
-import { useToast } from '../../hooks/useToast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Scale } from '@prisma/client';
+import { type Scale } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
@@ -24,20 +25,12 @@ export const CreateIntervalMetricForm = ({
   const [submittedValues, setSubmittedValues] = useState<CreateIntervalMetricInputs | null>(null);
   const [zeroPercentage, setZeroPercentage] = useState(0);
   const { setShouldRefetch } = useStore();
-  const { toast } = useToast();
   const { mutate, isLoading } = api.metric.createInterval.useMutation({
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
       setSubmittedValues(null);
     },
-    onError: (error) => {
-      toast({
-        title: 'Error!',
-        description: error.message,
-        variant: 'destructive',
-      })
-    }
   });
 
   const [sliderValue, setSliderValue] = useState(0);

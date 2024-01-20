@@ -1,10 +1,12 @@
+'use client';
+
 import React, { useEffect, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { CreateWorkoutInputs, createWorkoutSchema } from '../../schemas/WorkoutSchema';
-import { Button, Form, FormProvider, Separator, Tabs } from 'good-nice-ui';
+import { useForm, FormProvider } from 'react-hook-form';
+import { type CreateWorkoutInputs, createWorkoutSchema } from '../../schemas/WorkoutSchema';
+import { Button, Form, Separator, Tabs } from 'good-nice-ui';
 import { SetsFormSection } from './SetsFormSection';
-import { Exercise } from '../../schemas/ExerciseSchema';
+import { type Exercise } from '../../schemas/ExerciseSchema';
 import { useStore } from '../../store/store';
 import { api } from '../../utils/api';
 import { Loader2 } from 'lucide-react';

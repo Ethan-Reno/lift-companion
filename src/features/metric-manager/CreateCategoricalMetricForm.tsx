@@ -1,10 +1,11 @@
-import { Button, Dialog, Form, FormProvider, Input, XIcon } from 'good-nice-ui';
+'use client'
+
+import { Button, Dialog, Form, Input, XIcon } from 'good-nice-ui';
 import React, { useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { BaseMetricInputs, CreateNominalMetricInputs, CreateOrdinalMetricInputs, createNominalMetricSchema, createOrdinalMetricSchema } from '../../schemas/MetricSchema';
+import { useFieldArray, useForm, FormProvider } from 'react-hook-form';
+import { type BaseMetricInputs, type CreateNominalMetricInputs, type CreateOrdinalMetricInputs, createNominalMetricSchema, createOrdinalMetricSchema } from '../../schemas/MetricSchema';
 import { useStore } from '../../store/store';
 import { api } from '../../utils/api';
-import { useToast } from '../../hooks/useToast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Scale } from '@prisma/client';
 import { ArrowDown, ArrowUp, Loader2, PlusIcon } from 'lucide-react';
@@ -23,20 +24,12 @@ export const CreateCategoricalMetricForm = ({
 }: CreateCategoricalMetricFormProps) => {
   const [submittedValues, setSubmittedValues] = useState<CreateNominalMetricInputs | CreateOrdinalMetricInputs | null>(null);
   const { setShouldRefetch } = useStore();
-  const { toast } = useToast();
   const { mutate, isLoading } = api.metric.createCategorical.useMutation({
     onSettled: () => {
       setIsOpen(false);
       setShouldRefetch(true);
       setSubmittedValues(null);
     },
-    onError: (error) => {
-      toast({
-        title: 'Error!',
-        description: error.message,
-        variant: 'destructive',
-      })
-    }
   });
 
   const form = useForm<CreateNominalMetricInputs | CreateOrdinalMetricInputs>({

@@ -1,11 +1,13 @@
+'use client'
+
 import React, { useState } from 'react';
 import { api } from '../../utils/api';
-import { Button, Card, DropdownMenu, Label, Select, Skeleton } from 'good-nice-ui';
+import { Button, Card, DropdownMenu, Select, Skeleton } from 'good-nice-ui';
 import { LineChart, X_AXIS_TYPE, Y_AXIS_TYPE } from '../data-explorer/LineChart';
 import { getExerciseChartData } from '../data-explorer/getExerciseChartData';
 import { Dumbbell, LineChartIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
-import { Exercise } from '../../schemas/ExerciseSchema';
+import { type Exercise } from '../../schemas/ExerciseSchema';
 import { useStore } from '../../store/store';
 
 export enum SORT_TYPE {

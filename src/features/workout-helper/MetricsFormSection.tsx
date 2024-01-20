@@ -1,9 +1,11 @@
+'use client'
+
 import React, { useState } from 'react';
-import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { CreateWorkoutInputs } from '../../schemas/WorkoutSchema';
+import { type UseFormReturn, useFieldArray } from 'react-hook-form';
+import { type CreateWorkoutInputs } from '../../schemas/WorkoutSchema';
 import { Button, Dialog, XIcon, Form, Select, Popover, Command, Checkbox } from 'good-nice-ui';
 import { MinusIcon, Plus } from 'lucide-react';
-import { Metric, hasOptions } from '../../schemas/MetricSchema';
+import { type Metric, hasOptions } from '../../schemas/MetricSchema';
 import { Scale } from '@prisma/client';
 
 export interface MetricsFormSectionProps {

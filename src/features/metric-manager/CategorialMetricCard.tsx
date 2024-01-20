@@ -1,6 +1,8 @@
+'use client'
+
 import { Button, Card, DropdownMenu, Select, Separator } from 'good-nice-ui';
 import React, { useState } from 'react';
-import { Metric, hasOptions } from '../../schemas/MetricSchema';
+import { type Metric, hasOptions } from '../../schemas/MetricSchema';
 import { MoreHorizontal } from 'lucide-react';
 import { MetricActions } from './MetricActions';
 

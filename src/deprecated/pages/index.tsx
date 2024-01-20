@@ -4,7 +4,7 @@ import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { signIn } from 'next-auth/react';
 import { Button } from 'good-nice-ui';
-import { RecentExercisesGrid } from "../features/dashboard/RecentExercisesGrid";
+import { RecentExercisesGrid } from "../../features/dashboard/RecentExercisesGrid";
 
 const Home: NextPage = () => {
   const { theme } = useTheme();

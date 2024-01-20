@@ -1,3 +1,5 @@
+'use client'
+
 import { type Column } from "@tanstack/react-table";
 import { ChevronsUpDown, Filter, SortAsc, SortDesc } from "lucide-react";
 import { Button, DropdownMenu } from "good-nice-ui";
@@ -17,7 +19,7 @@ export function ExerciseTableColumnHeader<TData, TValue>({
   className,
 }: ExerciseTableColumnHeaderProps<TData, TValue>) {
   const facets = column.getFacetedUniqueValues();
-  let selectedValue = column.getFilterValue() as string;
+  const selectedValue = column.getFilterValue() as string;
 
   const sortDropdown = (
     <DropdownMenu>

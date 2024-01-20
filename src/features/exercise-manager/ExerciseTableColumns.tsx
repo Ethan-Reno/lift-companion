@@ -1,5 +1,7 @@
+'use client'
+
 import { type ColumnDef } from "@tanstack/react-table";
-import { ExerciseStatusEnum, type Exercise, MeasurementEnum, EXERCISE_STATUS } from "../../schemas/ExerciseSchema";
+import { type ExerciseStatusEnum, type Exercise, type MeasurementEnum, EXERCISE_STATUS } from "../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";
 import { ExerciseTableRowActions } from "./ExerciseTableRowActions";
 import { Badge, Skeleton } from "good-nice-ui";

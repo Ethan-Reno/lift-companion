@@ -1,9 +1,11 @@
+'use client'
+
 import React, { useEffect } from 'react';
-import { Header } from '../../components';
-import { api } from '../../utils/api';
-import { CreateMetricDialog } from '../../features/metric-manager/CreateMetricDialog';
-import { useStore } from '../../store/store';
-import { CategorialMetricCard } from '../../features/metric-manager/CategorialMetricCard';
+import { Header } from '../../../components';
+import { api } from '../../../utils/api';
+import { CreateMetricDialog } from '../../../features/metric-manager/CreateMetricDialog';
+import { useStore } from '../../../store/store';
+import { CategorialMetricCard } from '../../../features/metric-manager/CategorialMetricCard';
 import { Button, Input, XIcon } from 'good-nice-ui';
 
 const Metrics = () => {
@@ -37,7 +39,7 @@ const Metrics = () => {
         </Button>
       </div>
       <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-        {metrics && metrics.map((metric) => <CategorialMetricCard key={metric.id} metric={metric} />)}
+        {metrics?.map((metric) => <CategorialMetricCard key={metric.id} metric={metric} />)}
       </div> 
     </div>
   );

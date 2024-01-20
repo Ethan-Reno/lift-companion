@@ -1,9 +1,11 @@
-import { Button, Dialog, Form, Input, Select, FormProvider } from 'good-nice-ui';
+'use client'
+
+import { Button, Dialog, Form, Input, Select } from 'good-nice-ui';
 import React, { useState } from 'react';
 import { Scale } from '@prisma/client';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { CreateCategoricalMetricForm } from './CreateCategoricalMetricForm';
-import { BaseMetricInputs, baseMetricInputsSchema } from '../../schemas/MetricSchema';
+import { type BaseMetricInputs, baseMetricInputsSchema } from '../../schemas/MetricSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateIntervalMetricForm } from './CreateIntervalMetricForm';
 import { CreateRatioMetricForm } from './CreateRatioMetricForm';

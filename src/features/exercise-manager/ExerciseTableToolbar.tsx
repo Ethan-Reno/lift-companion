@@ -1,3 +1,5 @@
+'use client'
+
 import { type Table } from "@tanstack/react-table";
 import { Button, DropdownMenu, Input, XIcon } from "good-nice-ui";
 import { SlidersHorizontal } from "lucide-react";

@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import {
@@ -11,8 +13,8 @@ import {
   Tooltip,
   Legend,
   Colors,
-  ChartData,
-  ChartOptions,
+  type ChartData,
+  type ChartOptions,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 
