@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect } from 'react';
 import { Header } from '../../components';
 import { api } from '../../utils/api';

@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useState } from 'react';
 import { type UseFormReturn, useFieldArray } from 'react-hook-form';
 import { type CreateWorkoutInputs } from '../../schemas/WorkoutSchema';

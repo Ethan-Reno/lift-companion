@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, Dialog, Form, Input, Select } from 'good-nice-ui';
 import React, { useState } from 'react';
 import { Scale } from '@prisma/client';

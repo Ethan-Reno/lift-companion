@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, Dialog, DropdownMenu } from 'good-nice-ui';
 import { MoreHorizontal, Pen, Trash } from 'lucide-react';
 import React from 'react';

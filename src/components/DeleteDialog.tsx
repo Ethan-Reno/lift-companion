@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, Dialog } from 'good-nice-ui';
 import React from 'react';
 import { api } from '../utils/api';

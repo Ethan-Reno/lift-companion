@@ -1,5 +1,3 @@
-'use client'
-
 import { type ColumnDef } from "@tanstack/react-table";
 import { type ExerciseStatusEnum, type Exercise, type MeasurementEnum, EXERCISE_STATUS } from "../../schemas/ExerciseSchema";
 import { ExerciseTableColumnHeader } from "./ExerciseTableColumnHeader";

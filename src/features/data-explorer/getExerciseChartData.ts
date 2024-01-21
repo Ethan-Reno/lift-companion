@@ -1,5 +1,3 @@
-'use client'
-
 import { compareAsc } from "date-fns";
 import { X_AXIS_TYPE, Y_AXIS_TYPE } from "./LineChart";
 import { type ChartData, type ChartDataset } from "chart.js";

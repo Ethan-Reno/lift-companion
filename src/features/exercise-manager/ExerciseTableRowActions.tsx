@@ -1,5 +1,3 @@
-'use client'
-
 import React from "react";
 import { Button, Dialog, DropdownMenu } from "good-nice-ui";
 import { type Exercise } from "../../schemas/ExerciseSchema";

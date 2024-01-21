@@ -1,5 +1,3 @@
-'use client'
-
 import { type Column } from "@tanstack/react-table";
 import { ChevronsUpDown, Filter, SortAsc, SortDesc } from "lucide-react";
 import { Button, DropdownMenu } from "good-nice-ui";

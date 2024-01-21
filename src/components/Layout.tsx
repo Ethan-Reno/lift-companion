@@ -1,7 +1,6 @@
 import { type ReactNode } from 'react';
 import { NavMenu } from '.';
 import Head from 'next/head';
-import { roboto } from '../utils/font';
 // import Footer from './footer'
 
 interface LayoutProps {
@@ -14,7 +13,7 @@ export const Layout = ({ children }: LayoutProps) => {
       <Head>
         <title>Lift Companion</title>
       </Head>
-      <main className={`${roboto.variable} flex flex-col font-sans min-h-screen relative`}>
+      <main className={`flex flex-col font-sans min-h-screen relative`}>
         <header className='sticky top-0 w-full border-b bg-background z-40'>
           <NavMenu />
         </header>

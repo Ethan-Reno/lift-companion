@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, Checkbox, Command, Popover } from 'good-nice-ui';
 import React from 'react';
 import { type Exercise } from '../../schemas/ExerciseSchema';

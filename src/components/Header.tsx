@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, Skeleton } from 'good-nice-ui';
 import { ArrowBigLeft } from 'lucide-react';
 import { useRouter } from 'next/router';

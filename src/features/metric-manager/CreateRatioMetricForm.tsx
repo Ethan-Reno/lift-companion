@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, Dialog, Form, Input, Slider } from 'good-nice-ui';
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';

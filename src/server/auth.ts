@@ -1,4 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { type GetServerSidePropsContext } from "next";
 import {
   getServerSession,
   type DefaultSession,
@@ -17,11 +18,11 @@ import { db } from "~/server/db";
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: {
+    user: DefaultSession["user"] & {
       id: string;
       // ...other properties
       // role: UserRole;
-    } & DefaultSession["user"];
+    };
   }
 
   // interface User {
@@ -34,7 +35,7 @@ declare module "next-auth" {
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
  * @see https://next-auth.js.org/configuration/options
- **/
+ */
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session: ({ session, user }) => ({
@@ -45,36 +46,6 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  events: {
-    async signIn({ user, isNewUser }) {
-      if (isNewUser) {
-        await db.metric.create({
-          data: {
-            name: 'Sleep Quality',
-            description: 'Self-reported quality of previous night sleep',
-            scale: 'ordinal',
-            options: {
-              create: [
-                {
-                  label: 'Bad',
-                  value: 1,
-                },
-                {
-                  label: 'Average',
-                  value: 2,
-                },
-                {
-                  label: 'Good',
-                  value: 3,
-                },
-              ],
-            },
-            userId: user.id,
-          },
-        });
-      };
-    },
-  },
   adapter: PrismaAdapter(db),
   providers: [
     DiscordProvider({
@@ -84,7 +55,10 @@ export const authOptions: NextAuthOptions = {
     /**
      * ...add more providers here.
      *
-     * Most other providers require a bit more work than the Discord provider.
+     * Most other providers require a bit more work than the Discord provider. For example, the
+     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
+     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
+     *
      * @see https://next-auth.js.org/providers/github
      */
   ],
@@ -95,4 +69,9 @@ export const authOptions: NextAuthOptions = {
  *
  * @see https://next-auth.js.org/configuration/nextjs
  */
-export const getServerAuthSession = () => getServerSession(authOptions);
+export const getServerAuthSession = (ctx: {
+  req: GetServerSidePropsContext["req"];
+  res: GetServerSidePropsContext["res"];
+}) => {
+  return getServerSession(ctx.req, ctx.res, authOptions);
+};

@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect, useRef, useState } from 'react';
 import { api } from '../../utils/api';
 import { useStore } from '../../store/store';

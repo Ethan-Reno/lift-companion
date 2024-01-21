@@ -2,7 +2,7 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
-export const config: Config = {
+export const config = {
   darkMode: ["class", '[data-mode="dark"]'],
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
@@ -59,4 +59,4 @@ export const config: Config = {
     "accordion-up": "accordion-up 0.2s ease-out",
   },
   plugins: [require("tailwindcss-animate")],
-}
+} satisfies Config;

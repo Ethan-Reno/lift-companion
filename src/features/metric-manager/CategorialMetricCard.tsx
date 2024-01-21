@@ -1,5 +1,3 @@
-'use client'
-
 import { Button, Card, DropdownMenu, Select, Separator } from 'good-nice-ui';
 import React, { useState } from 'react';
 import { type Metric, hasOptions } from '../../schemas/MetricSchema';

@@ -18,7 +18,7 @@ const ProtectedApp: React.FC<{ Component: any, pageProps: any }> = ({ Component,
   useEffect(() => {
     // If the session status is 'unauthenticated', redirect to the homepage
     if (status === 'unauthenticated' && router.pathname !== '/') {
-      router.push('/');
+      void router.push('/');
     }
   }, [status, router]);
 

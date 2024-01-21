@@ -7,6 +7,8 @@
  */
 
 import { initTRPC, TRPCError } from "@trpc/server";
+import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { type Session } from "next-auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
@@ -18,30 +20,55 @@ import { db } from "~/server/db";
  *
  * This section defines the "contexts" that are available in the backend API.
  *
- * These allow accessig things when processing a request, like the database, the session, etc.
- *
- * This helper generates the "internals" for a tRPC context. The API handler and RSC clients each
- * wrap this and provides the required context.
- *
- * @see https://trpc.io/docs/server/context
+ * These allows accessing things when processing a request, like the database, the session, etc.
  */
-export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const session = await getServerAuthSession();
 
+interface CreateContextOptions {
+  session: Session | null;
+}
+
+/**
+ * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
+ * it from here.
+ *
+ * Examples of things it's needed for:
+ * - testing, so we don't have to mock Next.js' req/res
+ * - tRPC's `createSSGHelpers`, where we don't have req/res
+ *
+ * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
+ */
+const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
+    session: opts.session,
     db,
-    session,
-    ...opts,
   };
+};
+
+/**
+ * This is the actual context used in the router. It will be used to process every request
+ * that goes through the tRPC endpoint.
+ *
+ * @see https://trpc.io/docs/context
+ */
+export const createTRPCContext = async (opts: CreateNextContextOptions) => {
+  const { req, res } = opts;
+
+  // Get the session from the server using the getServerSession wrapper function
+  const session = await getServerAuthSession({ req, res });
+
+  return createInnerTRPCContext({
+    session,
+  });
 };
 
 /**
  * 2. INITIALIZATION
  *
- * This is where the tRPC API is initialized, connecting the context and transformer. It also parses
- * ZodErrors so that to get typesafety on the frontend if the procedure fails due to validation
+ * This is where the tRPC API is initialized, connecting the context and transformer.
+ * This is also where we parse ZodErrors for typesafety on the frontend if a procedure fails due to validation
  * errors on the backend.
  */
+
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
@@ -58,25 +85,18 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
 
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)
- *
- * These are the pieces needed to build the tRPC API.
- * @see https://trpc.io/docs/router
  */
 export const createTRPCRouter = t.router;
 
 /**
  * Public (unauthenticated) procedure
- *
- * This is the base piece used to build new queries and mutations on the tRPC API. It does not
- * guarantee that a user querying is authorized, but we can still access user session data if they
- * are logged in.
  */
 export const publicProcedure = t.procedure;
 
 /**
  * Protected (authenticated) procedure
  *
- * For a query or mutation to ONLY be accessible to logged in users, use this. It verifies
+ * For a query or mutation to ONLY be accessible to logged in users. It verifies
  * the session is valid and guarantees `ctx.session.user` is not null.
  *
  * @see https://trpc.io/docs/procedures

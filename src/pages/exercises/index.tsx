@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect, useMemo } from "react";
 import { type NextPage } from "next";
 import { api } from "../../utils/api";

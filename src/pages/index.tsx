@@ -40,9 +40,7 @@ const Landing: FC = () => {
       </div>
       <p className="text-md w-72 text-center">An app to track lifting sessions and provide insight on the saved data.</p>
       <Button
-        onClick={() => {
-          signIn("discord");
-        }}
+        onClick={() => void signIn("discord")}
       >
         Login
       </Button>

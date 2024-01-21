@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useState } from 'react';
 import { api } from '../../utils/api';
 import { Button, Card, DropdownMenu, Select, Skeleton } from 'good-nice-ui';

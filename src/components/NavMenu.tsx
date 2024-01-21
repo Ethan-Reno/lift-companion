@@ -1,20 +1,17 @@
-'use client'
-
 import React, { useState } from 'react';
-import { Avatar, Button, ChevronDownIcon, DropdownMenu, Separator, XIcon } from 'good-nice-ui';
-import { signOut } from 'next-auth/react';
+import { Avatar, Button, ChevronDownIcon, DropdownMenu, Separator, Sheet, XIcon } from 'good-nice-ui';
+import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Dumbbell, LogOut, Menu, Moon, Settings, Sun } from 'lucide-react';
+import logo from '../../public/barbell.png';
 import { cn } from '../utils/cn';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 
-export interface NavMenuProps {
-  session: any;
-}
-
-export const NavMenu = ({ session }: NavMenuProps) => {
+export const NavMenu = () => {
   const { theme, setTheme } = useTheme();
+  const { data: session } = useSession();
   const router = useRouter();
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
   const mobileMenuOverlay = (
@@ -122,7 +119,7 @@ export const NavMenu = ({ session }: NavMenuProps) => {
                     )}
                   >
                     <Avatar className='h-8 w-8 ml-1'>
-                      <Avatar.Image src={session?.user.image} alt='alt'/>
+                      <Avatar.Image src={session?.user.image!} alt='alt'/>
                       <Avatar.Fallback>{session?.user.name?.charAt(0)!}</Avatar.Fallback>
                     </Avatar>
                     <ChevronDownIcon size={32} strokeWidth={1}/>
