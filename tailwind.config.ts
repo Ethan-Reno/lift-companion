@@ -2,9 +2,9 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
-export const config = {
+export default {
   darkMode: ["class", '[data-mode="dark"]'],
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: ["./src/**/*.tsx"],
   theme: {
     extend: {
       fontFamily: {
